@@ -1,0 +1,25 @@
+.connect-wallet-pane {
+    height: 100%;
+    color: #fff;
+
+}
+
+.connect-wallet-pane .sub-heading {
+    margin-top: 150px;
+}
+
+.connect-wallet-pane .connect-wallet-button {
+    width: 415px;
+    height: 60px;
+    background: #D35100;
+    border-radius: 20px;
+    font-style: normal;
+font-weight: 400;
+font-size: 28px;
+color: #FFFFFF;
+border:none;
+}
+
+.connect-wallet-pane .connect-wallet-button img {
+    height: 30px;
+}

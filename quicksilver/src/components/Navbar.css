@@ -1,0 +1,31 @@
+.navbar .logo {
+    height: 50px;
+    margin-left: 2rem;
+}
+
+.navbar {
+    background: #1A1A1A;
+}
+
+.navbar-nav .nav-link {
+font-family: 'Mulish';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+color: #FFFFFF;
+}
+
+.navbar .connect-wallet {
+background: #D35100;
+border-radius: 20px;
+font-family: 'Mulish';
+font-style: normal;
+font-weight: 600;
+font-size: 20px;
+color: #FFFFFF;
+}
+
+
+.navbar .connect-wallet img {
+    height: 20px;
+}
