@@ -1,0 +1,54 @@
+import './NetworkSelectionPane.css';
+
+export default function NetworkSelectionPane({stakeExistingDelegations, prev, next, stakeNewAllocations }) {
+
+    const stakeLiquidAtoms = () => {
+        next();
+        stakeExistingDelegations();
+    }
+    return (
+        <div className="network-selection-pane d-flex flex-column align-items-center ">
+            <div className="wallet-details d-flex flex-column mt-5">
+                <h4> My Wallet</h4>
+                <h6>cosmos1rtqere</h6>
+                <div className="row wallet-content mt-4">
+                    <div className="col-3 text-center">
+                       <h5>2122</h5>
+                       <p> ATOMS </p>
+                    </div>
+                    <div className="col-3 text-center">
+                    <h5>2322</h5>
+                       <p> qATOMS </p>
+                        </div>
+                        <div className="col-3 text-center">
+                        <h5>16%</h5>
+                       <p> APY </p>
+                        </div>
+                </div>
+            </div>
+        <div className="text-center">
+        <h1 className="mt-4">Choose your network </h1>
+        <div className="dropdown show mt-5">
+  <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+Choose network
+  </a>
+
+  <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a className="dropdown-item" href="#">Network 1</a>
+    <a className="dropdown-item" href="#">Network 2</a>
+    <a className="dropdown-item" href="#">Network 3</a>
+    <a className="dropdown-item" href="#">Network 4</a>
+    <a className="dropdown-item" href="#">Network 5</a>
+    <a className="dropdown-item" href="#">Network 6</a>
+  </div>
+</div>
+<div className="mt-5">
+                <button onClick={prev}> Previous</button>
+                <button > Stake Liquid ATOMS</button>
+                <button onClick={stakeLiquidAtoms}> Stake existing delegations </button>
+            </div>
+            </div>
+        {/* <button className="connect-wallet-button mt-5"> <img src={Wallet}/> Connect wallet </button>  */}
+</div>
+    );
+}

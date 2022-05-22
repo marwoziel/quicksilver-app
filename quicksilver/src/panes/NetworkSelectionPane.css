@@ -11,3 +11,7 @@
     width: 100%;
     justify-content: center;
 }
+
+.dropdown a, .dropdown-menu  {
+ width: 100%;
+}
