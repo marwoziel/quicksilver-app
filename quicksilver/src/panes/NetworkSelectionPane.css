@@ -1,0 +1,13 @@
+.wallet-details {
+    align-items: center;
+    border-radius: 30px;
+    width: 60%;
+    padding: 20px;
+    background: #282828;
+    justify-content: center;
+}
+
+.wallet-content {
+    width: 100%;
+    justify-content: center;
+}

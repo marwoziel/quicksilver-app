@@ -1,5 +1,6 @@
 import './StakePage.css';
 import ConnectWalletPane from '../panes/ConnectWalletPane';
+import NetworkSelectionPane from '../panes/NetworkSelectionPane';
 
 
 export default function StakePage() {
@@ -9,7 +10,7 @@ export default function StakePage() {
                 STEPPER
             </div>
             <div className="content col-10">
-                   <ConnectWalletPane/>
+                   <NetworkSelectionPane/>
                 </div>
         </div>
     )
