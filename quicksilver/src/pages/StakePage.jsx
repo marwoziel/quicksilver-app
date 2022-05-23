@@ -3,6 +3,7 @@ import './StakePage.css';
 import ConnectWalletPane from '../panes/ConnectWalletPane';
 import NetworkSelectionPane from '../panes/NetworkSelectionPane';
 import ExistingDelegationsPage from '../panes/ExistingDelegationsPane';
+import ValidatorSelectionPane from '../panes/ValidatorSelectionPane';
 
 
 export default function StakePage() {
@@ -35,8 +36,9 @@ export default function StakePage() {
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane next={handleNext} /> }
                 {activeStep === 2 &&  <NetworkSelectionPane  next={handleNext} prev={handleBack} 
-                stakeExistingDelegations={handleExistingDelegations} stakeNewAllocations={handleNewAllocations}/>  }
+                stakeExistingDelegations={handleExistingDelegations} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage/>}
+                {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane/>}
                 </div>
         </div>
     )

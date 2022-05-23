@@ -13,5 +13,30 @@
 }
 
 .dropdown a, .dropdown-menu  {
- width: 100%;
+ width: 70%;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.prev-button {
+    background: #FFFFFF;
+border: 2px solid #D35100;
+border-radius: 10px;
+font-weight: 400;
+font-size: 18px;
+color: #D35100;
+padding: 5px 20px;
+}
+
+.stake-liquid-atoms-button, .stake-existing-delegations-button, .next-button {
+background: #D35100;
+border-radius: 10px;
+font-size: 18px;
+line-height: 30px;
+font-weight: 400;
+color: #FFFFFF;
+padding: 5px 20px;
+border: 2px solid #D35100;
 }

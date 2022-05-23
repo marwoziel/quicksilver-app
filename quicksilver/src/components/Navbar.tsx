@@ -12,16 +12,16 @@ export default function Navbar() {
             </a>
 
 
-  <div className="collapse navbar-collapse" id="navbarSupportedContent">
+  <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
     <ul className="navbar-nav mr-auto">
     
-      <li className="nav-item">
+      <li className="nav-item mx-3">
         <a className="nav-link" href="#">STAKE</a>
       </li>
-      <li className="nav-item">
+      <li className="nav-item mx-3">
         <a className="nav-link" href="#">POOL</a>
       </li>
-      <li className="nav-item">
+      <li className="nav-item mx-3">
         <a className="nav-link" href="#">AIRDROP</a>
       </li>
 

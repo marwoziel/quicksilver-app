@@ -1,10 +1,15 @@
 import './NetworkSelectionPane.css';
 
-export default function NetworkSelectionPane({stakeExistingDelegations, prev, next, stakeNewAllocations }) {
+export default function NetworkSelectionPane({stakeExistingDelegations, prev, next, stakeAllocations }) {
 
     const stakeLiquidAtoms = () => {
         next();
         stakeExistingDelegations();
+    }
+
+    const stakeNewAllocations = () => {
+        next();
+        stakeAllocations();
     }
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
@@ -13,21 +18,21 @@ export default function NetworkSelectionPane({stakeExistingDelegations, prev, ne
                 <h6>cosmos1rtqere</h6>
                 <div className="row wallet-content mt-4">
                     <div className="col-3 text-center">
-                       <h5>2122</h5>
+                       <h5 className="font-bold">2122</h5>
                        <p> ATOMS </p>
                     </div>
                     <div className="col-3 text-center">
-                    <h5>2322</h5>
+                    <h5 className="font-bold">2322</h5>
                        <p> qATOMS </p>
                         </div>
                         <div className="col-3 text-center">
-                        <h5>16%</h5>
+                        <h5 className="font-bold">16%</h5>
                        <p> APY </p>
                         </div>
                 </div>
             </div>
         <div className="text-center">
-        <h1 className="mt-4">Choose your network </h1>
+        <h2 className="mt-4">Choose your network </h2>
         <div className="dropdown show mt-5">
   <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 Choose network
@@ -42,13 +47,12 @@ Choose network
     <a className="dropdown-item" href="#">Network 6</a>
   </div>
 </div>
-<div className="mt-5">
-                <button onClick={prev}> Previous</button>
-                <button > Stake Liquid ATOMS</button>
-                <button onClick={stakeLiquidAtoms}> Stake existing delegations </button>
+<div className="mt-5 button-container">
+                <button className="prev-button mx-3" onClick={prev}> Previous</button>
+                <button className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button>
+                <button className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
             </div>
             </div>
-        {/* <button className="connect-wallet-button mt-5"> <img src={Wallet}/> Connect wallet </button>  */}
 </div>
     );
 }

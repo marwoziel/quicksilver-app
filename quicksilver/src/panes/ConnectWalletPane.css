@@ -18,6 +18,7 @@ font-weight: 400;
 font-size: 28px;
 color: #FFFFFF;
 border:none;
+z-index:1;
 }
 
 .connect-wallet-pane .connect-wallet-button img {

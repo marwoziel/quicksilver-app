@@ -1,0 +1,14 @@
+.validator-card {
+    background: #282828;
+border: 1px solid #282828;
+border-radius: 5px;
+padding: 1rem;
+}
+
+.validator-card .card-details {
+    margin-left: 10px;
+}
+
+.add-button{
+    color: #D35100;
+}
