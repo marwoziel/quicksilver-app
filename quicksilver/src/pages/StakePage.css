@@ -3,3 +3,34 @@
     height: calc(100vh - 76px);
     color: #fff;
 }
+
+.stepper {
+    background: #333333;
+    height: calc(100vh-76px);
+}
+
+.stepper .line {
+    width: 1px;
+    background-color: #fff !important;
+    height: 45px !important;
+  }
+
+  .stepper .step {
+      margin-left: 0.5rem;
+  }
+
+  .logo {
+      height: 30px;
+  }
+
+  .step-text-bold {
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 700;
+  }
+
+  .step-text-gray {
+      font-size: 1rem;
+      color: #ADADAD;
+      font-weight: 500;
+  }

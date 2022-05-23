@@ -5,6 +5,7 @@ export default function ValidatorSelectionPane() {
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose validators </h2>
+        <input className="mt-2 px-2" type="text"  placeholder="Search validator"/>
                 <div className="mt-3 row justify-content-center">
                 <div className="validator-card col-3 m-3">
                 <div className="d-flex align-items-start"> 
