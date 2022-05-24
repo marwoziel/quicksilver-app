@@ -2,7 +2,13 @@ import Icon from '../assets/icons/icon.svg';
 import Plus from '../assets/icons/plus.svg';
 import './ExistingDelegationsPane.css';
 
-export default function ExistingDelegationsPage() {
+interface PropComponent {
+    prev? : { () : void  };
+    next?: { (): void};
+      
+  }
+
+export default function ExistingDelegationsPage(props: PropComponent) {
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose existing delegations </h2>
@@ -82,8 +88,8 @@ export default function ExistingDelegationsPage() {
             
         </div>
         <div className="mt-5 button-container">
-                <button className="prev-button mx-3"> Previous</button>
-                <button className="next-button mx-3" >Next</button>
+                <button onClick={props.prev} className="prev-button mx-3"> Previous</button>
+                <button onClick={props.next} className="next-button mx-3" >Next</button>
             </div>
         </div>
     );

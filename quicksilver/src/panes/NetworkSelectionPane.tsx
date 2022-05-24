@@ -1,15 +1,22 @@
 import './NetworkSelectionPane.css';
 
-export default function NetworkSelectionPane({stakeExistingDelegations, prev, next, stakeAllocations }) {
+interface PropComponent {
+    prev? : { () : void  };
+    next?: { (): void};
+    stakeAllocations? : { (): void};
+    stakeExistingDelegations? : {(): void};      
+  }
 
+export default function NetworkSelectionPane(props: PropComponent) {
+    
     const stakeLiquidAtoms = () => {
-        next();
-        stakeExistingDelegations();
+        props.next?.();
+        props.stakeExistingDelegations?.();
     }
 
     const stakeNewAllocations = () => {
-        next();
-        stakeAllocations();
+        props.next?.();
+        props.stakeAllocations?.();
     }
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
@@ -48,7 +55,7 @@ Choose network
   </div>
 </div>
 <div className="mt-5 button-container">
-                <button className="prev-button mx-3" onClick={prev}> Previous</button>
+                <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
                 <button className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button>
                 <button className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
             </div>

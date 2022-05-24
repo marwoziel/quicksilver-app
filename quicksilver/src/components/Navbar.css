@@ -7,11 +7,12 @@
     background: #1A1A1A;
 }
 
-.navbar-nav .nav-link {
+.navbar-nav .nav-item a {
 font-family: 'Mulish';
 font-style: normal;
 font-weight: 600;
 font-size: 20px;
+text-decoration: none;
 color: #FFFFFF;
 }
 

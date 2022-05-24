@@ -8,12 +8,13 @@ import LogoWhite from '../assets/icons/logo-whitestroke.svg';
 import LogoGray from '../assets/icons/logo-graystroke.png';
 
 
+
 export default function StakePage() {
     const [activeStep, setActiveStep] = React.useState(1);
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
 
-    const handleNext = () => {
+    const handleNext = () : void => {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
     };
 
@@ -74,8 +75,8 @@ export default function StakePage() {
                 {activeStep === 1 &&  <ConnectWalletPane next={handleNext} /> }
                 {activeStep === 2 &&  <NetworkSelectionPane  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage/>}
-                {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane/>}
+                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
+                {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>
     )
