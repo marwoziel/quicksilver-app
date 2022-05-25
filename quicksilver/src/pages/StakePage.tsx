@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, { useEffect } from 'react';
 import './StakePage.css';
 import ConnectWalletPane from '../panes/ConnectWalletPane';
 import NetworkSelectionPane from '../panes/NetworkSelectionPane';
@@ -6,28 +6,52 @@ import ExistingDelegationsPage from '../panes/ExistingDelegationsPane';
 import ValidatorSelectionPane from '../panes/ValidatorSelectionPane';
 import LogoWhite from '../assets/icons/logo-whitestroke.svg';
 import LogoGray from '../assets/icons/logo-graystroke.png';
+import SummaryPane from '../panes/SummaryPane';
+import AllocationPane from '../panes/AllocationPane';
 
 
 
-export default function StakePage() {
-    const [activeStep, setActiveStep] = React.useState(1);
+interface PropComponent {
+  handleBack? : { () : void  };
+  handleNext?: { (): void};
+  handleClickOpen? : { (): void};
+  activeStep: number
+}
+
+export default function StakePage({handleNext, handleBack, handleClickOpen, activeStep}: PropComponent) {
+
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
+    const [allValidators, setAllValidators] = React.useState([]);
+    const [selectedValidators, setselectedValidators] = React.useState([]);
+    const [showAllocationsPane, setShowAllocationsPane] = React.useState(false);
+  
 
-    const handleNext = () : void => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
+    // useEffect() {
+    //   // CALL API TO FETCH ALL VALIDATORS;
+     //    setAllValidatorrs(data);
+    // }
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
+
+
+    const showAllocationPane = () : void => {
+        setShowAllocationsPane(true);
+        setStakeNewAllocations(false);
+    }
+ 
 
     const handleExistingDelegations = () => {
         setStakeExistingDelegations(true);
+        if(stakeNewAllocations) {
+          setStakeNewAllocations(false);
+        }
     }
 
     const handleNewAllocations = () => {
         setStakeNewAllocations(true);
+        if(stakeExistingDelegations) {
+          setStakeExistingDelegations(false);
+        }
     }
 
 
@@ -72,11 +96,15 @@ export default function StakePage() {
               
             </div>
             <div className="content col-10">
-                {activeStep === 1 &&  <ConnectWalletPane next={handleNext} /> }
+                {activeStep === 1 &&  <ConnectWalletPane /> }
                 {activeStep === 2 &&  <NetworkSelectionPane  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
-                {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane next={handleNext} prev={handleBack}/>} */}
+                {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane prev={handleBack} showAllocationPane={showAllocationPane}/>} 
+                {activeStep === 3 && !stakeNewAllocations && <AllocationPane/>}
+                {activeStep === 4 && <SummaryPane/>}
+                
+                {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>
     )

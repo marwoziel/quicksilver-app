@@ -1,9 +1,19 @@
 import Icon from '../assets/icons/icon.svg';
 import Plus from '../assets/icons/plus.svg';
+import './ValidatorSelectionPane.css';
+import * as React from 'react';
 
-export default function ValidatorSelectionPane() {
+interface PropComponent {
+    prev? : { () : void  };
+    next?: { (): void};
+    showAllocationPane? : { (): void}
+  }
+
+  
+
+export default function ValidatorSelectionPane(props: PropComponent) {
     return (
-        <div className="existing-delegations-pane d-flex flex-column align-items-center ">
+        <div className="existing-delegations-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
         <input className="mt-2 px-2" type="text"  placeholder="Search validator"/>
                 <div className="mt-3 row justify-content-center">
@@ -76,9 +86,15 @@ export default function ValidatorSelectionPane() {
             
         </div>
         <div className="mt-5 button-container">
-                <button className="prev-button mx-3"> Previous</button>
-                <button className="next-button mx-3" >Next</button>
+                <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
+                <button className="next-button mx-3" onClick={props.showAllocationPane} >Next</button>
             </div>
         </div>
     );
 }
+
+//const [selectedValidators, setSelectedValidators] = useState([]);
+
+// // validators.map((v) => {
+//     <div onClick={setSelectedValidators(v)}> {v.name}</div> // use spread operator - check for duplicate values
+// })

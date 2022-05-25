@@ -7,7 +7,12 @@ import ConnectWalletModal from './ConnectWalletModal';
 import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
 
-export default function Navbar() {
+interface PropComponent {
+  handleClickOpen? : { (): void}
+}
+
+
+export default function Navbar(props: PropComponent) {
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
 
     function openModalHandler() {
@@ -45,7 +50,7 @@ export default function Navbar() {
 
       <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/>  Connect Wallet</button>
       {modalIsOpen && (
-        <ConnectWalletModal/>
+        <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>
       )}
       {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
  
