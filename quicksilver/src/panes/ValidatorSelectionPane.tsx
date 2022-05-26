@@ -9,14 +9,145 @@ interface PropComponent {
     showAllocationPane? : { (): void}
   }
 
+  export interface Data {
+    voting_power: string;
+    rank: number;
+    commission: string;
+    name: string;
+    address: string;
+    logo: string;
+}
   
+const valListQuery = `
+  query ValidatorList {
+    validator_status(where: {jailed: {}}) {
+      validator {
+        validator_voting_powers {
+          voting_power
+        }
+        validator_info {
+          operator_address
+          validator {
+            validator_commissions {
+              commission
+            }
+            validator_descriptions {
+              avatar_url
+              details
+              identity
+              moniker
+              security_contact
+              website
+            }
+          }
+        }
+      }
+      jailed
+    }
+  }
+`;
+export default function ValidatorSelectionPane(props: PropComponent) {  
+    const [rows, setRows] = React.useState<Array<Data>>([]);
+    React.useEffect(() => _loadValsAsync());
+    const loadValData = async (): Promise<ValResponse> => {
+        // fetch me from api
+        //return [{rank: 1, name: 'Validator 1', voting_power: '15,394,433 OSMO', commission: '5%' },{rank: 2, name: 'Validator 2', voting_power: '15,394,433 OSMO', commission: '5%' }]
 
-export default function ValidatorSelectionPane(props: PropComponent) {
+        // TODO - make chainId dynamic
+        const result = await fetch(
+            "https://data.qscosmos-1.quicksilver.zone/v1/graphql",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                query: valListQuery,
+                variables: {},
+                operationName: "ValidatorList"
+              })
+            }
+          );
+          return await result.json();
+
+    }
+
+    type ValResponse = {
+        data: {
+            validator_status: Array<Validator>
+        }
+    }
+
+    type VotingPowers = {
+        voting_power: number
+    }
+
+    type Commissions = {
+        commission: number
+    }
+
+    type Descriptions = {
+        avatar_url: string | null,
+        details: string | null,
+        identity: string | null,
+        moniker: string,
+        security_contact: string | null,
+        website: string | null
+    }
+
+    type Validator = {
+        validator: {
+            validator_voting_powers: Array<VotingPowers>
+            validator_info: {
+                operator_address: string,
+                validator: {
+                    validator_commissions: Array<Commissions>
+                    validator_descriptions: Array<Descriptions>
+                }
+            }
+        },
+        jailed: Boolean
+
+    }
+
+
+
+    const _loadValsAsync = () => {
+        if (rows.length === 0) {
+            loadValData().then(
+                externalData => {
+                   let vals: Array<Data> = externalData.data.validator_status
+                   .filter((line: Validator) => { return !line.jailed || line.validator.validator_info.validator.validator_commissions[0].commission > 0.8})     // remove jailed validators
+                   .map((line: Validator, index: number): Data => {          // map to Data objects
+                    let moniker = "Unknown"
+                    let commission = "Unknown"
+                    if (line.validator.validator_info.validator.validator_descriptions.length > 0) {
+                        moniker = line.validator.validator_info.validator.validator_descriptions[0].moniker
+                    }
+                    if (line.validator.validator_info.validator.validator_commissions.length > 0) {
+                        commission = (line.validator.validator_info.validator.validator_commissions[0].commission * 100) + "%"
+                    }
+
+                    return {
+                        rank: 0, 
+                        voting_power: "" + line.validator.validator_voting_powers[0].voting_power,
+                        name: moniker,
+                        commission: commission,
+                        address : line.validator.validator_info.operator_address,
+                        logo: "",
+                      }});
+                    setRows(vals);
+                }
+            );
+        }
+    }
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
         <input className="mt-2 px-2" type="text"  placeholder="Search validator"/>
-                <div className="mt-3 row justify-content-center">
+          <div className="mt-3 row justify-content-center">
+          {rows.map((row) =>
+  <li>{row.name} {row.commission}</li>
+)}
+              </div>
+                {/* <div className="mt-3 row justify-content-center">
                 <div className="validator-card col-3 m-3">
                 <div className="d-flex align-items-start"> 
                      <img src={Icon}/>
@@ -84,7 +215,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 
             </div>
             
-        </div>
+        </div> */}
         <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
                 <button className="next-button mx-3" onClick={props.showAllocationPane} >Next</button>

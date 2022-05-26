@@ -9,7 +9,7 @@ import GovernancePage from './pages/GovernancePage';
 import AirdropPage from './pages/AirdropPage';
 import LogoStroke from './assets/quicksilver-logo-stroke.svg';
 import { QsPageProps } from "./types/helpers";
-import { initKeplr } from "./types/chains";
+import { initKeplrWithQuickSilver, initKeplrWithNetwork } from "./types/chains";
 import { SigningStargateClient } from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
 
@@ -21,11 +21,11 @@ function App(props: QsPageProps) {
   const [activeStep, setActiveStep] = React.useState(1);
 
   const handleNext = () : void => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((activeStep) => activeStep + 1);
 };
 
 const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((activeStep) => activeStep - 1);
 };
 
   const handleClickOpen = () => {
@@ -39,7 +39,7 @@ const handleBack = () => {
 
   const connectKeplr = async () => {
 
-    initKeplr(async(key: string, val: SigningStargateClient) => {
+    initKeplrWithQuickSilver(async(key: string, val: SigningStargateClient) => {
       setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
       setWalletConnection(true);
       let keplr = await getKeplrFromWindow();
@@ -58,19 +58,21 @@ const handleBack = () => {
 
         })
 
-        console.log("balances", balances)
-        handleNext();
+        console.log("balances", balances, chainId);
+
       }
     });
+    handleNext();
   }
 
+  
   return (
     <>
   
-   
-    <img className="logo-stroke" src={LogoStroke}/>
+{/*    
+    <img className="logo-stroke" src={LogoStroke}/> */}
    <Router>
-   <Navbar handleClickOpen={handleClickOpen}/>
+   <Navbar balances={balances} handleClickOpen={handleClickOpen}/>
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<StakePage  handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>

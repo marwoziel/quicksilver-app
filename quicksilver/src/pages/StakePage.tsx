@@ -23,8 +23,11 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
     const [allValidators, setAllValidators] = React.useState([]);
-    const [selectedValidators, setselectedValidators] = React.useState([]);
     const [showAllocationsPane, setShowAllocationsPane] = React.useState(false);
+    const [chainId, setChainId] = React.useState("");
+    const [selectedValidators, setSelectedValidators] = React.useState([]);
+    const [allocation, setAllocation] = React.useState(new Map<string, number>());
+    const [stakeAmount, setStakeAmount] = React.useState<number>(0);
   
 
     // useEffect() {
@@ -54,6 +57,13 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
         }
     }
 
+    const handleSetChainId = async (newChainId: string): Promise<void> => {
+      if (chainId !== newChainId) {
+          setSelectedValidators([])
+          setAllocation(new Map<string, number>())
+          setChainId(newChainId);
+      }
+  }
 
     return (
         <div className="row">
@@ -101,7 +111,7 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
                 stakeExistingDelegations={handleExistingDelegations} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane prev={handleBack} showAllocationPane={showAllocationPane}/>} 
-                {activeStep === 3 && !stakeNewAllocations && <AllocationPane/>}
+                {/* {activeStep === 3 && !stakeNewAllocations && <AllocationPane/>} */}
                 {activeStep === 4 && <SummaryPane/>}
                 
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}

@@ -9,11 +9,13 @@ import { Link } from "react-router-dom";
 
 interface PropComponent {
   handleClickOpen? : { (): void}
+  balances?: any
 }
 
 
 export default function Navbar(props: PropComponent) {
     const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    
 
     function openModalHandler() {
         setModalIsOpen(true);
@@ -48,7 +50,8 @@ export default function Navbar(props: PropComponent) {
 
     </ul>
 
-      <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/>  Connect Wallet</button>
+      <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? (props.balances.get('quicktest-3')?.get('uqck')) : 'Connect Wallet'
+      }</button>
       {modalIsOpen && (
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>
       )}
