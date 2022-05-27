@@ -6,7 +6,9 @@ import * as React from 'react';
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void};
-    showAllocationPane? : { (): void}
+    showAllocationPane? : { (): void};
+    selectedNetwork: any;
+    setSelectedValidators?: Function;
   }
 
   export interface Data {
@@ -48,6 +50,7 @@ const valListQuery = `
 `;
 export default function ValidatorSelectionPane(props: PropComponent) {  
     const [rows, setRows] = React.useState<Array<Data>>([]);
+    const [selectedValidators, setSelectedValidators] = React.useState<Array<Data>>([]);
     React.useEffect(() => _loadValsAsync());
     const loadValData = async (): Promise<ValResponse> => {
         // fetch me from api
@@ -55,7 +58,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 
         // TODO - make chainId dynamic
         const result = await fetch(
-            "https://data.qscosmos-1.quicksilver.zone/v1/graphql",
+            `https://data.${props.selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
             {
               method: "POST",
               body: JSON.stringify({
@@ -107,8 +110,6 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 
     }
 
-
-
     const _loadValsAsync = () => {
         if (rows.length === 0) {
             loadValData().then(
@@ -138,13 +139,48 @@ export default function ValidatorSelectionPane(props: PropComponent) {
             );
         }
     }
+
+
+    const onNext = () => {
+        if(selectedValidators) {
+               // @ts-expect-error
+        props.setSelectedValidators(selectedValidators);
+          // @ts-expect-error
+        props.showAllocationPane();
+        }
+
+    }
+    const addValidator = (e: React.MouseEvent<HTMLElement>, validator: Data) => {
+        let position = selectedValidators.findIndex((val) => validator.name === val.name);
+        if(position === -1) {
+        setSelectedValidators([...selectedValidators, validator]);
+        } else {
+            let validatorArray = JSON.parse(JSON.stringify(selectedValidators));
+            validatorArray.splice(position,1)
+            setSelectedValidators(validatorArray);
+        }
+    }
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
         <input className="mt-2 px-2" type="text"  placeholder="Search validator"/>
           <div className="mt-3 row justify-content-center">
           {rows.map((row) =>
-  <li>{row.name} {row.commission}</li>
+          <>
+                <div onClick={ (e) => addValidator(e,row)} className="validator-card col-3 m-3">
+                <div className="d-flex align-items-start"> 
+                     <img src={row.logo ? row.logo : Icon}/>
+                
+               <div className="card-details">
+                <h6> {row.name} </h6>
+                <h4 className="font-bold">  Reward </h4>
+                </div>
+                </div>
+
+            </div>
+         
+          </>
+  
 )}
               </div>
                 {/* <div className="mt-3 row justify-content-center">
@@ -218,7 +254,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
         </div> */}
         <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
-                <button className="next-button mx-3" onClick={props.showAllocationPane} >Next</button>
+                <button className="next-button mx-3" onClick={onNext} >Next</button>
             </div>
         </div>
     );

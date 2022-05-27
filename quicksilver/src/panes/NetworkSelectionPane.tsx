@@ -10,7 +10,11 @@ interface PropComponent {
     next?: { (): void};
     stakeAllocations? : { (): void};
     stakeExistingDelegations? : {(): void};      
-    handleSetChainId? : {(): Promise<void>};  
+    handleSetChainId? : {(newChainId: string): Promise<void>};  
+    selectedNetwork? : any;
+    setSelectedNetwork? : Function;
+    setBalances?: Function;
+    balances: Map<string, Map<string, number>>;
   }
 
 
@@ -18,19 +22,32 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
     
     const [isNetworkSelected, setNetworkSelected] = React.useState(false);
-    let [selectedNetwork, setSelectedNetwork] = React.useState("Select a network");
+
     const [wallets, setWallets] = React.useState<Map<string, SigningStargateClient>>(new Map<string, SigningStargateClient>());
-    const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
+
     const [isWalletConnected, setWalletConnection] = React.useState(false);
+    const [networks, setNetworks] = React.useState<Array<any>>();
 
     useEffect(() => {
+        // TODO - Add network check 
          loadData();
      }, []);
 
+     useEffect(() => {
+        if(props.selectedNetwork !== "Select a network") {
+            connectNetwork(props.selectedNetwork.chain_id);
+        }
+     }, [props.selectedNetwork])
+
+     const manipulateData = (zones: []) => {
+            return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
+     }
+     console.log('Networks', networks);
     const loadData = async () => {
         const response = await fetch("http://seed.quicktest-1.quicksilver.zone:1317/quicksilver/interchainstaking/v1/zones");
         const data = await response.json();
-        console.log(data.zones);
+        setNetworks(manipulateData(data.zones));
+
     }
 
 
@@ -47,29 +64,34 @@ export default function NetworkSelectionPane(props: PropComponent) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {
               // there must be an easier way to remove readonly property from the returned Coin type?
-              let networkBalances = balances.get(chainId);
+              let networkBalances = props.balances.get(chainId);
               if (!networkBalances) {
                 networkBalances = new Map<string, number>()
               }
-              setBalances(new Map<string, Map<string, number>>(balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
+                        // @ts-expect-error
+              props.setBalances(new Map<string, Map<string, number>>(props.balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
     
             })
     
-            console.log("balances", balances, chainId);
+            console.log("balances", props.balances, chainId);
     
           }
         }, network);
       }
 
-    let networks = [
-        { label: "Network 1", value: "Network 1" },
-        { label: "Network 2", value: "Network 2" },
-        { label: "Network 3", value: "Network 3" }
-    ]
+    // let networks = [
+    //     { label: "Network 1", value: "Network 1" },
+    //     { label: "Network 2", value: "Network 2" },
+    //     { label: "Network 3", value: "Network 3" }
+    // ]
 
  
-    let handleNetworkChange = (e: any) => {
-        setSelectedNetwork(e.target.value)
+    let handleNetworkChange = (selected: any) => {
+        // setSelectedNetwork(e.target.value)
+          // @ts-expect-error
+          
+        props.setSelectedNetwork(selected?.value);
+        connectNetwork(props.selectedNetwork.chain_id);
       }
 
     const stakeLiquidAtoms = () => {
@@ -83,7 +105,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
     }
 
     const connectCosmos = (event: React.MouseEvent<HTMLElement>) => {
-        connectNetwork('qscosmos-1');
+       
     }
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
@@ -107,36 +129,18 @@ export default function NetworkSelectionPane(props: PropComponent) {
             </div> */}
         <div className="text-center">
         <h2 className="mt-4">Choose your network </h2>
-        <button onClick={connectCosmos}>Connect to COSMOS</button> 
-        {/* <div className="dropdown show mt-5">
-  <a className="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-Choose network
-  </a>
+        {/* <button onClick={connectCosmos}>Connect to COSMOS</button>  */}
+        
 
-  <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a className="dropdown-item" href="#">Network 1</a>
-    <a className="dropdown-item" href="#">Network 2</a>
-    <a className="dropdown-item" href="#">Network 3</a>
-    <a className="dropdown-item" href="#">Network 4</a>
-    <a className="dropdown-item" href="#">Network 5</a>
-    <a className="dropdown-item" href="#">Network 6</a>
-  </div>
-</div> */}
-{/* 
-  {selectedNetwork}
-    <br />
-
-    <select value={selectedNetwork} onChange={handleNetworkChange}>
-      {networks.map((network) => <option value={network.value}>{network.label}</option>)}
-    </select> */}
-
-{/* <Select
-            value={}
-            options={options}
-            defaultValue={options[1]}
+<Select
+            defaultValue={props.selectedNetwork?.identifier}
+            options={networks}
             onChange={handleNetworkChange}
-        /> */}
+        />
     </div>
+{ props.selectedNetwork.identifier}
+    {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}
+    
 <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
                

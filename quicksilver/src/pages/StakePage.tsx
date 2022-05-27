@@ -22,19 +22,19 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
 
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
-    const [allValidators, setAllValidators] = React.useState([]);
     const [showAllocationsPane, setShowAllocationsPane] = React.useState(false);
     const [chainId, setChainId] = React.useState("");
     const [selectedValidators, setSelectedValidators] = React.useState([]);
     const [allocation, setAllocation] = React.useState(new Map<string, number>());
     const [stakeAmount, setStakeAmount] = React.useState<number>(0);
+    const [selectedNetwork, setSelectedNetwork] = React.useState<any>("Select a network");
+    const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
   
 
     // useEffect() {
     //   // CALL API TO FETCH ALL VALIDATORS;
      //    setAllValidatorrs(data);
     // }
-
 
 
     const showAllocationPane = () : void => {
@@ -107,13 +107,12 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane /> }
-                {activeStep === 2 &&  <NetworkSelectionPane  next={handleNext} prev={handleBack} 
-                stakeExistingDelegations={handleExistingDelegations} stakeAllocations={handleNewAllocations}/>  }
+                {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork} handleSetChainId={handleSetChainId} next={handleNext} prev={handleBack} 
+                stakeExistingDelegations={handleExistingDelegations} balances={balances} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
-                {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane prev={handleBack} showAllocationPane={showAllocationPane}/>} 
-                {/* {activeStep === 3 && !stakeNewAllocations && <AllocationPane/>} */}
+                {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane selectedNetwork={selectedNetwork} prev={handleBack} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
+                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} />}
                 {activeStep === 4 && <SummaryPane/>}
-                
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>
