@@ -8,6 +8,7 @@ import LogoWhite from '../assets/icons/logo-whitestroke.svg';
 import LogoGray from '../assets/icons/logo-graystroke.png';
 import SummaryPane from '../panes/SummaryPane';
 import AllocationPane from '../panes/AllocationPane';
+import { ProposalStatus } from '@keplr-wallet/stores/build/query/cosmos/governance/types';
 
 
 
@@ -15,7 +16,9 @@ interface PropComponent {
   handleBack? : { () : void  };
   handleNext?: { (): void};
   handleClickOpen? : { (): void};
-  activeStep: number
+  activeStep: number;
+  setActiveStep: Function;
+  isWalletConnected: boolean;
 }
 
 
@@ -57,7 +60,7 @@ query ValidatorList {
 }
 `;
 
-export default function StakePage({handleNext, handleBack, handleClickOpen, activeStep}: PropComponent) {
+export default function StakePage({isWalletConnected, handleNext, handleBack, handleClickOpen, setActiveStep, activeStep}: PropComponent) {
 
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
@@ -70,6 +73,13 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
     const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
     const [networkAddress, setNetworkAddress] = React.useState('');
     const [rows, setRows] = React.useState<Array<Data>>([]);
+
+    React.useEffect(() => {
+      if(isWalletConnected) {
+        setActiveStep(2)
+      } else 
+      setActiveStep(1);
+    }, [])
   
 
      React.useEffect(() => {
@@ -96,7 +106,12 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
           setStakeExistingDelegations(false);
         }
     }
+   
+    const hideAllocationPane = () => {
+      setStakeNewAllocations(false);
+      setStakeNewAllocations(true);
 
+    }
 
     const handleSetChainId = async (newChainId: string): Promise<void> => {
       if (chainId !== newChainId ) {
@@ -241,8 +256,8 @@ const _loadValsAsync = () => {
                 {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
-                {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
-                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} />}
+                {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
+                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} />}
                 {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>

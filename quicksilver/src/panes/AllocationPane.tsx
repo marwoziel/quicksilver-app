@@ -4,6 +4,7 @@ interface PropComponent {
     selectedValidators? : any;
     balances: Map<string, Map<string, number>>;
     selectedNetwork? : any;
+    prev: Function;
 }
 
 export default function AllocationPane(props: PropComponent) {
@@ -20,6 +21,10 @@ export default function AllocationPane(props: PropComponent) {
             setAllocationProp(temp);
         }
     }, [])
+
+    const onPrev = (e: any) => {
+        props.prev();
+    }
 
     const handleAllocationChange = (e: any) => {
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
@@ -51,7 +56,10 @@ export default function AllocationPane(props: PropComponent) {
         <h1> Balance :     {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}</h1>
         <h3> Amount: </h3> <input type="number"/>
          <button> MAX </button> 
+         {props.selectedValidators.length}
         {renderValidators()}
+        
+        <button onClick={onPrev}> PREV </button>
         </div> 
     );
 }

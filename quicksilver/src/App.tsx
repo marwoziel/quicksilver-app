@@ -80,8 +80,8 @@ const handleBack = () => {
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<LandingPage/>}/>
-            
-                      <Route path="/stake" element={<StakePage  handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
+          
+                      <Route path="/stake" element={<StakePage isWalletConnected={isWalletConnected} setActiveStep={setActiveStep} handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
                       <Route path="/pools" element={<PoolsPage  />}/>
                       <Route path="/gov" element={<GovernancePage  />}/>
                       <Route path="/claims" element={<AirdropPage  />}/>

@@ -9,6 +9,7 @@ interface PropComponent {
     showAllocationPane? : { (): void};
     selectedNetwork: any;
     setSelectedValidators?: Function;
+    selectedValidators?: any;
     rows: any;
   }
 
@@ -52,7 +53,7 @@ const valListQuery = `
 `;
 export default function ValidatorSelectionPane(props: PropComponent) {  
 
-    const [selectedValidators, setSelectedValidators] = React.useState<Array<Data>>([]);
+    const [selectedValidators, setSelectedValidators] = React.useState<Array<Data>>(props.selectedValidators);
     // React.useEffect(() => _loadValsAsync());
    
 

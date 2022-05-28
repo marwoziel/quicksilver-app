@@ -26,9 +26,10 @@ export default function Navbar(props: PropComponent) {
       }
         return (
         <nav className="navbar navbar-expand-lg">
-  <a className="navbar-brand ml-5" href="#">
+  {/* <a className="navbar-brand ml-5" href="#">
                 <img className="logo" src={Logo}/>
-            </a>
+            </a> */}
+               <Link to="/">    <img className="logo" src={Logo}/></Link> 
 
 
   <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">

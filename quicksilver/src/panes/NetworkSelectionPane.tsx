@@ -112,44 +112,40 @@ export default function NetworkSelectionPane(props: PropComponent) {
     }
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
-            {/* <div className="wallet-details d-flex flex-column mt-5">
+            {props.selectedNetwork !== "Select a network" && <div className="wallet-details d-flex flex-column mt-5">
                 <h4> My Wallet</h4>
-                <h6>cosmos1rtqere</h6>
+                <h6>{props.networkAddress}</h6>
                 <div className="row wallet-content mt-4">
                     <div className="col-3 text-center">
-                       <h5 className="font-bold">2122</h5>
-                       <p> ATOMS </p>
+                       <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</h5>
+                       <p> {props.selectedNetwork.base_denom} </p>
                     </div>
                     <div className="col-3 text-center">
-                    <h5 className="font-bold">2322</h5>
-                       <p> qATOMS </p>
+                    <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</h5>
+                       <p> {props.selectedNetwork.local_denom} </p>
                         </div>
-                        <div className="col-3 text-center">
-                        <h5 className="font-bold">16%</h5>
-                       <p> APY </p>
-                        </div>
+                  
                 </div>
-            </div> */}
+            </div> }
         <div className="text-center">
         <h2 className="mt-4">Choose your network </h2>
         {/* <button onClick={connectCosmos}>Connect to COSMOS</button>  */}
         
 
 <Select
-            defaultValue={props.selectedNetwork?.identifier}
+            defaultValue={props.selectedNetwork.identifier}
             options={networks}
             onChange={handleNetworkChange}
         />
     </div>
 { props.selectedNetwork.identifier}
-{props.selectedNetwork !== "Select a network" && <div>
+{/* {props.selectedNetwork !== "Select a network" && <div>
     {props.balances && <div>{props.selectedNetwork.base_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}
     {props.balances && <div>{props.selectedNetwork.local_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</div>}
     <p>{'Address:' } {props.networkAddress}</p>
     </div>}
-    
+     */}
 <div className="mt-5 button-container">
-                <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
                
             
                 <button className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
