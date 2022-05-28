@@ -22,35 +22,7 @@ interface PropComponent {
     logo: string;
     active? : boolean;
 }
-  
-const valListQuery = `
-  query ValidatorList {
-    validator_status(where: {jailed: {}}) {
-      validator {
-        validator_voting_powers {
-          voting_power
-        }
-        validator_info {
-          operator_address
-          validator {
-            validator_commissions {
-              commission
-            }
-            validator_descriptions {
-              avatar_url
-              details
-              identity
-              moniker
-              security_contact
-              website
-            }
-          }
-        }
-      }
-      jailed
-    }
-  }
-`;
+
 export default function ValidatorSelectionPane(props: PropComponent) {  
 
     const [selectedValidators, setSelectedValidators] = React.useState<Array<Data>>(props.selectedValidators);

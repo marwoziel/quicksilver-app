@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import Icon from '../assets/icons/icon.svg';
 import Plus from '../assets/icons/plus.svg';
 import './ExistingDelegationsPane.css';
@@ -5,10 +6,49 @@ import './ExistingDelegationsPane.css';
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void};
+    selectedNetwork : any;
+    networkAddress: string;
       
   }
+const MyQuery =  `query MyQuery($address: String!) {
+    action_delegation(address: $address) {
+      delegations
+    }
+  }`;
 
 export default function ExistingDelegationsPage(props: PropComponent) {
+   
+      useEffect(() => {
+        if(props.selectedNetwork !== "Select a network") {
+       _loadValsAsync()
+        }
+      });
+
+
+      const loadValData = async (): Promise<any> => {
+        const result = await fetch(
+            `https://data.${props.selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
+            {
+              method: "POST",
+              body: JSON.stringify({
+                query: MyQuery,
+                variables: { address: props.networkAddress },
+                //variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
+              })
+            }
+          );
+    
+    }
+      const _loadValsAsync = () => {
+            loadValData().then(
+             (response) => response
+            );
+        }
+    
+
+    
+  
+
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose existing delegations </h2>

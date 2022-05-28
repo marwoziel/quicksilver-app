@@ -30,3 +30,7 @@ color: #FFFFFF;
 .navbar .connect-wallet img {
     height: 20px;
 }
+
+.active-link {
+    border: 1px solid red;
+}
