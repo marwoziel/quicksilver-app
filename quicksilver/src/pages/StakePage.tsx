@@ -18,6 +18,45 @@ interface PropComponent {
   activeStep: number
 }
 
+
+export interface Data {
+  voting_power: string;
+  rank: number;
+  commission: string;
+  name: string;
+  address: string;
+  logo: string;
+}
+
+const valListQuery = `
+query ValidatorList {
+  validator_status(where: {jailed: {}}) {
+    validator {
+      validator_voting_powers {
+        voting_power
+      }
+      validator_info {
+        operator_address
+        validator {
+          validator_commissions {
+            commission
+          }
+          validator_descriptions {
+            avatar_url
+            details
+            identity
+            moniker
+            security_contact
+            website
+          }
+        }
+      }
+    }
+    jailed
+  }
+}
+`;
+
 export default function StakePage({handleNext, handleBack, handleClickOpen, activeStep}: PropComponent) {
 
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
@@ -30,14 +69,14 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
     const [selectedNetwork, setSelectedNetwork] = React.useState<any>("Select a network");
     const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
     const [networkAddress, setNetworkAddress] = React.useState('');
+    const [rows, setRows] = React.useState<Array<Data>>([]);
   
 
-    // useEffect() {
-    //   // CALL API TO FETCH ALL VALIDATORS;
-     //    setAllValidatorrs(data);
-    // }
-
-
+     React.useEffect(() => {
+       if(selectedNetwork !== "Select a network") {
+      _loadValsAsync()
+       }
+     });
     const showAllocationPane = () : void => {
         setShowAllocationsPane(true);
         setStakeNewAllocations(false);
@@ -58,13 +97,104 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
         }
     }
 
+
     const handleSetChainId = async (newChainId: string): Promise<void> => {
-      if (chainId !== newChainId) {
+      if (chainId !== newChainId ) {
           setSelectedValidators([])
           setAllocation(new Map<string, number>())
           setChainId(newChainId);
       }
+
   }
+
+  const loadValData = async (): Promise<ValResponse> => {
+    // fetch me from api
+    //return [{rank: 1, name: 'Validator 1', voting_power: '15,394,433 OSMO', commission: '5%' },{rank: 2, name: 'Validator 2', voting_power: '15,394,433 OSMO', commission: '5%' }]
+
+    // TODO - make chainId dynamic
+    const result = await fetch(
+        `https://data.${selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            query: valListQuery,
+            variables: {},
+            operationName: "ValidatorList"
+          })
+        }
+      );
+      return await result.json();
+
+}
+
+type ValResponse = {
+    data: {
+        validator_status: Array<Validator>
+    }
+}
+
+type VotingPowers = {
+    voting_power: number
+}
+
+type Commissions = {
+    commission: number
+}
+
+type Descriptions = {
+    avatar_url: string | null,
+    details: string | null,
+    identity: string | null,
+    moniker: string,
+    security_contact: string | null,
+    website: string | null
+}
+
+type Validator = {
+    validator: {
+        validator_voting_powers: Array<VotingPowers>
+        validator_info: {
+            operator_address: string,
+            validator: {
+                validator_commissions: Array<Commissions>
+                validator_descriptions: Array<Descriptions>
+            }
+        }
+    },
+    jailed: Boolean
+
+}
+
+const _loadValsAsync = () => {
+    if (rows.length === 0) {
+        loadValData().then(
+            externalData => {
+               let vals: Array<Data> = externalData.data.validator_status
+               .filter((line: Validator) => { return !line.jailed || line.validator.validator_info.validator.validator_commissions[0].commission > 0.8})     // remove jailed validators
+               .map((line: Validator, index: number): Data => {          // map to Data objects
+                let moniker = "Unknown"
+                let commission = "Unknown"
+                if (line.validator.validator_info.validator.validator_descriptions.length > 0) {
+                    moniker = line.validator.validator_info.validator.validator_descriptions[0].moniker
+                }
+                if (line.validator.validator_info.validator.validator_commissions.length > 0) {
+                    commission = (line.validator.validator_info.validator.validator_commissions[0].commission * 100) + "%"
+                }
+
+                return {
+                    rank: 0, 
+                    voting_power: "" + line.validator.validator_voting_powers[0].voting_power,
+                    name: moniker,
+                    commission: commission,
+                    address : line.validator.validator_info.operator_address,
+                    logo: "",
+                  }});
+                setRows(vals);
+            }
+        );
+    }
+}
+
 
     return (
         <div className="row">
@@ -108,12 +238,12 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane /> }
-                {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork} handleSetChainId={handleSetChainId} next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
-                {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane selectedNetwork={selectedNetwork} prev={handleBack} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
+                {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} />}
-                {activeStep === 4 && <SummaryPane/>}
+                {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>

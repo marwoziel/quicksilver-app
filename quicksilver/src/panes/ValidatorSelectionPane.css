@@ -1,3 +1,7 @@
 .validator-card{
     max-width: 300px;
 }
+
+.val-active{
+    border: 5px solid red;
+}

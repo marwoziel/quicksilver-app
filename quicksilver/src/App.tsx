@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/Navbar';
@@ -15,7 +15,7 @@ import { getKeplrFromWindow } from '@keplr-wallet/stores';
 import LandingPage from './pages/LandingPage';
 
 
-function App(props: QsPageProps) {
+function App() {
   const [wallets, setWallets] = React.useState<Map<string, SigningStargateClient>>(new Map<string, SigningStargateClient>());
   const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
   const [isWalletConnected, setWalletConnection] = React.useState(false);
@@ -38,6 +38,8 @@ const handleBack = () => {
 }
   };
 
+  const location = useLocation();
+  console.log(location);
   const connectKeplr = async () => {
 
     initKeplrWithQuickSilver(async(key: string, val: SigningStargateClient) => {
@@ -73,17 +75,19 @@ const handleBack = () => {
   
 {/*    
     <img className="logo-stroke" src={LogoStroke}/> */}
-   <Router>
-   <Navbar balances={balances} handleClickOpen={handleClickOpen}/>
+
+  {location.pathname !== '/' && <Navbar balances={balances} handleClickOpen={handleClickOpen}/>}
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<LandingPage/>}/>
+            
                       <Route path="/stake" element={<StakePage  handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
                       <Route path="/pools" element={<PoolsPage  />}/>
                       <Route path="/gov" element={<GovernancePage  />}/>
                       <Route path="/claims" element={<AirdropPage  />}/>
+                    
    </Routes>
-   </Router>
+
    </>
   );
 }
