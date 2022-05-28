@@ -29,6 +29,7 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
     const [stakeAmount, setStakeAmount] = React.useState<number>(0);
     const [selectedNetwork, setSelectedNetwork] = React.useState<any>("Select a network");
     const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
+    const [networkAddress, setNetworkAddress] = React.useState('');
   
 
     // useEffect() {
@@ -108,7 +109,7 @@ export default function StakePage({handleNext, handleBack, handleClickOpen, acti
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane /> }
                 {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork} handleSetChainId={handleSetChainId} next={handleNext} prev={handleBack} 
-                stakeExistingDelegations={handleExistingDelegations} balances={balances} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
+                stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane selectedNetwork={selectedNetwork} prev={handleBack} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} />}

@@ -35,7 +35,7 @@ export default function Navbar(props: PropComponent) {
     <ul className="navbar-nav mr-auto">
     
       <li className="nav-item mx-3">
-      <Link to="/">STAKE</Link> 
+      <Link to="/stake">STAKE</Link> 
       </li>
       <li className="nav-item mx-3">
         {/* <a className="nav-link" href="#">POOL</a> */}

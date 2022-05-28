@@ -15,6 +15,8 @@ interface PropComponent {
     setSelectedNetwork? : Function;
     setBalances?: Function;
     balances: Map<string, Map<string, number>>;
+    networkAddress: string;
+    setNetworkAddress: Function;
   }
 
 
@@ -57,9 +59,10 @@ export default function NetworkSelectionPane(props: PropComponent) {
           setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
           setWalletConnection(true);
           let keplr = await getKeplrFromWindow();
-          let chainId = await val.getChainId()
-          let pubkey = await keplr?.getKey(chainId)
-          let bech32 = pubkey?.bech32Address
+          let chainId = await val.getChainId();
+          let pubkey = await keplr?.getKey(chainId);
+          let bech32 = pubkey?.bech32Address;
+         props.setNetworkAddress(bech32);
           if (bech32) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {
@@ -139,7 +142,11 @@ export default function NetworkSelectionPane(props: PropComponent) {
         />
     </div>
 { props.selectedNetwork.identifier}
-    {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}
+{props.selectedNetwork !== "Select a network" && <div>
+    {props.balances && <div>{props.selectedNetwork.base_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}
+    {props.balances && <div>{props.selectedNetwork.local_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</div>}
+    <p>{'Address:' } {props.networkAddress}</p>
+    </div>}
     
 <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={props.prev}> Previous</button>

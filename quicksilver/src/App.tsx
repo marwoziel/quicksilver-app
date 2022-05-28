@@ -12,6 +12,7 @@ import { QsPageProps } from "./types/helpers";
 import { initKeplrWithQuickSilver, initKeplrWithNetwork } from "./types/chains";
 import { SigningStargateClient } from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
+import LandingPage from './pages/LandingPage';
 
 
 function App(props: QsPageProps) {
@@ -43,9 +44,10 @@ const handleBack = () => {
       setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
       setWalletConnection(true);
       let keplr = await getKeplrFromWindow();
-      let chainId = await val.getChainId()
-      let pubkey = await keplr?.getKey(chainId)
-      let bech32 = pubkey?.bech32Address
+      let chainId = await val.getChainId();
+      let pubkey = await keplr?.getKey(chainId);
+      let bech32 = pubkey?.bech32Address;
+      console.log(bech32);
       if (bech32) {
         let roBalance = await val.getAllBalances(bech32)
         roBalance.forEach((bal: any) => {
@@ -75,7 +77,8 @@ const handleBack = () => {
    <Navbar balances={balances} handleClickOpen={handleClickOpen}/>
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
-                      <Route path="/" element={<StakePage  handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
+                      <Route path="/" element={<LandingPage/>}/>
+                      <Route path="/stake" element={<StakePage  handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
                       <Route path="/pools" element={<PoolsPage  />}/>
                       <Route path="/gov" element={<GovernancePage  />}/>
                       <Route path="/claims" element={<AirdropPage  />}/>
