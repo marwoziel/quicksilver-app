@@ -72,9 +72,11 @@ const handleBack = () => {
   
   return (
     <>
-  
-{/*    
-    <img className="logo-stroke" src={LogoStroke}/> */}
+    <div className="img-logo text-center">
+{/*   
+    <img className={`logo-stroke ${location.pathname === '/' ? 'logo-home' : 'logo-others'}`} src={LogoStroke}/> */}
+    <img className="logo-stroke" src={LogoStroke}/>
+    </div>
 
   {location.pathname !== '/' && <Navbar balances={balances} handleClickOpen={handleClickOpen}/>}
    <Routes>

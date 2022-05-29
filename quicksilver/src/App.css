@@ -1,6 +1,22 @@
 .logo-stroke {
-  position: absolute;
-  left: 40%;
+
   height: 70vh;
-  top: 15%;
+
+}
+
+.logo-home {
+  left: 25%;
+}
+
+.logo-others {
+  left: 40%;
+}
+
+.img-logo {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

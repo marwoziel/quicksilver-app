@@ -98,6 +98,7 @@ export default function StakePage({isWalletConnected, handleNext, handleBack, ha
         if(stakeNewAllocations) {
           setStakeNewAllocations(false);
         }
+        
     }
 
     const handleNewAllocations = () => {
@@ -108,7 +109,7 @@ export default function StakePage({isWalletConnected, handleNext, handleBack, ha
     }
    
     const hideAllocationPane = () => {
-      setStakeNewAllocations(false);
+      setShowAllocationsPane(false);
       setStakeNewAllocations(true);
 
     }
