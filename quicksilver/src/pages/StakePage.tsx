@@ -19,6 +19,10 @@ interface PropComponent {
   activeStep: number;
   setActiveStep: Function;
   isWalletConnected: boolean;
+  modalIsOpen?: boolean;
+  setModalIsOpen?: Function;
+  openModalHandler? : Function;
+  closeModalHandler?: Function;
 }
 
 
@@ -60,7 +64,7 @@ query ValidatorList {
 }
 `;
 
-export default function StakePage({isWalletConnected, handleNext, handleBack, handleClickOpen, setActiveStep, activeStep}: PropComponent) {
+export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler, closeModalHandler, isWalletConnected, handleNext, handleBack, handleClickOpen, setActiveStep, activeStep}: PropComponent) {
 
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
@@ -253,10 +257,10 @@ const _loadValsAsync = () => {
               
             </div>
             <div className="content col-10">
-                {activeStep === 1 &&  <ConnectWalletPane /> }
+                {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
                 {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
+                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedValidators={selectedValidators} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} />}
                 {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork}/>}

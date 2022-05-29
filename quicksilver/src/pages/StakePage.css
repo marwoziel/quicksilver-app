@@ -2,6 +2,7 @@
     background: #1A1A1A;
     height: calc(100vh - 76px);
     color: #fff;
+    z-index:2;
 }
 
 .stepper {

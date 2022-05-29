@@ -20,6 +20,16 @@ function App() {
   const [balances, setBalances] = React.useState<Map<string, Map<string, number>>>(new Map<string, Map<string, number>>());
   const [isWalletConnected, setWalletConnection] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(1);
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+    
+
+  function openModalHandler() {
+      setModalIsOpen(true);
+    }
+  
+    function closeModalHandler() {
+      setModalIsOpen(false);
+    }
 
   const handleNext = () : void => {
     setActiveStep((activeStep) => activeStep + 1);
@@ -37,6 +47,7 @@ const handleBack = () => {
  connectKeplr();
 }
   };
+  
 
   const location = useLocation();
   console.log(location);
@@ -78,12 +89,12 @@ const handleBack = () => {
     <img className="logo-stroke" src={LogoStroke}/>
     </div>
 
-  {location.pathname !== '/' && <Navbar balances={balances} handleClickOpen={handleClickOpen}/>}
+  {location.pathname !== '/' && <Navbar modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} balances={balances} handleClickOpen={handleClickOpen}/>}
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<LandingPage/>}/>
           
-                      <Route path="/stake" element={<StakePage isWalletConnected={isWalletConnected} setActiveStep={setActiveStep} handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
+                      <Route path="/stake" element={<StakePage modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} isWalletConnected={isWalletConnected} setActiveStep={setActiveStep} handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
                       <Route path="/pools" element={<PoolsPage  />}/>
                       <Route path="/gov" element={<GovernancePage  />}/>
                       <Route path="/claims" element={<AirdropPage  />}/>

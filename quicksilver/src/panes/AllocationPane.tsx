@@ -26,11 +26,34 @@ export default function AllocationPane(props: PropComponent) {
         props.prev();
     }
 
+    const onNext = (e: any) => {
+        let sum = 0;
+        props.selectedValidators.forEach((x: any) => {      
+        sum = sum + allocationProp[x.name]['value'] ; })
+        console.log(sum);
+        if(sum < 100) {
+            console.log("Please allocation more atoms");
+        } else if(sum > 100) {
+            console.log("Please allocation less atoms");
+        } else {
+            console.log("please proceed");
+        }
+    }
+
+    const onMaxClick = (event: React.MouseEvent<HTMLElement>) => {
+            let value = totalAmount/props.selectedValidators.length;
+            console.log(value);
+            props.selectedValidators.forEach((x: any) => {      
+                let newAllocationProp : any = {...allocationProp};
+            newAllocationProp[x.name]['value'] = (value/totalAmount) * 100;
+            setAllocationProp(newAllocationProp) }) ;
+
+    }
+
     const handleAllocationChange = (e: any) => {
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
            let newAllocationProp : any = {...allocationProp};
            newAllocationProp[e.target.name]['value'] = +(e.target.value);
-          
            setAllocationProp(newAllocationProp)
             // setAllocationProp(allocation=>({
             //     ...allocation,
@@ -38,7 +61,6 @@ export default function AllocationPane(props: PropComponent) {
             //  }))
     }
 
-    console.log('Allocation Prop', allocationProp);
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
             <h5>{val.name}</h5>
@@ -55,11 +77,12 @@ export default function AllocationPane(props: PropComponent) {
 
         <h1> Balance :     {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}</h1>
         <h3> Amount: </h3> <input type="number"/>
-         <button> MAX </button> 
+         <button onClick={onMaxClick}> MAX </button> 
          {props.selectedValidators.length}
         {renderValidators()}
         
         <button onClick={onPrev}> PREV </button>
+        <button onClick={onNext}>NEXT</button>
         </div> 
     );
 }

@@ -8,28 +8,29 @@ import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
 
 interface PropComponent {
-  handleClickOpen? : { (): void}
-  balances?: any
+  handleClickOpen? : { (): void};
+  balances?: any;
+  modalIsOpen?: boolean;
+  setModalIsOpen?: Function;
+  openModalHandler? : Function;
+  closeModalHandler?: Function;
 }
 
 
 export default function Navbar(props: PropComponent) {
-    const [modalIsOpen, setModalIsOpen] = React.useState(false);
-    
-
-    function openModalHandler() {
-        setModalIsOpen(true);
-      }
-    
-      function closeModalHandler() {
-        setModalIsOpen(false);
-      }
+  
+  const openModalHandler = (event: React.MouseEvent<HTMLElement>) => {
+       // @ts-expect-error
+   props.openModalHandler();
+  }
+  
         return (
         <nav className="navbar navbar-expand-lg">
   {/* <a className="navbar-brand ml-5" href="#">
                 <img className="logo" src={Logo}/>
             </a> */}
                <Link to="/">    <img className="logo" src={Logo}/></Link> 
+
 
 
   <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
@@ -53,10 +54,10 @@ export default function Navbar(props: PropComponent) {
 
       <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? (props.balances.get('quicktest-3')?.get('uqck')) : 'Connect Wallet'
       }</button>
-      {modalIsOpen && (
+      {props.modalIsOpen && (
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>
       )}
-      {modalIsOpen && <Backdrop onCancel={closeModalHandler} />}
+      {props.modalIsOpen && <Backdrop onCancel={props.closeModalHandler} />}
  
   </div>
 </nav>

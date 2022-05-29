@@ -63,6 +63,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
                 
                <div className="card-details">
                 <h6> {row.name} </h6>
+                <p> {row.address}</p>
                 <h4 className="font-bold">  Reward </h4>
                 </div>
                 </div>
