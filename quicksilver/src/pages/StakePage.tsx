@@ -8,7 +8,7 @@ import LogoWhite from '../assets/icons/logo-whitestroke.svg';
 import LogoGray from '../assets/icons/logo-graystroke.png';
 import SummaryPane from '../panes/SummaryPane';
 import AllocationPane from '../panes/AllocationPane';
-import { ProposalStatus } from '@keplr-wallet/stores/build/query/cosmos/governance/types';
+
 
 
 
@@ -78,6 +78,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [networkAddress, setNetworkAddress] = React.useState('');
     const [rows, setRows] = React.useState<Array<Data>>([]);
     const [selectedExistingDelegations, setStateExistingDelegations]= React.useState<Array<any>>([]);
+    const [stakingAmountValidators, setStakingAmountValidators] = React.useState<number>(0);
 
     React.useEffect(() => {
       if(isWalletConnected) {
@@ -261,9 +262,9 @@ const _loadValsAsync = () => {
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
                 {activeStep === 2 &&  <NetworkSelectionPane selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={selectedValidators} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
+                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
-                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} />}
+                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} />}
                 {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>

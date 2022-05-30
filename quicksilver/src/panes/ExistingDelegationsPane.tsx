@@ -74,9 +74,12 @@ export default function ExistingDelegationsPage(props: PropComponent) {
       const onNext = () => {
           //    @ts-expect-error
         props?.setStateExistingDelegations(selectedLocalExistingDelegations);
+        // @ts-expect-error
+        props.next();
       }
   
-
+      console.log(props.selectedValidators);
+      console.log(existingDelegations);
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose existing delegations </h2>
@@ -88,7 +91,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
                      <img src={Icon}/>
                 
                <div className="card-details">
-                <h5> {props.selectedValidators.find((x: any) => x.address == row.validator_address ) }</h5>
+                <h5> {props.selectedValidators.find((x: any) => x.address === row.validator_address )?.name }</h5>
                 <h4 className="font-bold"> {row.coins[0].amount} {row.coins[0].denom} </h4>
                 </div>
               </div>

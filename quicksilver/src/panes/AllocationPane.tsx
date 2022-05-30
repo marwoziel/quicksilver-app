@@ -1,17 +1,21 @@
-import React , {useEffect, useState} from 'react';
+import React , {useEffect, useState, useRef} from 'react';
 
 interface PropComponent {
     selectedValidators? : any;
     balances: Map<string, Map<string, number>>;
     selectedNetwork? : any;
     prev: Function;
+    stakingAmountValidators? : number;
+    setStakingAmountValidators?: Function;
 }
 
 export default function AllocationPane(props: PropComponent) {
     const [rangeval, setRangeval] = useState('');
     const [allocationProp, setAllocationProp] = useState<any>({});
-    const totalAmount = 1000;
     const [sum, setSum] = useState(0);
+    const isMax = useRef(false);
+
+    
 
     useEffect(() => {
         if(props.selectedValidators.length > 0) {
@@ -23,15 +27,35 @@ export default function AllocationPane(props: PropComponent) {
         }
     }, [])
 
+    useEffect(() => {
+
+    if(isMax.current) {
+
+     
+        //    @ts-expect-error
+   let value = +(props.stakingAmountValidators/props.selectedValidators.length);
+   console.log('Amount' , props.stakingAmountValidators);
+   console.log('Length' , props.selectedValidators.length);
+   console.log('Value', value);
+   props.selectedValidators.forEach((x: any) => {      
+       let newAllocationProp : any = {...allocationProp};
+               //    @ts-expect-error
+   newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
+   setAllocationProp(newAllocationProp) }) ;
+   onNext();
+    } 
+        
+    }, [props.stakingAmountValidators])
+
     const onPrev = (e: any) => {
         props.prev();
     }
 
     const onNext = (e?: any) => {
-
+       
         let sum = 0;
         props.selectedValidators.forEach((x: any) => {      
-        sum = sum + allocationProp[x.name]['value'] ; })
+        sum = sum + allocationProp[x.name]['value'] ;  console.log(allocationProp[x.name]['value'])})
         console.log(sum);
         if(sum < 100) {
             console.log("Please allocation more atoms");
@@ -44,18 +68,28 @@ export default function AllocationPane(props: PropComponent) {
 
     }
 
-    const onMaxClick = (event: React.MouseEvent<HTMLElement>) => {
-            let value = totalAmount/props.selectedValidators.length;
-            console.log(value);
-            props.selectedValidators.forEach((x: any) => {      
-                let newAllocationProp : any = {...allocationProp};
-            newAllocationProp[x.name]['value'] = (value/totalAmount) * 100;
-            setAllocationProp(newAllocationProp) }) ;
-            onNext();
+    const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
+       
+               //    @ts-expect-error
+
+         props.setStakingAmountValidators(+(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)));
+         isMax.current = true;
+     
+            //      //    @ts-expect-error
+            // let value = +(props.stakingAmountValidators/props.selectedValidators.length);
+            // console.log('Amount' , props.stakingAmountValidators);
+            // console.log('Length' , props.selectedValidators.length);
+            // console.log('Value', value);
             // props.selectedValidators.forEach((x: any) => {      
-            //     setSum(sum + allocationProp[x.name]['value'])})
-            //     console.log(sum);
+            //     let newAllocationProp : any = {...allocationProp};
+            //             //    @ts-expect-error
+            // newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
+            // setAllocationProp(newAllocationProp) }) ;
             // onNext();
+            // // props.selectedValidators.forEach((x: any) => {      
+            // //     setSum(sum + allocationProp[x.name]['value'])})
+            // //     console.log(sum);
+            // // onNext();
 
     }
 
@@ -81,6 +115,13 @@ export default function AllocationPane(props: PropComponent) {
             //  }))
     }
 
+
+    const changeAmount = (e: any) => {
+                    //    @ts-expect-error
+        props.setStakingAmountValidators(e.target.value);
+        isMax.current = false;
+
+    }
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
             <h5>{val.name}</h5>
@@ -96,7 +137,8 @@ export default function AllocationPane(props: PropComponent) {
     <div>
 
         <h1> Balance :     {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}</h1>
-        <h3> Amount: </h3> <input type="number"/>
+    <input type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
+    <h3> Amount: {props.stakingAmountValidators} </h3>
          <button onClick={onMaxClick}> MAX </button> 
          {props.selectedValidators.length}
         {renderValidators()}

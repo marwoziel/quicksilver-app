@@ -133,7 +133,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
         
 
 <Select
-            defaultValue={props.selectedNetwork.identifier}
+            defaultValue={{label:props.selectedNetwork.identifier}}
             options={networks}
             onChange={handleNetworkChange}
         />
