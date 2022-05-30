@@ -11,6 +11,7 @@ export default function AllocationPane(props: PropComponent) {
     const [rangeval, setRangeval] = useState('');
     const [allocationProp, setAllocationProp] = useState<any>({});
     const totalAmount = 1000;
+    const [sum, setSum] = useState(0);
 
     useEffect(() => {
         if(props.selectedValidators.length > 0) {
@@ -26,7 +27,8 @@ export default function AllocationPane(props: PropComponent) {
         props.prev();
     }
 
-    const onNext = (e: any) => {
+    const onNext = (e?: any) => {
+
         let sum = 0;
         props.selectedValidators.forEach((x: any) => {      
         sum = sum + allocationProp[x.name]['value'] ; })
@@ -38,6 +40,8 @@ export default function AllocationPane(props: PropComponent) {
         } else {
             console.log("please proceed");
         }
+        setSum(sum);
+
     }
 
     const onMaxClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -47,6 +51,11 @@ export default function AllocationPane(props: PropComponent) {
                 let newAllocationProp : any = {...allocationProp};
             newAllocationProp[x.name]['value'] = (value/totalAmount) * 100;
             setAllocationProp(newAllocationProp) }) ;
+            onNext();
+            // props.selectedValidators.forEach((x: any) => {      
+            //     setSum(sum + allocationProp[x.name]['value'])})
+            //     console.log(sum);
+            // onNext();
 
     }
 
@@ -54,7 +63,18 @@ export default function AllocationPane(props: PropComponent) {
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
            let newAllocationProp : any = {...allocationProp};
            newAllocationProp[e.target.name]['value'] = +(e.target.value);
-           setAllocationProp(newAllocationProp)
+           setAllocationProp(newAllocationProp);
+           onNext();
+        //    props.selectedValidators.forEach((x: any) => {      
+        //     setSum(sum + allocationProp[x.name]['value'])})
+        //     console.log(sum);
+        //     if(sum < 100) {
+        //         console.log("Please allocation more atoms");
+        //     } else if(sum > 100) {
+        //         console.log("Please allocation less atoms");
+        //     } else {
+        //         console.log("please proceed");
+        //     }
             // setAllocationProp(allocation=>({
             //     ...allocation,
             //     [e.target.name]: e.target.value
@@ -80,9 +100,13 @@ export default function AllocationPane(props: PropComponent) {
          <button onClick={onMaxClick}> MAX </button> 
          {props.selectedValidators.length}
         {renderValidators()}
-        
+        {sum}
         <button onClick={onPrev}> PREV </button>
         <button onClick={onNext}>NEXT</button>
         </div> 
     );
+}
+
+function total(total: any) {
+    throw new Error('Function not implemented.');
 }

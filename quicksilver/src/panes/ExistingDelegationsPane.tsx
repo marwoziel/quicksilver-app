@@ -9,6 +9,9 @@ interface PropComponent {
     selectedNetwork : any;
     networkAddress: string;
     selectedValidators?: any;
+    selectedExistingDelegations?: any;
+    setStateExistingDelegations? : Function;
+
       
   }
 const MyQuery =  `query MyQuery($address: String!) {
@@ -19,6 +22,7 @@ const MyQuery =  `query MyQuery($address: String!) {
 
 export default function ExistingDelegationsPage(props: PropComponent) {
   const [existingDelegations, setExistingDelegations] = useState([]);
+  const [selectedLocalExistingDelegations, setSelectedLocalExistingDelegations] = useState<Array<any>>(props.selectedExistingDelegations);
    
       useEffect(() => {
         if(props.selectedNetwork !== "Select a network") {
@@ -53,8 +57,24 @@ export default function ExistingDelegationsPage(props: PropComponent) {
             
         }
     
-
+        const addDelegation = (e: React.MouseEvent<HTMLElement>, delegation: any) => {
+          let position = selectedLocalExistingDelegations.findIndex((val: any) => delegation.validator_address === val.validator_address );
+          if(position === -1) {
+              delegation.active = true;
+          setSelectedLocalExistingDelegations([...selectedLocalExistingDelegations, delegation]);
+          } else {
+              let validatorArray = JSON.parse(JSON.stringify(selectedLocalExistingDelegations));
+              validatorArray.splice(position,1)
+              setSelectedLocalExistingDelegations(validatorArray);
+              delegation.active = false;
+          }
+      }
     
+
+      const onNext = () => {
+          //    @ts-expect-error
+        props?.setStateExistingDelegations(selectedLocalExistingDelegations);
+      }
   
 
     return (
@@ -63,7 +83,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
                {existingDelegations.length > 0 && <div className="mt-3 row justify-content-center">
                 {existingDelegations.map((row: any) =>
           <>   
-          <div className="validator-card col-6 m-3">
+          <div onClick={ (e) => addDelegation(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
                <div className="d-flex align-items-start"> 
                      <img src={Icon}/>
                 
@@ -92,7 +112,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
         </div>}
         <div className="mt-5 button-container">
                 <button onClick={props.prev} className="prev-button mx-3"> Previous</button>
-                <button onClick={props.next} className="next-button mx-3" >Next</button>
+                <button onClick={onNext} className="next-button mx-3" >Next</button>
             </div>
         </div>
     );
