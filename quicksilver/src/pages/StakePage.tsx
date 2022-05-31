@@ -79,6 +79,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [rows, setRows] = React.useState<Array<Data>>([]);
     const [selectedExistingDelegations, setStateExistingDelegations]= React.useState<Array<any>>([]);
     const [stakingAmountValidators, setStakingAmountValidators] = React.useState<number>(0);
+    const [allocationProp, setAllocationProp] = React.useState<any>({});
 
     React.useEffect(() => {
       if(isWalletConnected) {
@@ -264,8 +265,8 @@ const _loadValsAsync = () => {
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
-                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} />}
-                {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork}/>}
+                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
+                {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} allocationProp={allocationProp}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>

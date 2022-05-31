@@ -52,7 +52,7 @@ export default function Navbar(props: PropComponent) {
 
     </ul>
 
-      <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? (props.balances.get('quicktest-3')?.get('uqck')) : 'Connect Wallet'
+      <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? `${props.balances.get('quicktest-3')?.get('uqck')} UQCK`  : 'Connect Wallet'
       }</button>
       {props.modalIsOpen && (
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>

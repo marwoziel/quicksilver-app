@@ -7,6 +7,8 @@ interface PropComponent {
     prev: Function;
     stakingAmountValidators? : number;
     setStakingAmountValidators?: Function;
+    next?: { (): void};
+    setAllocationProp?: Function;
 }
 
 export default function AllocationPane(props: PropComponent) {
@@ -14,6 +16,7 @@ export default function AllocationPane(props: PropComponent) {
     const [allocationProp, setAllocationProp] = useState<any>({});
     const [sum, setSum] = useState(0);
     const isMax = useRef(false);
+    const [isMaxClicked, setisMaxClicked] = useState(false);
 
     
 
@@ -28,24 +31,23 @@ export default function AllocationPane(props: PropComponent) {
     }, [])
 
     useEffect(() => {
-
+        console.log('Checking use Effect');
     if(isMax.current) {
 
-     
-        //    @ts-expect-error
-   let value = +(props.stakingAmountValidators/props.selectedValidators.length);
-   console.log('Amount' , props.stakingAmountValidators);
-   console.log('Length' , props.selectedValidators.length);
-   console.log('Value', value);
-   props.selectedValidators.forEach((x: any) => {      
-       let newAllocationProp : any = {...allocationProp};
-               //    @ts-expect-error
-   newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
-   setAllocationProp(newAllocationProp) }) ;
-   onNext();
+     calculateMax()
+ 
     } 
         
     }, [props.stakingAmountValidators])
+
+    useEffect(() => {
+        if(isMaxClicked) {
+
+            calculateMax()
+            setisMaxClicked(false);
+        
+           } 
+    }, [isMaxClicked])
 
     const onPrev = (e: any) => {
         props.prev();
@@ -68,12 +70,37 @@ export default function AllocationPane(props: PropComponent) {
 
     }
 
-    const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
-       
-               //    @ts-expect-error
+    const calculateMax = () => {
+       //    @ts-expect-error
+       let value = +(props.stakingAmountValidators/props.selectedValidators.length);
+       console.log('Amount' , props.stakingAmountValidators);
+       console.log('Length' , props.selectedValidators.length);
+       console.log('Value', value);
+       props.selectedValidators.forEach((x: any) => {      
+           let newAllocationProp : any = {...allocationProp};
+                   //    @ts-expect-error
+       newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
+       setAllocationProp(newAllocationProp) }) ;
+       onNext();
+    }
 
-         props.setStakingAmountValidators(+(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)));
-         isMax.current = true;
+    const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
+        debugger;
+        //    @ts-expect-error
+        let maxBal = +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom));
+        if(props.stakingAmountValidators !== maxBal) {
+      //    @ts-expect-error
+      props.setStakingAmountValidators(maxBal);
+      isMax.current = true;
+        } else {
+            setisMaxClicked(true);
+        }
+        
+  
+    
+   
+         console.log(isMax.current);
+         console.log(maxBal);
      
             //      //    @ts-expect-error
             // let value = +(props.stakingAmountValidators/props.selectedValidators.length);
@@ -120,7 +147,15 @@ export default function AllocationPane(props: PropComponent) {
                     //    @ts-expect-error
         props.setStakingAmountValidators(e.target.value);
         isMax.current = false;
+        setisMaxClicked(false);
 
+    }
+
+    const onClickNext = (e: any) => {
+                 //    @ts-expect-error
+        props.setAllocationProp(allocationProp)
+           //    @ts-expect-error
+props.next();
     }
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
@@ -144,7 +179,7 @@ export default function AllocationPane(props: PropComponent) {
         {renderValidators()}
         {sum}
         <button onClick={onPrev}> PREV </button>
-        <button onClick={onNext}>NEXT</button>
+        <button onClick={onClickNext}>NEXT</button>
         </div> 
     );
 }

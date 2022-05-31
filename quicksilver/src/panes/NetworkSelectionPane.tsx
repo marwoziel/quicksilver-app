@@ -138,7 +138,6 @@ export default function NetworkSelectionPane(props: PropComponent) {
             onChange={handleNetworkChange}
         />
     </div>
-{ props.selectedNetwork.identifier}
 {/* {props.selectedNetwork !== "Select a network" && <div>
     {props.balances && <div>{props.selectedNetwork.base_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}
     {props.balances && <div>{props.selectedNetwork.local_denom}{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</div>}

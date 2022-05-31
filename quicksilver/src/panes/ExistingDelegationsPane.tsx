@@ -72,13 +72,22 @@ export default function ExistingDelegationsPage(props: PropComponent) {
     
 
       const onNext = () => {
-          //    @ts-expect-error
-        props?.setStateExistingDelegations(selectedLocalExistingDelegations);
+      //   existingDelegations.forEach((x: any) => {      
+      //     let newProp : any = {...x};
+      // newProp[x.name] = {props.selectedValidators.find((y: any) => y.address === x.validator_address )?.name
+      // })
+      // // setAllocationProp(newAllocationProp) }) 
+       
+          selectedLocalExistingDelegations.forEach((x) => {
+            x.name = props.selectedValidators.find((y: any) => y.address === x.validator_address )?.name
+          })
+             //   @ts-expect-error
+       props?.setStateExistingDelegations(selectedLocalExistingDelegations);
         // @ts-expect-error
-        props.next();
-      }
+         props.next();
+      
+    }
   
-      console.log(props.selectedValidators);
       console.log(existingDelegations);
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">

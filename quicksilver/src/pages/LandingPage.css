@@ -3,6 +3,8 @@
     width: 100vw;
     background: #1A1A1A;
     color: #fff;
+    font-family: 'Nexa';
+    letter-spacing: 4px;
 }
 
 .landing-page .logo {
@@ -20,4 +22,5 @@ font-size: 16px;
 color: #FFFFFF;
 text-decoration: none;
 z-index: 2;
+letter-spacing: normal;
 }
