@@ -9,12 +9,15 @@ interface PropComponent {
     selectedExistingDelegations: any;
     allocationProp?: any;
     networkAddress?: string;
+    client? : any;
+    balances: Map<string, Map<string, number>>;
   }
 
 
 
 export default function SummaryPane(props: PropComponent) {
     const [totalStake, setTotalStake] = React.useState(5000);
+
 
     useEffect(() => {
         let sum = 0;
@@ -44,25 +47,34 @@ export default function SummaryPane(props: PropComponent) {
     }
 
     const onStakeClick = async (e: any) => {
-        // const memo = "My very first tx!";
-        // const msgSend = {
-        //   fromAddress: props.networkAddress,
-        //   toAddress: props.selectedNetwork.deposit_address.address,
-        //   amount: coins(1234, "ucosm"),
-        // };
+        const memo = "My very first tx!";
+        const msgSend = {
+          fromAddress: props.networkAddress,
+          toAddress: props.selectedNetwork.deposit_address.address,
+          amount: coins(1234, props.selectedNetwork.base_denom),
+        };
         
-        // const msgAny = {
-        //     typeUrl: "/cosmos.staking.v1beta.MsgTokenizeShares",
-        //   value: msgSend,
-        // };
+        const msgAny = {
+            typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+          value: msgSend,
+        };
         
-        // // Broadcast and sign the transaction
-        // const broadcastResult = await client.signAndBroadcast(
-        //   props.networkAddress,
-        //   [msgAny],
-        //   defaultFee,
-        //   memo,
-        // );
+        
+        const broadcastResult = await props.client.signAndBroadcast(
+          props.networkAddress,
+          [msgAny],
+         {
+            "gas": "100000",
+            "amount": [
+              {
+                "denom": "uatom",
+                "amount": "300"
+              }
+            ]
+          },
+          memo,
+        );
+        console.log(broadcastResult);
     }
 
     console.log("Existing Delegations", props.selectedExistingDelegations)

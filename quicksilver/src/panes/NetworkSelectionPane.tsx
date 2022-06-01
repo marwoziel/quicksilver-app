@@ -3,7 +3,7 @@ import React, {useEffect}from 'react';
 import Select from "react-select";
 import axios from 'axios';
 import { initKeplrWithNetwork } from "../types/chains";
-import { SigningStargateClient } from "@cosmjs/stargate"
+import { SigningStargateClient, StargateClient } from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
 interface PropComponent {
     prev? : { () : void  };
@@ -17,6 +17,7 @@ interface PropComponent {
     balances: Map<string, Map<string, number>>;
     networkAddress: string;
     setNetworkAddress: Function;
+    setClient? : Function;
   }
 
 
@@ -58,6 +59,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
         initKeplrWithNetwork(async(key: string, val: SigningStargateClient) => {
           setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
           setWalletConnection(true);
+          // @ts-expect-error
+          props.setClient(val);
           let keplr = await getKeplrFromWindow();
           let chainId = await val.getChainId();
           let pubkey = await keplr?.getKey(chainId);

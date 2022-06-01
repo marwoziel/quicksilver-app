@@ -49,6 +49,8 @@ const QuickSilverChainInfo : ChainInfo = {
 },
 }
 
+let client ;
+
 const ChainInfos: ChainInfo[] = [
     QuickSilverChainInfo,
 {
@@ -156,12 +158,15 @@ export const initKeplrWithNetwork = async (fn: Function, network?: string):Promi
                 let offlineSigner = await SigningStargateClient.connectWithSigner(chain?.rpc, signer)
                 fn(chain?.chainId, offlineSigner)
                 console.log("Enabled for chainid " + chain?.chainId)
+                console.log('Offline Signer 1', offlineSigner);
+         
             }, (reason: any) => { 
                 keplr.experimentalSuggestChain(chain).then(async () => { 
                     let signer = keplr.getOfflineSignerOnlyAmino(chain?.chainId); 
                     let offlineSigner = await SigningStargateClient.connectWithSigner(chain?.rpc, signer)
                     fn(chain?.chainId, offlineSigner)
                     console.log("Added to Keplr for chainid " + chain?.chainId) 
+                    console.log('Offline Signer 2', offlineSigner);
                 }) 
             })
         }
