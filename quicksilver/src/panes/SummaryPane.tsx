@@ -1,6 +1,6 @@
 
 import React, {useEffect} from 'react';
-
+import { coins } from "@cosmjs/launchpad"
 
 interface PropComponent {
     prev? : { () : void  };
@@ -8,6 +8,7 @@ interface PropComponent {
     selectedNetwork? : any;
     selectedExistingDelegations: any;
     allocationProp?: any;
+    networkAddress?: string;
   }
 
 
@@ -42,6 +43,28 @@ export default function SummaryPane(props: PropComponent) {
         return validators;
     }
 
+    const onStakeClick = async (e: any) => {
+        // const memo = "My very first tx!";
+        // const msgSend = {
+        //   fromAddress: props.networkAddress,
+        //   toAddress: props.selectedNetwork.deposit_address.address,
+        //   amount: coins(1234, "ucosm"),
+        // };
+        
+        // const msgAny = {
+        //     typeUrl: "/cosmos.staking.v1beta.MsgTokenizeShares",
+        //   value: msgSend,
+        // };
+        
+        // // Broadcast and sign the transaction
+        // const broadcastResult = await client.signAndBroadcast(
+        //   props.networkAddress,
+        //   [msgAny],
+        //   defaultFee,
+        //   memo,
+        // );
+    }
+
     console.log("Existing Delegations", props.selectedExistingDelegations)
     console.log("Allocations", props.allocationProp )
     return (
@@ -55,7 +78,7 @@ export default function SummaryPane(props: PropComponent) {
             {/* <h4> Delegations: </h4>
             {props.selectedExistingDelegations.map((x: any) => <>
                  <h6> {x['name']} : {x.coins[0].amount} {x.coins[0].denom}</h6></> */}
-                 <h4> Validatiors: </h4>
+                 <h4> Validators: </h4>
          
                  {/* {props.allocationProp.map((x: any) => <>
                  <h6> {x['name']} : {x.value} %</h6></> 
@@ -63,6 +86,7 @@ export default function SummaryPane(props: PropComponent) {
         )} */}
         </div>
         {renderValidators()}
+        <button onClick={onStakeClick}> STAKE  </button>
         </>
     );
 }

@@ -47,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@cosmjs/cli": "^0.28.4"
   }
 }

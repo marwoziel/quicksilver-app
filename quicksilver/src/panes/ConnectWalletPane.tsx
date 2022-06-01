@@ -28,7 +28,9 @@ export default function ConnectWalletPane(props: PropComponent) {
         <div className="connect-wallet-pane d-flex flex-column align-items-center ">
                 <h4 className="sub-heading"> Hey there! </h4>
                 <h1 className="mt-3"> Connect your wallet to get started! </h1>
-                <button onClick={openModalHandler} className="connect-wallet-button mt-5"> <img src={Wallet}/> Connect wallet </button> 
+                <button onClick={openModalHandler} className="connect-wallet-button mt-5"> 
+                {/* <img src={Wallet}/>  */}
+                Connect wallet </button> 
 
                 {props.modalIsOpen && (
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>

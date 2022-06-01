@@ -112,17 +112,17 @@ export default function NetworkSelectionPane(props: PropComponent) {
     }
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
-            {props.selectedNetwork !== "Select a network" && <div className="wallet-details d-flex flex-column mt-5">
+            {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && <div className="wallet-details d-flex flex-column mt-5">
                 <h4> My Wallet</h4>
                 <h6>{props.networkAddress}</h6>
                 <div className="row wallet-content mt-4">
                     <div className="col-3 text-center">
-                       <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</h5>
+                       <h5 className="font-bold">{props?.balances.get(props?.selectedNetwork.chain_id)?.get(props?.selectedNetwork.base_denom)}</h5>
                        <p> {props.selectedNetwork.base_denom} </p>
                     </div>
                     <div className="col-3 text-center">
                     <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</h5>
-                       <p> {props.selectedNetwork.local_denom} </p>
+                       <p> {props.selectedNetwork.local_denom} </p> 
                         </div>
                   
                 </div>
@@ -147,8 +147,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
 <div className="mt-5 button-container">
                
             
-                <button className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
-                <button className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button>
+                <button disabled={props.selectedNetwork === "Select a network" ?  true: false} className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
+                <button disabled={props.selectedNetwork === "Select a network" ?  true: false} className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button>
             </div>
             </div>
 

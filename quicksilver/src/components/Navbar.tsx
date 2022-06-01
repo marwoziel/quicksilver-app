@@ -14,10 +14,13 @@ interface PropComponent {
   setModalIsOpen?: Function;
   openModalHandler? : Function;
   closeModalHandler?: Function;
+  isWalletConnected?: boolean;
 }
 
 
 export default function Navbar(props: PropComponent) {
+
+
   
   const openModalHandler = (event: React.MouseEvent<HTMLElement>) => {
        // @ts-expect-error
@@ -51,9 +54,10 @@ export default function Navbar(props: PropComponent) {
       </li>
 
     </ul>
-
-      <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? `${props.balances.get('quicktest-3')?.get('uqck')} UQCK`  : 'Connect Wallet'
-      }</button>
+            {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('quicktest-3')?.get('uqck')) ? `${props.balances.get('quicktest-3')?.get('uqck')/1000000} QCK`  : ''
+      }</button>}
+      {!props.isWalletConnected && <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> Connect Wallet
+      </button>}
       {props.modalIsOpen && (
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>
       )}

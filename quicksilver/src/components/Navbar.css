@@ -27,6 +27,11 @@ color: #FFFFFF;
 }
 
 
+.navbar .connect-wallet:hover{
+    color: #D35100;
+    background: #FFFFFF;
+    }
+
 .navbar .connect-wallet img {
     height: 20px;
 }

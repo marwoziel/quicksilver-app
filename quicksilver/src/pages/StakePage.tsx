@@ -266,7 +266,7 @@ const _loadValsAsync = () => {
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
-                {activeStep === 4 && <SummaryPane selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} allocationProp={allocationProp}/>}
+                {activeStep === 4 && <SummaryPane networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} allocationProp={allocationProp}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>

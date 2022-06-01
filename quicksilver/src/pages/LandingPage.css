@@ -24,3 +24,10 @@ text-decoration: none;
 z-index: 2;
 letter-spacing: normal;
 }
+
+.landing-page a:hover {
+    color: #D35100;
+
+background: #FFFFFF;
+cursor:pointer;
+}

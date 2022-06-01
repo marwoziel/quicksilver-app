@@ -74,10 +74,12 @@ const handleBack = () => {
         })
 
         console.log("balances", balances, chainId);
+        handleNext();
+        closeModalHandler();
 
       }
     });
-    handleNext();
+
   }
 
   
@@ -89,7 +91,7 @@ const handleBack = () => {
     <img className="logo-stroke" src={LogoStroke}/>
     </div>
 
-  {location.pathname !== '/' && <Navbar modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} balances={balances} handleClickOpen={handleClickOpen}/>}
+  {location.pathname !== '/' && <Navbar isWalletConnected={isWalletConnected} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} balances={balances} handleClickOpen={handleClickOpen}/>}
    <Routes>
    {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<LandingPage/>}/>
