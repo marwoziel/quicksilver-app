@@ -5,6 +5,7 @@ import axios from 'axios';
 import { initKeplrWithNetwork } from "../types/chains";
 import { SigningStargateClient, StargateClient } from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
+import { valueTernary } from 'react-select/dist/declarations/src/utils';
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void};
@@ -18,6 +19,8 @@ interface PropComponent {
     networkAddress: string;
     setNetworkAddress: Function;
     setClient? : Function;
+    client: any;
+    delegateToken: Function;
   }
 
 
@@ -54,6 +57,36 @@ export default function NetworkSelectionPane(props: PropComponent) {
     }
 
 
+    const delegateToken = async ()  => {
+    //   const msgAny = {
+    //     typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+    //   value: msgSend,
+    // };
+    
+    
+    const broadcastResult = await props.client.delegateToken(
+      props.networkAddress,
+      "cosmosvaloper17a46z8hmdcunjq2dflwqh83xv65yh73usmx0wv",
+      [
+        {
+          "denom": "uatom",
+          "amount": "3000"
+        }
+      ],
+     {
+        "gas": "100000",
+        "amount": [
+          {
+            "denom": "uatom",
+            "amount": "300"
+          }
+        ]
+      },
+      'Delegating tokens!',
+    );
+    console.log(broadcastResult);
+    }
+
     const connectNetwork = async (network: string) => {
         console.log(network);
         initKeplrWithNetwork(async(key: string, val: SigningStargateClient) => {
@@ -61,11 +94,13 @@ export default function NetworkSelectionPane(props: PropComponent) {
           setWalletConnection(true);
           // @ts-expect-error
           props.setClient(val);
+     
           let keplr = await getKeplrFromWindow();
           let chainId = await val.getChainId();
           let pubkey = await keplr?.getKey(chainId);
           let bech32 = pubkey?.bech32Address;
          props.setNetworkAddress(bech32);
+        //  props.delegateToken(bech32, val);
           if (bech32) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {
@@ -80,7 +115,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
             })
     
             console.log("balances", props.balances, chainId);
-    
+         
           }
         }, network);
       }

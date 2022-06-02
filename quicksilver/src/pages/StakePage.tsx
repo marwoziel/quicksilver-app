@@ -92,9 +92,42 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 
      React.useEffect(() => {
        if(selectedNetwork !== "Select a network") {
-      _loadValsAsync()
+      _loadValsAsync();
+      
        }
+      
      });
+
+     const delegateTokens = async (add: any, val: any)  => {
+      //   const msgAny = {
+      //     typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+      //   value: msgSend,
+      // };
+      
+   
+      const broadcastResult = await val.delegateTokens(
+        add,
+        "cosmosvaloper17a46z8hmdcunjq2dflwqh83xv65yh73usmx0wv",
+          {
+            "denom": "uatom",
+            "amount": "3000"
+          }
+        ,
+       {
+          "gas": "200000",
+          "amount": [
+            {
+              "denom": "uatom",
+              "amount": "300"
+            }
+          ]
+        },
+        'Delegating tokens!',
+      );
+      console.log(broadcastResult);
+      }
+
+
     const showAllocationPane = () : void => {
         setShowAllocationsPane(true);
         setStakeNewAllocations(false);
@@ -262,7 +295,7 @@ const _loadValsAsync = () => {
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
-                {activeStep === 2 &&  <NetworkSelectionPane setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 

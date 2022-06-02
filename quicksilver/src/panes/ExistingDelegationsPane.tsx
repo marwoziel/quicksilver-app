@@ -38,8 +38,8 @@ export default function ExistingDelegationsPage(props: PropComponent) {
               method: "POST",
               body: JSON.stringify({
                 query: MyQuery,
-               // variables: { address: props.networkAddress },
-                variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
+               variables: { address: props.networkAddress },
+               // variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
               })
             }
           );
@@ -52,6 +52,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
       const _loadValsAsync = () => {
             loadValData().then(
              (response) => setExistingDelegations(response.data.action_delegation.delegations)
+
             );
 
             

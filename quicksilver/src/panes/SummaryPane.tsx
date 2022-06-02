@@ -107,6 +107,39 @@ export default function SummaryPane(props: PropComponent) {
         console.log(broadcastResult);
     }
 
+    const stakeExistingDelegations = async (e: any) => {
+
+        let msg =  {typeUrl: "/cosmos.staking.v1beta.MsgTokenizeShares",
+        value: {
+                  validator_address: props.selectedExistingDelegations[0].address,
+                  delegator_address: props.networkAddress,
+                  amount: {
+                     "amount": props.selectedExistingDelegations[0].coins[0].amount,
+                     "denom": props.selectedExistingDelegations[0].coins[0].denom
+                  },
+                  tokenized_share_owner: props.networkAddress,
+                }
+              }
+          
+        const broadcastResult = await props.client.signAndBroadcast(
+            props.networkAddress,
+            [msg],
+           {
+              "gas": "100000",
+              "amount": [
+                {
+                  "denom": "uatom",
+                  "amount": "300"
+                }
+              ]
+            },
+            'Existing Delegations Transaction'
+          );
+          console.log(broadcastResult);
+      }
+
+    
+
     console.log("Existing Delegations", props.selectedExistingDelegations)
     console.log("Allocations", props.allocationProp )
     return (
@@ -128,7 +161,8 @@ export default function SummaryPane(props: PropComponent) {
         )} */}
         </div>
         {renderValidators()}
-        <button onClick={onStakeClick}> STAKE  </button>
+        {/* <button onClick={onStakeClick}> STAKE  </button> */}
+        <button onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
         </>
     );
 }

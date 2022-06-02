@@ -1,7 +1,8 @@
 import { ChainInfo } from "@keplr-wallet/types";
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
 import { SigningStargateClient,  } from "@cosmjs/stargate"
-import { AnyNsRecord } from "dns";
+import {options} from './options';
+
 
 const QuickSilverChainInfo : ChainInfo = {
     chainId: "quicktest-3",
@@ -114,7 +115,7 @@ export const initKeplr = async (fn: Function):Promise<void> => {
             }, (reason) => { 
                 keplr.experimentalSuggestChain(val).then(async () => { 
                     let signer = keplr.getOfflineSignerOnlyAmino(val.chainId); 
-                    let offlineSigner = await SigningStargateClient.connectWithSigner(val.rpc, signer)
+                    let offlineSigner = await SigningStargateClient.connectWithSigner(val.rpc, signer);
                     fn(val.chainId, offlineSigner)
                     console.log("Added to Keplr for chainid " + val.chainId) 
                 }) 
