@@ -58,7 +58,7 @@ export function createLiquidStakingTypes(): Record<string, AminoConverter | "not
   
   export const customTypes: ReadonlyArray<[string, GeneratedType]> = [
    
-    ["/cosmos.staking.v1beta1.MsgTokenizeShares", MsgTokenizeShares],
+    // ["/cosmos.staking.v1beta1.MsgTokenizeShares", MsgTokenizeShares],
     ...defaultRegistryTypes
   ];
   

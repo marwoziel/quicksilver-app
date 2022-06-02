@@ -9,9 +9,6 @@ import LogoGray from '../assets/icons/logo-graystroke.png';
 import SummaryPane from '../panes/SummaryPane';
 import AllocationPane from '../panes/AllocationPane';
 
-
-
-
 interface PropComponent {
   handleBack? : { () : void  };
   handleNext?: { (): void};

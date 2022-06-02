@@ -147,9 +147,9 @@ export default function SummaryPane(props: PropComponent) {
         <div>
             <h2> Summary </h2>
             <h4> Total Stake: {totalStake} {props.selectedNetwork.base_denom}</h4>
-            <h4>Deposit Address:  {props.selectedNetwork.deposit_address.address}</h4>
-            <h4>Redemption Rate:  1 {props.selectedNetwork.local_denom} =  {props.selectedNetwork.redemption_rate} {props.selectedNetwork.base_denom}</h4>
-            <h4>{props.selectedNetwork.local_denom} : {totalStake/props.selectedNetwork.redemption_rate}</h4>
+            <h4>Deposit Address:  {props.selectedNetwork?.deposit_address?.address}</h4>
+            <h4>Redemption Rate:  1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom}</h4>
+            <h4>{props.selectedNetwork?.local_denom} : {totalStake/props.selectedNetwork?.redemption_rate}</h4>
             {/* <h4> Delegations: </h4>
             {props.selectedExistingDelegations.map((x: any) => <>
                  <h6> {x['name']} : {x.coins[0].amount} {x.coins[0].denom}</h6></> */}
