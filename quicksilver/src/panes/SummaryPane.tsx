@@ -108,22 +108,26 @@ export default function SummaryPane(props: PropComponent) {
     }
 
     const stakeExistingDelegations = async (e: any) => {
-
-        let msg =  {typeUrl: "/cosmos.staking.v1beta.MsgTokenizeShares",
+      let msg = [];
+      msg = props.selectedExistingDelegations.map((x: any) => { return {
+        typeUrl: "/cosmos.staking.v1beta1.MsgTokenizeShares",
         value: {
-                  validator_address: props.selectedExistingDelegations[0].address,
-                  delegator_address: props.networkAddress,
+              
+                  delegatorAddress: props.networkAddress,
+                  validatorAddress: "cosmosvaloper17a46z8hmdcunjq2dflwqh83xv65yh73usmx0wv",
                   amount: {
-                     "amount": props.selectedExistingDelegations[0].coins[0].amount,
-                     "denom": props.selectedExistingDelegations[0].coins[0].denom
+                     "amount": x.coins[0].amount,
+                     "denom": x.coins[0].denom
                   },
-                  tokenized_share_owner: props.networkAddress,
-                }
-              }
-          
+                  tokenizedShareOwner: props.networkAddress,
+                }}
+              });
+     
+     
+     
         const broadcastResult = await props.client.signAndBroadcast(
             props.networkAddress,
-            [msg],
+            [...msg],
            {
               "gas": "100000",
               "amount": [

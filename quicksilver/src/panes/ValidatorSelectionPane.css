@@ -3,5 +3,10 @@
 }
 
 .val-active {
-    border: 5px solid red;
+    border: 2px solid #D35100;
+    
+}
+.validator-card:hover{
+    border: 2px solid #D35100;
+    cursor: pointer;
 }

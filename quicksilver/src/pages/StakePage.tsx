@@ -32,6 +32,12 @@ export interface Data {
   logo: string;
 }
 
+const MyQuery =  `query MyQuery($address: String!) {
+  action_delegation(address: $address) {
+    delegations
+  }
+}`;
+
 const valListQuery = `
 query ValidatorList {
   validator_status(where: {jailed: {}}) {
@@ -78,6 +84,8 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [stakingAmountValidators, setStakingAmountValidators] = React.useState<number>(0);
     const [allocationProp, setAllocationProp] = React.useState<any>({});
     const [client, setClient] = React.useState<any>();
+    const [networks, setNetworks] = React.useState<Array<any>>();
+    const [existingDelegations, setExistingDelegations] = React.useState([]);
 
     React.useEffect(() => {
       if(isWalletConnected) {
@@ -87,14 +95,59 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     }, [])
   
 
+    useEffect(() => {
+       loadData();
+   }, []);
+
+
+
+   const loadData = async () => {
+    const response = await fetch("http://seed.quicktest-1.quicksilver.zone:1317/quicksilver/interchainstaking/v1/zones");
+    const data = await response.json();
+    setNetworks(manipulateData(data.zones));
+
+}
+
+const manipulateData = (zones: []) => {
+  return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
+}
+
      React.useEffect(() => {
        if(selectedNetwork !== "Select a network") {
       _loadValsAsync();
-      
+      _loadExistingValsAsync();
        }
       
      });
 
+     const _loadExistingValsAsync = () => {
+      loadExistingDelegations().then(
+       (response) => setExistingDelegations(response?.data?.action_delegation.delegations)
+
+      );
+
+      
+  }
+
+  
+     const loadExistingDelegations = async (): Promise<any> => {
+      const result = await fetch(
+          `https://data.${selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              query: MyQuery,
+             variables: { address: networkAddress },
+             // variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
+            })
+          }
+        );
+
+        // console.log(result);
+        return await result.json();
+
+  
+  }
      const delegateTokens = async (add: any, val: any)  => {
       //   const msgAny = {
       //     typeUrl: "/cosmos.bank.v1beta1.MsgSend",
@@ -292,9 +345,9 @@ const _loadValsAsync = () => {
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
-                {activeStep === 2 &&  <NetworkSelectionPane delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
+                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
                 {activeStep === 4 && <SummaryPane balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} allocationProp={allocationProp}/>}

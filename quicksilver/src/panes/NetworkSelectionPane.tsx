@@ -21,6 +21,7 @@ interface PropComponent {
     setClient? : Function;
     client: any;
     delegateToken: Function;
+    networks: any;
   }
 
 
@@ -32,13 +33,9 @@ export default function NetworkSelectionPane(props: PropComponent) {
     const [wallets, setWallets] = React.useState<Map<string, SigningStargateClient>>(new Map<string, SigningStargateClient>());
 
     const [isWalletConnected, setWalletConnection] = React.useState(false);
-    const [networks, setNetworks] = React.useState<Array<any>>();
+  
 
-    useEffect(() => {
-        // TODO - Add network check 
-         loadData();
-     }, []);
-
+ 
      useEffect(() => {
         if(props.selectedNetwork !== "Select a network") {
             connectNetwork(props.selectedNetwork.chain_id);
@@ -48,13 +45,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
      const manipulateData = (zones: []) => {
             return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
      }
-     console.log('Networks', networks);
-    const loadData = async () => {
-        const response = await fetch("http://seed.quicktest-1.quicksilver.zone:1317/quicksilver/interchainstaking/v1/zones");
-        const data = await response.json();
-        setNetworks(manipulateData(data.zones));
 
-    }
 
 
     const delegateToken = async ()  => {
@@ -172,7 +163,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
 <Select
             defaultValue={{label:props.selectedNetwork.identifier}}
-            options={networks}
+            options={props.networks}
             onChange={handleNetworkChange}
         />
     </div>

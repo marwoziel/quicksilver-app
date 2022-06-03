@@ -71,7 +71,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
         <div className="existing-delegations-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
         <input className="mt-2 px-2" type="text"  value={searchTerm} onChange={handleChange} placeholder="Search validator"/>
-          <div className="mt-3 row justify-content-center">
+          <div className="mt-3 row w-100 justify-content-center">
           {validators.map((row: any) =>
           <>
                 <div onClick={ (e) => addValidator(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
@@ -90,10 +90,13 @@ export default function ValidatorSelectionPane(props: PropComponent) {
   
 )}
               </div>
-              {selectedValidators.length >= 2 && <p>Max 2 validators can be selected</p>}
+              {selectedValidators.length}
+              {props.selectedValidators.length}
+              {selectedValidators.length > 2 && <p>Max 2 validators can be selected</p>}
+
         <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
-                <button disabled={selectedValidators.length >= 2 } className="next-button mx-3" onClick={onNext} >Next</button>
+                <button disabled={selectedValidators.length > 2 } className="next-button mx-3" onClick={onNext} >Next</button>
             </div>
         </div>
     );

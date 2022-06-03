@@ -11,7 +11,7 @@ interface PropComponent {
     selectedValidators?: any;
     selectedExistingDelegations?: any;
     setStateExistingDelegations? : Function;
-
+    existingDelegations: any;
       
   }
 const MyQuery =  `query MyQuery($address: String!) {
@@ -21,42 +21,10 @@ const MyQuery =  `query MyQuery($address: String!) {
   }`;
 
 export default function ExistingDelegationsPage(props: PropComponent) {
-  const [existingDelegations, setExistingDelegations] = useState([]);
+
   const [selectedLocalExistingDelegations, setSelectedLocalExistingDelegations] = useState<Array<any>>(props.selectedExistingDelegations);
    
-      useEffect(() => {
-        if(props.selectedNetwork !== "Select a network") {
-       _loadValsAsync()
-        }
-      }, []);
 
-
-      const loadValData = async (): Promise<any> => {
-        const result = await fetch(
-            `https://data.${props.selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
-            {
-              method: "POST",
-              body: JSON.stringify({
-                query: MyQuery,
-               variables: { address: props.networkAddress },
-               // variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
-              })
-            }
-          );
-
-          // console.log(result);
-          return await result.json();
-
-    
-    }
-      const _loadValsAsync = () => {
-            loadValData().then(
-             (response) => setExistingDelegations(response.data.action_delegation.delegations)
-
-            );
-
-            
-        }
     
         const addDelegation = (e: React.MouseEvent<HTMLElement>, delegation: any) => {
           let position = selectedLocalExistingDelegations.findIndex((val: any) => delegation.validator_address === val.validator_address );
@@ -89,12 +57,11 @@ export default function ExistingDelegationsPage(props: PropComponent) {
       
     }
   
-      console.log(existingDelegations);
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose existing delegations </h2>
-               {existingDelegations.length > 0 && <div className="mt-3 row justify-content-center">
-                {existingDelegations.map((row: any) =>
+               {props.existingDelegations.length > 0 && <div className="mt-3 row w-100 justify-content-center">
+                {props.existingDelegations.map((row: any) =>
           <>   
           <div onClick={ (e) => addDelegation(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
                <div className="d-flex align-items-start"> 

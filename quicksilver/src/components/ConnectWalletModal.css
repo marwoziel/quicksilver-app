@@ -9,3 +9,25 @@
     top: 10vh;
     left: calc(50% - 15rem);
   }
+
+  .connect-wallet-modal .keplr {
+    border:none;
+background: #D35100;
+color: white;
+border-radius: 5px;
+font-weight: 600;
+  }
+
+  .connect-wallet-modal .cosmos-station {
+    border:none;
+    background: rgba(0, 0, 0, 0.1);;
+    color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+
+  }
+
+  .connect-wallet-modal .keplr:hover {
+    border:1px solid #D35100;
+background: white;
+color: #D35100;
+  }
