@@ -112,17 +112,24 @@ const manipulateData = (zones: []) => {
   return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
 }
 
-     React.useEffect(() => {
+     useEffect(() => {
        if(selectedNetwork !== "Select a network") {
       _loadValsAsync();
-      _loadExistingValsAsync();
-       }
       
-     });
+       }
+     }, [selectedNetwork]);
+
+     useEffect(() => {
+       console.log('Network', selectedNetwork);
+       console.log('network address' , networkAddress)
+      if(selectedNetwork !== "Select a network") {
+       _loadExistingValsAsync();
+      }
+    }, [selectedNetwork]);
 
      const _loadExistingValsAsync = () => {
       loadExistingDelegations().then(
-       (response) => setExistingDelegations(response?.data?.action_delegation.delegations)
+       (response) => {console.log('Response', response?.data?.action_delegation.delegations); setExistingDelegations(response?.data?.action_delegation.delegations)},
 
       );
 
@@ -137,8 +144,8 @@ const manipulateData = (zones: []) => {
             method: "POST",
             body: JSON.stringify({
               query: MyQuery,
-             variables: { address: networkAddress },
-             // variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
+              variables: { address: "cosmos13scrc34d4l5rj93jv2vn5lgeqr8jdzrhzq2796" },
+            //  variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
             })
           }
         );
@@ -157,10 +164,10 @@ const manipulateData = (zones: []) => {
    
       const broadcastResult = await val.delegateTokens(
         add,
-        "cosmosvaloper17a46z8hmdcunjq2dflwqh83xv65yh73usmx0wv",
+        "cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2",
           {
             "denom": "uatom",
-            "amount": "3000"
+            "amount": "5000"
           }
         ,
        {

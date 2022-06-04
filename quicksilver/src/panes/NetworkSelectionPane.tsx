@@ -91,7 +91,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
           let pubkey = await keplr?.getKey(chainId);
           let bech32 = pubkey?.bech32Address;
          props.setNetworkAddress(bech32);
-        //  props.delegateToken(bech32, val);
+          //  props.delegateToken(bech32, val);
           if (bech32) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {

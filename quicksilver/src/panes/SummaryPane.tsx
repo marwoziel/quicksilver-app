@@ -94,7 +94,7 @@ export default function SummaryPane(props: PropComponent) {
           props.networkAddress,
           [msgAny],
          {
-            "gas": "100000",
+            "gas": "200000",
             "amount": [
               {
                 "denom": "uatom",
@@ -114,7 +114,7 @@ export default function SummaryPane(props: PropComponent) {
         value: {
               
                   delegatorAddress: props.networkAddress,
-                  validatorAddress: "cosmosvaloper17a46z8hmdcunjq2dflwqh83xv65yh73usmx0wv",
+                  validatorAddress: x.validator_address,
                   amount: {
                      "amount": x.coins[0].amount,
                      "denom": x.coins[0].denom
@@ -129,7 +129,7 @@ export default function SummaryPane(props: PropComponent) {
             props.networkAddress,
             [...msg],
            {
-              "gas": "100000",
+              "gas": "1000000",
               "amount": [
                 {
                   "denom": "uatom",
@@ -140,6 +140,8 @@ export default function SummaryPane(props: PropComponent) {
             'Existing Delegations Transaction'
           );
           console.log(broadcastResult);
+          console.log(unescape(broadcastResult.rawLog));
+          console.log(JSON.parse(unescape(broadcastResult.rawLog)))
       }
 
     

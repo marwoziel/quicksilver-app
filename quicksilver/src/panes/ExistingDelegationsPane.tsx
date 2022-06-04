@@ -73,6 +73,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
                 </div>
               </div>
                 </div>
+
           </>
   
 )}

@@ -48,8 +48,17 @@ export default function ValidatorSelectionPane(props: PropComponent) {
           // @ts-expect-error
         props.showAllocationPane();
         }
-
     }
+    
+
+    const onPrev = () => {
+        if(selectedValidators) {
+            //    @ts-expect-error
+        props.setSelectedValidators(selectedValidators);
+          // @ts-expect-error
+          props.prev();
+    }
+}
     const addValidator = (e: React.MouseEvent<HTMLElement>, validator: Data) => {
         let position = selectedValidators.findIndex((val) => validator.name === val.name);
         if(position === -1) {
@@ -95,7 +104,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
               {selectedValidators.length > 2 && <p>Max 2 validators can be selected</p>}
 
         <div className="mt-5 button-container">
-                <button className="prev-button mx-3" onClick={props.prev}> Previous</button>
+                <button className="prev-button mx-3" onClick={onPrev}> Previous</button>
                 <button disabled={selectedValidators.length > 2 } className="next-button mx-3" onClick={onNext} >Next</button>
             </div>
         </div>
