@@ -1,6 +1,8 @@
 
 import React, {useEffect} from 'react';
 import { coins } from "@cosmjs/launchpad"
+import { parseCoins } from "@cosmjs/stargate";
+
 
 let { bech32, bech32m } = require('bech32')
 interface PropComponent {
@@ -123,7 +125,7 @@ export default function SummaryPane(props: PropComponent) {
                 }}
               });
      
-     
+              let denoms = "5000cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2"
      
         const broadcastResult = await props.client.signAndBroadcast(
             props.networkAddress,
@@ -139,9 +141,47 @@ export default function SummaryPane(props: PropComponent) {
             },
             'Existing Delegations Transaction'
           );
-          console.log(broadcastResult);
-          console.log(unescape(broadcastResult.rawLog));
-          console.log(JSON.parse(unescape(broadcastResult.rawLog)))
+
+          let coinstring = '';
+          JSON.parse(unescape(broadcastResult.rawLog)).forEach((x: any) => x.events.forEach((y: any) => {if(y.type === "coinbase"){ 
+            return y.attributes.forEach((attr: any, index: any) => {
+                 if(attr.key === "amount") {
+                     coinstring +=  `${attr.value},`;
+                 }
+             })
+          }} ));
+          console.log(coinstring);
+
+
+          const msgSend = {
+            fromAddress: props.networkAddress,
+            toAddress: props.selectedNetwork.deposit_address.address,
+            amount: parseCoins(coinstring.slice(0, -1)),
+          };
+          
+          const msgAny = {
+              typeUrl: "/cosmos.bank.v1beta1.MsgSend",
+            value: msgSend,
+          };
+          
+         
+          const broadcastResult2 = await props.client.signAndBroadcast(
+            props.networkAddress,
+            [msgAny],
+           {
+              "gas": "200000",
+              "amount": [
+                {
+                  "denom": "uatom",
+                  "amount": "300"
+                }
+              ]
+            },
+            "Staking existing transaction - 2 ",
+          );
+           console.log(broadcastResult2);
+          // console.log(unescape(broadcastResult.rawLog));
+          // console.log(JSON.parse(unescape(broadcastResult.rawLog)))
       }
 
     
