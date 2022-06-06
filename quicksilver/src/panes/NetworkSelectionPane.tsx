@@ -79,7 +79,6 @@ export default function NetworkSelectionPane(props: PropComponent) {
     }
 
     const connectNetwork = async (network: string) => {
-        console.log(network);
         initKeplrWithNetwork(async(key: string, val: SigningStargateClient) => {
           setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
           setWalletConnection(true);

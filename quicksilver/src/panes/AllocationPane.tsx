@@ -126,20 +126,7 @@ export default function AllocationPane(props: PropComponent) {
            newAllocationProp[e.target.name]['value'] = +(e.target.value);
            setAllocationProp(newAllocationProp);
            onNext();
-        //    props.selectedValidators.forEach((x: any) => {      
-        //     setSum(sum + allocationProp[x.name]['value'])})
-        //     console.log(sum);
-        //     if(sum < 100) {
-        //         console.log("Please allocation more atoms");
-        //     } else if(sum > 100) {
-        //         console.log("Please allocation less atoms");
-        //     } else {
-        //         console.log("please proceed");
-        //     }
-            // setAllocationProp(allocation=>({
-            //     ...allocation,
-            //     [e.target.name]: e.target.value
-            //  }))
+
     }
 
 

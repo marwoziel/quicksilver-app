@@ -50,7 +50,6 @@ const handleBack = () => {
   
 
   const location = useLocation();
-  console.log(location);
   const connectKeplr = async () => {
 
     initKeplrWithQuickSilver(async(key: string, val: SigningStargateClient) => {
@@ -73,7 +72,6 @@ const handleBack = () => {
 
         })
 
-        console.log("balances", balances, chainId);
         handleNext();
         closeModalHandler();
 

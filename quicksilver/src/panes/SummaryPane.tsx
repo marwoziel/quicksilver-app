@@ -44,24 +44,16 @@ export default function SummaryPane(props: PropComponent) {
         let addr = bech32.decode(valAddr)
          let  converted = bech32.fromWords(addr.words);
         converted.unshift(valToByte(weight));
-        console.log(converted);
         return converted;
       }
 
 
     const renderValidators = () => {
     
-// out = out.concat(addValidator('cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0', 0.25))
-// out = out.concat(addValidator('cosmosvaloper156gqf9837u7d4c4678yt3rl4ls9c5vuursrrzf', 0.15))
-// out = out.concat(addValidator('cosmosvaloper14lultfckehtszvzw4ehu0apvsr77afvyju5zzy', 0.3))
-// out = out.concat(addValidator('cosmosvaloper1a3yjj7d3qnx4spgvjcwjq9cw9snrrrhu5h6jll', 0.05))
-// out = out.concat(addValidator('cosmosvaloper1z8zjv3lntpwxua0rtpvgrcwl0nm0tltgpgs6l7', 0.35))
-
 
         const validators = Object.values(props.allocationProp).map((obj : any) => {
             // memo.push(`${obj.value/100}${obj.address}`)
           out = out.concat(addValidator(obj.address, obj.value/100));
-          console.log(out);
      
             return (
                 <>
@@ -69,17 +61,14 @@ export default function SummaryPane(props: PropComponent) {
                 </> 
             )
         }
-            // <h5>{props.allocationProp[name]}</h5> 
             
         )
         out = Buffer.from(out).toString('base64');
-       // console.log('Out', Buffer.from(out).toString('base64'))
         return validators;
     }
 
     const onStakeClick = async (e: any) => {
-       //  const memo = "g7U6u9$P7/9ubv(5G85.01GFv4Iw%L2Pao&6=vqY93b!j2MLem2n50%9T@&36=Fa#1pC!z9#b>e1Sd{Z92}6Q9#(vg2]BA}7yH=Q3<3[N85Bn69ruMW10eH72[c}z9t5z!5/}F]022LK5ci4B5/q8>00KhH1RqsH0%otVmGJ!@5!2u]6aj*J1@[S]0$bbr2M>[N9$G274*%D!2MK&8";
-        // const memo = "First transaction!";
+
         const msgSend = {
           fromAddress: props.networkAddress,
           toAddress: props.selectedNetwork.deposit_address.address,
@@ -150,7 +139,7 @@ export default function SummaryPane(props: PropComponent) {
                  }
              })
           }} ));
-          console.log(coinstring);
+
 
 
           const msgSend = {
@@ -179,15 +168,12 @@ export default function SummaryPane(props: PropComponent) {
             },
             "Staking existing transaction - 2 ",
           );
-           console.log(broadcastResult2);
-          // console.log(unescape(broadcastResult.rawLog));
-          // console.log(JSON.parse(unescape(broadcastResult.rawLog)))
+
       }
 
     
 
-    console.log("Existing Delegations", props.selectedExistingDelegations)
-    console.log("Allocations", props.allocationProp )
+
     return (
         <>
         <div>

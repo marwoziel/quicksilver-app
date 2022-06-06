@@ -120,8 +120,7 @@ const manipulateData = (zones: []) => {
      }, [selectedNetwork]);
 
      useEffect(() => {
-       console.log('Network', selectedNetwork);
-       console.log('network address' , networkAddress)
+
       if(selectedNetwork !== "Select a network") {
        _loadExistingValsAsync();
       }
@@ -145,12 +144,10 @@ const manipulateData = (zones: []) => {
             body: JSON.stringify({
               query: MyQuery,
               variables: { address: "cosmos13scrc34d4l5rj93jv2vn5lgeqr8jdzrhzq2796" },
-            //  variables: {address: "cosmos148tpyyywny0x2qj95ywqku766uvmr4m6u2awsdwnarfhngd9rpssmrg76p"}
             })
           }
         );
 
-        // console.log(result);
         return await result.json();
 
   
