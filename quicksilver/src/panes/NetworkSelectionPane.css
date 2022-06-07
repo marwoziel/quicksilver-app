@@ -45,3 +45,7 @@ border: 2px solid #D35100;
     background: #D87D44;
     border: #D87D44;
   }
+
+.network-selection-pane .button-container {
+      z-index: 3;
+  }

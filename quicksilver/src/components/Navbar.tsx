@@ -6,6 +6,7 @@ import * as React from 'react';
 import ConnectWalletModal from './ConnectWalletModal';
 import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
 
 interface PropComponent {
   handleClickOpen? : { (): void};
@@ -20,8 +21,7 @@ interface PropComponent {
 
 export default function Navbar(props: PropComponent) {
 
-
-  
+  const location = useLocation();
   const openModalHandler = (event: React.MouseEvent<HTMLElement>) => {
        // @ts-expect-error
    props.openModalHandler();
@@ -29,9 +29,6 @@ export default function Navbar(props: PropComponent) {
   
         return (
         <nav className="navbar navbar-expand-lg">
-  {/* <a className="navbar-brand ml-5" href="#">
-                <img className="logo" src={Logo}/>
-            </a> */}
                <Link to="/">    <img className="logo" src={Logo}/></Link> 
 
 
@@ -39,18 +36,18 @@ export default function Navbar(props: PropComponent) {
   <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
     <ul className="navbar-nav mr-auto">
     
-      <li className="nav-item mx-3">
-      <Link className="active-link" to="/stake">STAKE</Link> 
+      <li className="nav-item mx-4">
+      <Link className={`${location.pathname === '/stake'  ? 'active-link' : ''}`} to="/stake">STAKE</Link> 
       </li>
-      <li className="nav-item mx-3">
+      <li className="nav-item mx-4">
         {/* <a className="nav-link" href="#">POOL</a> */}
-               <Link to="/pools">POOL</Link> 
+               <Link  className={`${location.pathname === '/pools'  ? 'active-link' : ''}`} to="/pools">POOL</Link> 
       </li>
-      <li className="nav-item mx-3">
-      <Link to="/claims">AIRDROP</Link> 
+      <li className="nav-item mx-4">
+      <Link  className={`${location.pathname === '/claims'  ? 'active-link' : ''}`} to="/claims">AIRDROP</Link> 
       </li>
-      <li className="nav-item mx-3">
-      <Link to="/gov">GOVERNANCE</Link> 
+      <li className="nav-item mx-4">
+      <Link  className={`${location.pathname === '/gov'  ? 'active-link' : ''}`} to="/gov">GOVERNANCE</Link> 
       </li>
 
     </ul>

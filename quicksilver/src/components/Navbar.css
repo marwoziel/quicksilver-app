@@ -36,6 +36,7 @@ color: #FFFFFF;
     height: 20px;
 }
 
-/* .active-link {
-    border: 1px solid red;
-} */
+.active-link {
+   color: #D35100 !important;
+   font-weight: 600;
+}

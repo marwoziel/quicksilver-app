@@ -94,7 +94,6 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
       setActiveStep(1);
     }, [])
   
-
     useEffect(() => {
        loadData();
    }, []);
@@ -111,7 +110,6 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 const manipulateData = (zones: []) => {
   return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
 }
-
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
       _loadValsAsync();
@@ -128,7 +126,7 @@ const manipulateData = (zones: []) => {
 
      const _loadExistingValsAsync = () => {
       loadExistingDelegations().then(
-       (response) => {console.log('Response', response?.data?.action_delegation.delegations); setExistingDelegations(response?.data?.action_delegation.delegations)},
+       (response) => { setExistingDelegations(response?.data?.action_delegation.delegations)},
 
       );
 
@@ -137,6 +135,7 @@ const manipulateData = (zones: []) => {
 
   
      const loadExistingDelegations = async (): Promise<any> => {
+       console.log('Network Address', networkAddress)
       const result = await fetch(
           `https://data.${selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
           {
