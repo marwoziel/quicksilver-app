@@ -1,4 +1,5 @@
 import React , {useEffect, useState, useRef} from 'react';
+import './AllocationPane.css';
 
 interface PropComponent {
     selectedValidators? : any;
@@ -9,6 +10,7 @@ interface PropComponent {
     setStakingAmountValidators?: Function;
     next?: { (): void};
     setAllocationProp?: Function;
+    networkAddress: string;
 }
 
 export default function AllocationPane(props: PropComponent) {
@@ -102,21 +104,7 @@ export default function AllocationPane(props: PropComponent) {
          console.log(isMax.current);
          console.log(maxBal);
      
-            //      //    @ts-expect-error
-            // let value = +(props.stakingAmountValidators/props.selectedValidators.length);
-            // console.log('Amount' , props.stakingAmountValidators);
-            // console.log('Length' , props.selectedValidators.length);
-            // console.log('Value', value);
-            // props.selectedValidators.forEach((x: any) => {      
-            //     let newAllocationProp : any = {...allocationProp};
-            //             //    @ts-expect-error
-            // newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
-            // setAllocationProp(newAllocationProp) }) ;
-            // onNext();
-            // // props.selectedValidators.forEach((x: any) => {      
-            // //     setSum(sum + allocationProp[x.name]['value'])})
-            // //     console.log(sum);
-            // // onNext();
+
 
     }
 
@@ -146,9 +134,11 @@ props.next();
     }
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
-            <h5>{val.name}</h5>
-            <input onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : '' } name={val.name} min="0" max="100"   />
-            <input onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number"></input>
+        <div className="d-flex mt-3">
+            <h5 className=" mx-2">{val.name}</h5>
+            <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 0 } name={val.name} min="0" max="100"   />
+            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number"></input>
+           </div>
             </>
                 
             )
@@ -156,17 +146,36 @@ props.next();
     }
 
     return (
-    <div>
+    <div className="allocation-pane d-flex flex-column align-items-center">
+ {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && <div className="wallet-details d-flex flex-column mt-3">
+                <h4> My Wallet</h4>
+                <h6>{props.networkAddress}</h6>
+                <div className="row wallet-content mt-4">
+                    <div className="col-3 text-center">
+                       <h5 className="font-bold">{props?.balances.get(props?.selectedNetwork.chain_id)?.get(props?.selectedNetwork.base_denom)}</h5>
+                       <p> {props.selectedNetwork.base_denom.substring(1)} </p>
+                    </div>
+                    <div className="col-3 text-center">
+                    <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</h5>
+                       <p> {props.selectedNetwork.local_denom.substring(1)} </p> 
+                        </div>
+                  
+                </div>
+            </div> }
+            <div className="staking-pane d-flex flex-column mt-4">
+                <h4>Stake</h4> 
 
-        <h1> Balance :     {props.balances && <div>{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)}</div>}</h1>
-    <input type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
-    <h3> Amount: {props.stakingAmountValidators} </h3>
-         <button onClick={onMaxClick}> MAX </button> 
-         {props.selectedValidators.length}
-        {renderValidators()}
-        {sum}
-        <button onClick={onPrev}> PREV </button>
-        <button onClick={onClickNext}>NEXT</button>
+                <div className="">
+                    <p> Number of atoms you want to stake</p>
+                    <input type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
+                    <button onClick={onMaxClick}> MAX </button> 
+                </div>
+                {renderValidators()}
+            </div>
+        <div className="button-containers">
+            <button onClick={onPrev}> PREV </button>
+        <button onClick={onClickNext}>NEXT</button> 
+</div>
         </div> 
     );
 }

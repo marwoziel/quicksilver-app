@@ -12,3 +12,7 @@ padding: 1rem;
 .add-button{
     color: #D35100;
 }
+
+.existing-delegations-pane .delegations, .existing-delegations-pane .button-container {
+    z-index: 3;
+}

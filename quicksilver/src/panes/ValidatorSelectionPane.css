@@ -10,3 +10,13 @@
     border: 2px solid #D35100;
     cursor: pointer;
 }
+
+.validator-selection-pane .button-container, .validator-selection-pane .validators, .validator-selection-pane input {
+    z-index: 3;
+} 
+
+.validator-selection-pane .validators {
+    max-height: 41vh;
+    overflow-y: auto;
+}
+

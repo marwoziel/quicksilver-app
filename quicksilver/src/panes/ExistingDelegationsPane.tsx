@@ -60,7 +60,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
     return (
         <div className="existing-delegations-pane d-flex flex-column align-items-center ">
         <h2 className="mt-3"> Choose existing delegations </h2>
-               {props.existingDelegations.length > 0 && <div className="mt-3 row w-100 justify-content-center">
+               {props.existingDelegations.length > 0 && <div className="mt-3 delegations row w-100 justify-content-center">
                 {props.existingDelegations.map((row: any) =>
           <>   
           <div onClick={ (e) => addDelegation(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
@@ -77,18 +77,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
           </>
   
 )}
-                {/* <div className="validator-card col-3 m-3">
-                <div className="d-flex align-items-start"> 
-                     <img src={Icon}/>
-                
-               <div className="card-details">
-                <h5> Validator 1 </h5>
-                <h4 className="font-bold"> 1234 ATOMS </h4>
-                <p className="add-button"> <img src={Plus}/> ADD </p>
-                </div>
-                </div>
 
-            </div> */}
                         
         </div>}
         <div className="mt-5 button-container">

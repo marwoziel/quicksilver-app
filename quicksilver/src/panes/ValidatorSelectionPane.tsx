@@ -77,10 +77,10 @@ export default function ValidatorSelectionPane(props: PropComponent) {
  }
 
     return (
-        <div className="existing-delegations-pane d-flex flex-column align-items-center">
+        <div className="validator-selection-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
         <input className="mt-2 px-2" type="text"  value={searchTerm} onChange={handleChange} placeholder="Search validator"/>
-          <div className="mt-3 row w-100 justify-content-center">
+          <div className="mt-3 validators row w-100 justify-content-center">
           {validators.map((row: any) =>
           <>
                 <div onClick={ (e) => addValidator(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
@@ -98,9 +98,11 @@ export default function ValidatorSelectionPane(props: PropComponent) {
           </>
   
 )}
+
+
+
+
               </div>
-              {selectedValidators.length}
-              {props.selectedValidators.length}
               {selectedValidators.length > 2 && <p>Max 2 validators can be selected</p>}
 
         <div className="mt-5 button-container">
@@ -111,8 +113,3 @@ export default function ValidatorSelectionPane(props: PropComponent) {
     );
 }
 
-//const [selectedValidators, setSelectedValidators] = useState([]);
-
-// // validators.map((v) => {
-//     <div onClick={setSelectedValidators(v)}> {v.name}</div> // use spread operator - check for duplicate values
-// })
