@@ -72,7 +72,7 @@ export default function SummaryPane(props: PropComponent) {
         const msgSend = {
           fromAddress: props.networkAddress,
           toAddress: props.selectedNetwork.deposit_address.address,
-          amount: coins(1234, props.selectedNetwork.base_denom),
+          amount: coins(12345, props.selectedNetwork.base_denom),
         };
         
         const msgAny = {
@@ -99,6 +99,7 @@ export default function SummaryPane(props: PropComponent) {
     }
 
     const stakeExistingDelegations = async (e: any) => {
+      console.log('Stake existing');
       let msg = [];
       msg = props.selectedExistingDelegations.map((x: any) => { return {
         typeUrl: "/cosmos.staking.v1beta1.MsgTokenizeShares",
@@ -190,10 +191,10 @@ export default function SummaryPane(props: PropComponent) {
                  {/* {props.allocationProp.map((x: any) => <>
                  <h6> {x['name']} : {x.value} %</h6></> 
                 
-        )} */}
+        )}  */}
         </div>
         {renderValidators()}
-        {/* <button onClick={onStakeClick}> STAKE  </button> */}
+        <button onClick={onStakeClick}> STAKE  </button>
         <button onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
         </>
     );

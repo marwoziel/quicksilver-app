@@ -165,13 +165,15 @@ props.next();
             <div className="staking-pane d-flex flex-column mt-4">
                 <h4>Stake</h4> 
 
-                <div className="">
-                    <p> Number of atoms you want to stake</p>
-                    <input type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
-                    <button onClick={onMaxClick}> MAX </button> 
+                <div className="d-flex mt-3 align-items-center">
+                    <p className="m-0 mx-3"> Number of atoms you want to stake</p>
+                    <input className="mx-3" type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
+                    <button className="mx-3 p-1 max-button" onClick={onMaxClick}> MAX </button> 
                 </div>
                 {renderValidators()}
             </div>
+
+            {sum}
         <div className="button-containers">
             <button onClick={onPrev}> PREV </button>
         <button onClick={onClickNext}>NEXT</button> 

@@ -71,7 +71,7 @@ const handleBack = () => {
           setBalances(new Map<string, Map<string, number>>(balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
 
         })
-
+        console.log("balances", balances)
         handleNext();
         closeModalHandler();
 

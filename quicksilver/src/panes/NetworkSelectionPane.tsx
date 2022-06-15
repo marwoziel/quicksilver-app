@@ -22,6 +22,7 @@ interface PropComponent {
     client: any;
     delegateToken: Function;
     networks: any;
+    _loadExistingValsAsync: Function;
   }
 
 
@@ -42,9 +43,9 @@ export default function NetworkSelectionPane(props: PropComponent) {
         }
      }, [props.selectedNetwork])
 
-     const manipulateData = (zones: []) => {
-            return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
-     }
+    //  const manipulateData = (zones: []) => {
+    //         return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
+    //  }
 
 
 
@@ -60,7 +61,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
           let pubkey = await keplr?.getKey(chainId);
           let bech32 = pubkey?.bech32Address;
          props.setNetworkAddress(bech32);
-           // props.delegateToken(bech32, val);
+         props._loadExistingValsAsync(bech32);        
+            //  props.delegateToken(bech32, val);
           if (bech32) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {
@@ -82,7 +84,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
  
     let handleNetworkChange = (selected: any) => {
-
+      console.log(selected);
           // @ts-expect-error
           
         props.setSelectedNetwork(selected?.value);
@@ -124,8 +126,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
         
 
-<Select className="custom-class mb-3 "
-            defaultValue={{label:props.selectedNetwork.identifier}}
+<Select className="custom-class mb-3"
+            defaultValue={{label:props.selectedNetwork.chain_id}}
             options={props.networks}
             onChange={handleNetworkChange}
             
@@ -135,7 +137,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 <div className="mt-5 button-container">
                
             
-                <button disabled={props.selectedNetwork === "Select a network" ?  true: false} className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
+                <button disabled={props.selectedNetwork === "Select a network" || !props.selectedNetwork.liquidity_module ?  true: false} className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
                 <button disabled={props.selectedNetwork === "Select a network" ?  true: false} className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button>
             </div>
             </div>

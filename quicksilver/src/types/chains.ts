@@ -5,10 +5,10 @@ import {options} from './options';
 
 
 const QuickSilverChainInfo : ChainInfo = {
-    chainId: "quicktest-3",
+    chainId: "rhapsody-4",
     chainName: "Quicksilver Test",
-    rpc: "https://rpc.quicktest-3.quicksilver.zone",
-    rest: "https://lcd.quicktest-3.quicksilver.zone",
+    rpc: "https://rpc.rhapsody-4.quicksilver.zone",
+    rest: "https://lcd.rhapsody-4.quicksilver.zone",
     bip44: {
         coinType: 118,
     },
@@ -24,6 +24,12 @@ const QuickSilverChainInfo : ChainInfo = {
         {
             coinDenom: "QCK",
             coinMinimalDenom: "uqck",
+            coinDecimals: 6,
+            coinGeckoId: "quicksilver",
+        },
+        {
+            coinDenom: "qATOM",
+            coinMinimalDenom: "uqatom",
             coinDecimals: 6,
             coinGeckoId: "quicksilver",
         },
@@ -55,10 +61,10 @@ let client ;
 const ChainInfos: ChainInfo[] = [
     QuickSilverChainInfo,
 {
-    chainId: "qscosmos-1",
+    chainId: "qscosmos-2",
     chainName: "Cosmos Test",
-    rpc: "https://rpc.qscosmos-1.quicksilver.zone",
-    rest: "https://lcd.qscosmos-1.quicksilver.zone",
+    rpc: "https://rpc.qscosmos-2.quicksilver.zone",
+    rest: "https://lcd.qscosmos-2.quicksilver.zone",
     bip44: {
         coinType: 118,
     },

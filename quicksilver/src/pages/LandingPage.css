@@ -12,7 +12,7 @@
     margin-top: 20vh;
 }
 
-.landing-page a {
+.landing-page .landing-page-content a {
     background: #D35100;
 border-radius: 20px;
 font-family: 'Mulish';
@@ -25,9 +25,23 @@ z-index: 2;
 letter-spacing: normal;
 }
 
-.landing-page a:hover {
+.landing-page  .landing-page-content  a:hover {
     color: #D35100;
 
 background: #FFFFFF;
 cursor:pointer;
+}
+
+
+.landing-page .social-media-icons, .landing-page .social-media-icons a , .landing-page  .landing-page-content{
+    z-index: 2;
+}
+
+.landing-page .social-media-icons a {
+    color: white;
+    text-decoration: none;
+}
+
+.landing-page .social-media-icons {
+    margin-left: 2rem;
 }

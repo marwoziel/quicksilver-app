@@ -101,14 +101,14 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 
 
    const loadData = async () => {
-    const response = await fetch("http://seed.quicktest-1.quicksilver.zone:1317/quicksilver/interchainstaking/v1/zones");
+    const response = await fetch("https://lcd.rhapsody-4.quicksilver.zone/quicksilver/interchainstaking/v1/zones");
     const data = await response.json();
     setNetworks(manipulateData(data.zones));
 
 }
 
 const manipulateData = (zones: []) => {
-  return zones.map((zone: any) => { return { label: zone.identifier, value: zone}})
+  return zones.map((zone: any) => { return { label: zone.chain_id, value: zone}})
 }
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
@@ -120,12 +120,12 @@ const manipulateData = (zones: []) => {
      useEffect(() => {
 
       if(selectedNetwork !== "Select a network") {
-       _loadExistingValsAsync();
+       _loadExistingValsAsync(networkAddress);
       }
     }, [selectedNetwork]);
 
-     const _loadExistingValsAsync = () => {
-      loadExistingDelegations().then(
+     const _loadExistingValsAsync = (networkAddress: string) => {
+      loadExistingDelegations(networkAddress).then(
        (response) => { setExistingDelegations(response?.data?.action_delegation.delegations)},
 
       );
@@ -134,7 +134,7 @@ const manipulateData = (zones: []) => {
   }
 
   
-     const loadExistingDelegations = async (): Promise<any> => {
+     const loadExistingDelegations = async (networkAddress: string): Promise<any> => {
        console.log('Network Address', networkAddress)
       const result = await fetch(
           `https://data.${selectedNetwork.chain_id}.quicksilver.zone/v1/graphql`,
@@ -142,7 +142,7 @@ const manipulateData = (zones: []) => {
             method: "POST",
             body: JSON.stringify({
               query: MyQuery,
-              variables: { address: "cosmos13scrc34d4l5rj93jv2vn5lgeqr8jdzrhzq2796" },
+              variables: { address: networkAddress },
             })
           }
         );
@@ -348,7 +348,7 @@ const _loadValsAsync = () => {
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
-                {activeStep === 2 &&  <NetworkSelectionPane networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
