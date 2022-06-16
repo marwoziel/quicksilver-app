@@ -14,6 +14,8 @@ interface PropComponent {
     networkAddress?: string;
     client? : any;
     balances: Map<string, Map<string, number>>;
+    isStaked: boolean;
+    setIsStaked: Function;
 
   }
 
@@ -81,21 +83,24 @@ export default function SummaryPane(props: PropComponent) {
         };
         
         
-        const broadcastResult = await props.client.signAndBroadcast(
-          props.networkAddress,
-          [msgAny],
-         {
-            "gas": "200000",
-            "amount": [
-              {
-                "denom": "uatom",
-                "amount": "300"
-              }
-            ]
-          },
-          out,
-        );
-        console.log(broadcastResult);
+        // const broadcastResult = await props.client.signAndBroadcast(
+        //   props.networkAddress,
+        //   [msgAny],
+        //  {
+        //     "gas": "200000",
+        //     "amount": [
+        //       {
+        //         "denom": "uatom",
+        //         "amount": "300"
+        //       }
+        //     ]
+        //   },
+        //   out,
+        // );
+        // console.log(broadcastResult);
+
+          props.setIsStaked(true);
+        
     }
 
     const stakeExistingDelegations = async (e: any) => {
@@ -115,7 +120,6 @@ export default function SummaryPane(props: PropComponent) {
                 }}
               });
      
-              let denoms = "5000cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2"
      
         const broadcastResult = await props.client.signAndBroadcast(
             props.networkAddress,

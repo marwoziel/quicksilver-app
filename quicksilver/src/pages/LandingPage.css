@@ -41,6 +41,9 @@ cursor:pointer;
     color: white;
     text-decoration: none;
 }
+.social-media-icons a:hover {
+    color: #D35100;
+}
 
 .landing-page .social-media-icons {
     margin-left: 2rem;

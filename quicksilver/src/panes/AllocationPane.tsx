@@ -175,8 +175,8 @@ props.next();
 
             {sum}
         <div className="button-containers">
-            <button onClick={onPrev}> PREV </button>
-        <button onClick={onClickNext}>NEXT</button> 
+            <button className="prev-button mx-3" onClick={onPrev}> PREV </button>
+        <button disabled={sum < 99.9  || sum  > 100 ?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
 </div>
         </div> 
     );

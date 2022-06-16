@@ -34,3 +34,9 @@
       color: #ADADAD;
       font-weight: 500;
   }
+
+  .staking-interface .social-media-icons {
+    left: 2rem;
+    position: fixed;
+    bottom: 10%;
+  }
