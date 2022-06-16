@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route, useLocation} from "react-router-dom";
-import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/Navbar';
 import StakePage from './pages/StakePage';
@@ -8,8 +7,7 @@ import PoolsPage from './pages/PoolsPage';
 import GovernancePage from './pages/GovernancePage';
 import AirdropPage from './pages/AirdropPage';
 import LogoStroke from './assets/quicksilver-logo-stroke.svg';
-import { QsPageProps } from "./types/helpers";
-import { initKeplrWithQuickSilver, initKeplrWithNetwork } from "./types/chains";
+import { initKeplrWithQuickSilver } from "./types/chains";
 import { SigningStargateClient } from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
 import LandingPage from './pages/LandingPage';
@@ -84,14 +82,11 @@ const handleBack = () => {
   return (
     <>
     <div className="img-logo text-center">
-{/*   
-    <img className={`logo-stroke ${location.pathname === '/' ? 'logo-home' : 'logo-others'}`} src={LogoStroke}/> */}
-    <img className="logo-stroke" src={LogoStroke}/>
+    <img className="logo-stroke" src={LogoStroke} alt="Quicksilver Logo"/>
     </div>
 
   {location.pathname !== '/' && <Navbar isWalletConnected={isWalletConnected} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} balances={balances} handleClickOpen={handleClickOpen}/>}
    <Routes>
-   {/* <Route path="/" element={<HomePage wallets={wallets} walletModal={handleClickOpen} balances={balances} />}/> */}
                       <Route path="/" element={<LandingPage/>}/>
                       <Route path="/stake" element={<StakePage modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} isWalletConnected={isWalletConnected} setActiveStep={setActiveStep} handleClickOpen={handleClickOpen} handleNext={handleNext} handleBack={handleBack} activeStep={activeStep} />}/>
                       <Route path="/pools" element={<PoolsPage  />}/>
