@@ -75,9 +75,10 @@ export default function ExistingDelegationsPage(props: PropComponent) {
 
                         
         </div>}
+        {props.existingDelegations.length == 0 && <p> There are no existing delegations yet! </p>}
         <div className="mt-5 button-container">
                 <button onClick={props.prev} className="prev-button mx-3"> Previous</button>
-                <button onClick={onNext} className="next-button mx-3" >Next</button>
+                <button disabled={ selectedLocalExistingDelegations.length === 0 ?  true: false} onClick={onNext} className="next-button mx-3" >Next</button>
             </div>
         </div>
     );

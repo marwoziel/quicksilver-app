@@ -105,7 +105,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 
         <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={onPrev}> Previous</button>
-                <button disabled={selectedValidators.length > 2 } className="next-button mx-3" onClick={onNext} >Next</button>
+                <button disabled={selectedValidators.length > 2 || selectedValidators.length === 0 } className="next-button mx-3" onClick={onNext} >Next</button>
             </div>
         </div>
     );
