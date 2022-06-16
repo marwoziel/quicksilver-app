@@ -43,22 +43,23 @@ export type Exact<P, I extends P> = P extends Builtin
     decode(input: _m0.Reader | Uint8Array, length?: number): Coin {
       const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
       let end = length === undefined ? reader.len : reader.pos + length;
-      const message = createBaseCoin();
+      let denom = ""
+      let amount = "0"
       while (reader.pos < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.denom = reader.string();
+            denom = reader.string();
             break;
           case 2:
-            message.amount = reader.string();
+            amount = reader.string();
             break;
           default:
             reader.skipType(tag & 7);
             break;
         }
       }
-      return message;
+      return createBaseCoinFrom(denom, amount);
     },
   
     fromJSON(object: any): Coin {
@@ -76,15 +77,16 @@ export type Exact<P, I extends P> = P extends Builtin
     },
   
     fromPartial<I extends Exact<DeepPartial<Coin>, I>>(object: I): Coin {
-      const message = createBaseCoin();
-      message.denom = object.denom ?? "";
-      message.amount = object.amount ?? "";
-      return message;
+      return createBaseCoinFrom(object.denom ?? "", object.amount ?? "");
     },
   };
   
   function createBaseCoin(): Coin {
     return { denom: "", amount: "" };
+  }
+
+  function createBaseCoinFrom(denom: string, amount: string): Coin {
+    return { denom: denom, amount: amount };
   }
 
 export function createLiquidStakingTypes(): Record<string, AminoConverter | "not_supported_by_chain"> {
