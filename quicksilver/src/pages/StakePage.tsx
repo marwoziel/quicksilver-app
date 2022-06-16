@@ -6,9 +6,10 @@ import ExistingDelegationsPage from '../panes/ExistingDelegationsPane';
 import ValidatorSelectionPane from '../panes/ValidatorSelectionPane';
 import LogoWhite from '../assets/icons/logo-whitestroke.svg';
 import LogoGray from '../assets/icons/logo-graystroke.png';
-import SummaryPane from '../panes/SummaryPane';
+import SummaryExistingDelegationsPane from '../panes/SummaryExistingDelegationsPane';
 import AllocationPane from '../panes/AllocationPane';
 import CongratulationsPane from '../panes/CongratulationsPane';
+import SummaryValidatorsPane from '../panes/SummaryValidatorsPane';
 
 interface PropComponent {
   handleBack? : { () : void  };
@@ -88,6 +89,8 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [networks, setNetworks] = React.useState<Array<any>>();
     const [existingDelegations, setExistingDelegations] = React.useState([]);
     const [isStaked, setIsStaked] = React.useState(false);
+    const [showSummaryExistingDelegations, setShowSummaryExistingDelegations] = React.useState(false);
+    const [showSummaryValidators, setShowSummaryValidators] = React.useState(false);
 
     React.useEffect(() => {
       if(isWalletConnected) {
@@ -367,10 +370,11 @@ const _loadValsAsync = () => {
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
                 {activeStep === 2 &&  <NetworkSelectionPane _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 && stakeExistingDelegations && <ExistingDelegationsPage selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
+                {activeStep === 3 &&  stakeExistingDelegations && <ExistingDelegationsPage setShowSummaryExistingDelegations={setShowSummaryExistingDelegations} selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
-                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  networkAddress={networkAddress} setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
-                {activeStep === 4 && <SummaryPane isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} allocationProp={allocationProp}/>}
+                {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  setShowSummaryValidators={setShowSummaryValidators} networkAddress={networkAddress} setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
+                {activeStep === 4 && showSummaryExistingDelegations &&  <SummaryExistingDelegationsPane setShowSummaryExistingDelegations={setShowSummaryExistingDelegations}  isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} />}
+                {activeStep === 4 && showSummaryValidators &&  <SummaryValidatorsPane setShowSummaryValidators={setShowSummaryValidators}  isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} allocationProp={allocationProp} />}
                 {isStaked && <CongratulationsPane/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>

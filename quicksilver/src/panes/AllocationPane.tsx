@@ -11,6 +11,7 @@ interface PropComponent {
     next?: { (): void};
     setAllocationProp?: Function;
     networkAddress: string;
+    setShowSummaryValidators: Function;
 }
 
 export default function AllocationPane(props: PropComponent) {
@@ -131,7 +132,9 @@ export default function AllocationPane(props: PropComponent) {
         props.setAllocationProp(allocationProp)
            //    @ts-expect-error
 props.next();
+props.setShowSummaryValidators(true);
     }
+    
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
         <div className="d-flex mt-3">

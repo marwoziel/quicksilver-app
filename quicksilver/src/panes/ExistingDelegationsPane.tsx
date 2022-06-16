@@ -11,6 +11,7 @@ interface PropComponent {
     selectedExistingDelegations?: any;
     setStateExistingDelegations? : Function;
     existingDelegations: any;
+    setShowSummaryExistingDelegations: Function;
       
   }
 
@@ -49,6 +50,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
        props?.setStateExistingDelegations(selectedLocalExistingDelegations);
         // @ts-expect-error
          props.next();
+         props.setShowSummaryExistingDelegations(true);
       
     }
   
