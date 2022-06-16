@@ -33,11 +33,11 @@ cursor:pointer;
 }
 
 
-.landing-page .social-media-icons, .landing-page .social-media-icons a , .landing-page  .landing-page-content{
+.social-media-icons, .landing-page .social-media-icons a , .landing-page  .landing-page-content{
     z-index: 2;
 }
 
-.landing-page .social-media-icons a {
+.social-media-icons a {
     color: white;
     text-decoration: none;
 }

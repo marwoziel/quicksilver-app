@@ -5,10 +5,10 @@ import {options} from './options';
 
 
 const QuickSilverChainInfo : ChainInfo = {
-    chainId: "rhapsody-4",
+    chainId: "rhapsody-5",
     chainName: "Quicksilver Test",
-    rpc: "https://rpc.rhapsody-4.quicksilver.zone",
-    rest: "https://lcd.rhapsody-4.quicksilver.zone",
+    rpc: "https://rpc.rhapsody-5.quicksilver.zone",
+    rest: "https://lcd.rhapsody-5.quicksilver.zone",
     bip44: {
         coinType: 118,
     },

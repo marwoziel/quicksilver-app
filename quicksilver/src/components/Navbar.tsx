@@ -51,9 +51,9 @@ export default function Navbar(props: PropComponent) {
       </li>
 
     </ul>
-            {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('rhapsody-4')?.get('uqck')) ? `${props.balances.get('rhapsody-4')?.get('uqck')/1000000} QCK`  : ''
+            {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('rhapsody-5')?.get('uqck')) ? `${props.balances.get('rhapsody-5')?.get('uqck')/1000000} QCK`  : ''
       }</button>}
-      {props.balances.get('rhapsody-4')?.get('uqatom')}
+      {props.balances.get('rhapsody-5')?.get('uqatom')}
       {!props.isWalletConnected && <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> Connect Wallet
       </button>}
       {props.modalIsOpen && (

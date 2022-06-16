@@ -101,7 +101,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 
 
    const loadData = async () => {
-    const response = await fetch("https://lcd.rhapsody-4.quicksilver.zone/quicksilver/interchainstaking/v1/zones");
+    const response = await fetch("https://lcd.rhapsody-5.quicksilver.zone/quicksilver/interchainstaking/v1/zones");
     const data = await response.json();
     setNetworks(manipulateData(data.zones));
 
@@ -343,7 +343,22 @@ const _loadValsAsync = () => {
       <div>
         <h6 className={( activeStep >= 4 ? " step-text-bold" : "step-text-gray")}>Stake</h6>
       </div>
+     
     </div>
+    <div className="social-media-icons mt-5">
+        <a href="https://t.me/quicksilverzone" target="_blank" rel="nofollow noopener" title="Telegram">
+									<span className="icon-telegram mx-2"></span>
+								</a>
+								<a href="https://twitter.com/quicksilverzone" target="_blank" rel="nofollow noopener" title="Twitter">
+									<span className="icon-twitter mx-2"></span>
+								</a>
+								<a href="https://discord.com/invite/xrSmYMDVrQ" target="_blank" rel="nofollow noopener" title="Discord">
+									<span className="icon-discord mx-2"></span>
+								</a>
+								<a href="https://medium.com/quicksilverzone" target="_blank" rel="nofollow noopener" title="Medium">
+									<span className="icon-medium mx-2"></span>
+								</a>
+        </div>
               
             </div>
             <div className="content col-10">
