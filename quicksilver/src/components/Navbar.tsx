@@ -53,7 +53,6 @@ export default function Navbar(props: PropComponent) {
     </ul>
             {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img alt="Wallet icon" src={Wallet}/> {(props.balances.get('rhapsody-5')?.get('uqck')) ? `${props.balances.get('rhapsody-5')?.get('uqck')/1000000} QCK`  : ''
       }</button>}
-      {props.balances.get('rhapsody-5')?.get('uqatom')}
       {!props.isWalletConnected && <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> Connect Wallet
       </button>}
       {props.modalIsOpen && (
