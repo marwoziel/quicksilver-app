@@ -4,7 +4,7 @@ import { coins } from "@cosmjs/launchpad"
 import { parseCoins } from "@cosmjs/stargate";
 
 
-let { bech32, bech32m } = require('bech32')
+let { bech32 } = require('bech32')
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void}; 
@@ -54,7 +54,6 @@ export default function SummaryPane(props: PropComponent) {
     
 
         const validators = Object.values(props.allocationProp).map((obj : any) => {
-            // memo.push(`${obj.value/100}${obj.address}`)
           out = out.concat(addValidator(obj.address, obj.value/100));
      
             return (
@@ -82,23 +81,22 @@ export default function SummaryPane(props: PropComponent) {
           value: msgSend,
         };
         
-        
-        // const broadcastResult = await props.client.signAndBroadcast(
-        //   props.networkAddress,
-        //   [msgAny],
-        //  {
-        //     "gas": "200000",
-        //     "amount": [
-        //       {
-        //         "denom": "uatom",
-        //         "amount": "300"
-        //       }
-        //     ]
-        //   },
-        //   out,
-        // );
-        // console.log(broadcastResult);
 
+       const broadcastResult = await props.client.signAndBroadcast(
+          props.networkAddress,
+          [msgAny],
+         {
+            "gas": "200000",
+            "amount": [
+              {
+                "denom": "uatom",
+                "amount": "300"
+              }
+            ]
+          },
+          out,
+        );
+        console.log(broadcastResult);
           props.setIsStaked(true);
         
     }
@@ -173,6 +171,8 @@ export default function SummaryPane(props: PropComponent) {
             },
             "Staking existing transaction - 2 ",
           );
+
+          console.log(broadcastResult2);
 
       }
 

@@ -1,5 +1,4 @@
 import Icon from '../assets/icons/icon.svg';
-import Plus from '../assets/icons/plus.svg';
 import './ValidatorSelectionPane.css';
 import * as React from 'react';
 
@@ -28,7 +27,6 @@ export default function ValidatorSelectionPane(props: PropComponent) {
     const [selectedValidators, setSelectedValidators] = React.useState<Array<Data>>(props.selectedValidators);
     const [searchTerm, setSearchTerm] = React.useState('');
     const [validators, setValidators] = React.useState(props.rows);
-    // React.useEffect(() => _loadValsAsync());
 
     const filterData = () => {
 
@@ -85,7 +83,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
           <>
                 <div onClick={ (e) => addValidator(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
                 <div className="d-flex align-items-start"> 
-                     <img src={row.logo ? row.logo : Icon}/>
+                     <img alt="Validator Icon" src={row.logo ? row.logo : Icon}/>
                 
                <div className="card-details">
                 <h6> {row.name} </h6>

@@ -1,5 +1,4 @@
 import './ConnectWalletPane.css';
-import Wallet from '../assets/icons/wallet.svg';
 import ConnectWalletModal from '../components/ConnectWalletModal';
 import Backdrop from '../components/Backdrop';
 
@@ -15,9 +14,7 @@ interface PropComponent {
 
   
 export default function ConnectWalletPane(props: PropComponent) {
-    // const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    //     next?.();
-    // };
+
 
     const openModalHandler = (event: React.MouseEvent<HTMLElement>) => {
         // @ts-expect-error
@@ -29,7 +26,6 @@ export default function ConnectWalletPane(props: PropComponent) {
                 <h4 className="sub-heading"> Hey there! </h4>
                 <h1 className="mt-3"> Connect your wallet to get started! </h1>
                 <button onClick={openModalHandler} className="connect-wallet-button mt-5"> 
-                {/* <img src={Wallet}/>  */}
                 Connect wallet </button> 
 
                 {props.modalIsOpen && (

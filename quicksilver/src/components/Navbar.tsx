@@ -6,7 +6,7 @@ import * as React from 'react';
 import ConnectWalletModal from './ConnectWalletModal';
 import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
-import { Routes, Route, useLocation} from "react-router-dom";
+import { useLocation} from "react-router-dom";
 
 interface PropComponent {
   handleClickOpen? : { (): void};
@@ -29,7 +29,7 @@ export default function Navbar(props: PropComponent) {
   
         return (
         <nav className="navbar navbar-expand-lg">
-               <Link to="/">    <img className="logo" src={Logo}/></Link> 
+               <Link to="/">    <img className="logo" alt="Quicksilver Logo" src={Logo}/></Link> 
 
 
 
@@ -51,7 +51,7 @@ export default function Navbar(props: PropComponent) {
       </li>
 
     </ul>
-            {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img src={Wallet}/> {(props.balances.get('rhapsody-5')?.get('uqck')) ? `${props.balances.get('rhapsody-5')?.get('uqck')/1000000} QCK`  : ''
+            {props.isWalletConnected && <button className="btn connect-wallet px-3 my-2 my-sm-0"> <img alt="Wallet icon" src={Wallet}/> {(props.balances.get('rhapsody-5')?.get('uqck')) ? `${props.balances.get('rhapsody-5')?.get('uqck')/1000000} QCK`  : ''
       }</button>}
       {props.balances.get('rhapsody-5')?.get('uqatom')}
       {!props.isWalletConnected && <button onClick={openModalHandler} className="btn connect-wallet px-3 my-2 my-sm-0"> Connect Wallet

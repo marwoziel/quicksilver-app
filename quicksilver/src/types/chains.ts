@@ -56,8 +56,6 @@ const QuickSilverChainInfo : ChainInfo = {
 },
 }
 
-let client ;
-
 const ChainInfos: ChainInfo[] = [
     QuickSilverChainInfo,
 {

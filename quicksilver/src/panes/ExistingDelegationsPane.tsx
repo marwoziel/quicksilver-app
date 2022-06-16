@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Icon from '../assets/icons/icon.svg';
-import Plus from '../assets/icons/plus.svg';
 import './ExistingDelegationsPane.css';
 
 interface PropComponent {
@@ -14,11 +13,7 @@ interface PropComponent {
     existingDelegations: any;
       
   }
-const MyQuery =  `query MyQuery($address: String!) {
-    action_delegation(address: $address) {
-      delegations
-    }
-  }`;
+
 
 export default function ExistingDelegationsPage(props: PropComponent) {
 
@@ -65,7 +60,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
           <>   
           <div onClick={ (e) => addDelegation(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
                <div className="d-flex align-items-start"> 
-                     <img src={Icon}/>
+                     <img alt="Validator Icon" src={Icon}/>
                 
                <div className="card-details">
                 <h5> {props.selectedValidators.find((x: any) => x.address === row.validator_address )?.name }</h5>

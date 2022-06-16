@@ -1,11 +1,9 @@
 import './NetworkSelectionPane.css';
 import React, {useEffect}from 'react';
 import Select from "react-select";
-import axios from 'axios';
 import { initKeplrWithNetwork } from "../types/chains";
-import { SigningStargateClient, StargateClient } from "@cosmjs/stargate"
+import { SigningStargateClient} from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
-import { valueTernary } from 'react-select/dist/declarations/src/utils';
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void};
@@ -27,13 +25,12 @@ interface PropComponent {
 
 
 export default function NetworkSelectionPane(props: PropComponent) {
-
     
-    const [isNetworkSelected, setNetworkSelected] = React.useState(false);
+
 
     const [wallets, setWallets] = React.useState<Map<string, SigningStargateClient>>(new Map<string, SigningStargateClient>());
 
-    const [isWalletConnected, setWalletConnection] = React.useState(false);
+    const [isWalletConnected, setWalletConnected] = React.useState(false);
   
 
  
@@ -52,7 +49,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
     const connectNetwork = async (network: string) => {
         initKeplrWithNetwork(async(key: string, val: SigningStargateClient) => {
           setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
-          setWalletConnection(true);
+          setWalletConnected(true);
           // @ts-expect-error
           props.setClient(val);
      
@@ -101,9 +98,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
         props.stakeAllocations?.();
     }
 
-    const connectCosmos = (event: React.MouseEvent<HTMLElement>) => {
-       
-    }
+
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
             {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && <div className="wallet-details d-flex flex-column mt-5">
