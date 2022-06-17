@@ -121,7 +121,7 @@ export default function AllocationPane(props: PropComponent) {
 
     const changeAmount = (e: any) => {
                     //    @ts-expect-error
-        props.setStakingAmountValidators(e.target.value);
+        props.setStakingAmountValidators(parseInt(e.target.value));
         isMax.current = false;
         setisMaxClicked(false);
 
