@@ -16,13 +16,14 @@ interface PropComponent {
     isStaked: boolean;
     setIsStaked: Function;
     setShowSummaryValidators: Function;
+    stakingAmountValidators: number;
 
   }
 
 
 
 export default function SummaryValidatorsPane(props: PropComponent) {
-    const [totalStake, setTotalStake] = React.useState(5000);
+
     let out : string | Array<any> = [];
 
 
@@ -64,7 +65,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
         const msgSend = {
           fromAddress: props.networkAddress,
           toAddress: props.selectedNetwork.deposit_address.address,
-          amount: coins(12345, props.selectedNetwork.base_denom),
+          amount: coins(props.stakingAmountValidators, props.selectedNetwork.base_denom),
         };
         
         const msgAny = {
@@ -99,9 +100,9 @@ export default function SummaryValidatorsPane(props: PropComponent) {
         <>
         <div className="summary-validator-pane d-flex mt-4 justify-content-center align-items-center flex-column">
             <h2 className="mt-4"> Summary </h2> 
-            <h5 className="mt-4"> Total Stake: <span className="font-bold">{totalStake} {props.selectedNetwork.base_denom} </span></h5>
+            <h5 className="mt-4"> Total Stake: <span className="font-bold">{props.stakingAmountValidators} {props.selectedNetwork.base_denom} </span></h5>
             <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom} </span></h5>
-            <h5>qTokens Received:  <span className="font-bold">{totalStake/props.selectedNetwork?.redemption_rate}</span></h5>
+            <h5>qTokens Received:  <span className="font-bold">{props.stakingAmountValidators/props.selectedNetwork?.redemption_rate}</span></h5>
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
         <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
