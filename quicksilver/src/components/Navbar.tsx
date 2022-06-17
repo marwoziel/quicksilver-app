@@ -40,14 +40,13 @@ export default function Navbar(props: PropComponent) {
       <Link className={`${location.pathname === '/stake'  ? 'active-link' : ''}`} to="/stake">STAKE</Link> 
       </li>
       <li className="nav-item mx-4">
-        {/* <a className="nav-link" href="#">POOL</a> */}
-               <Link  className={`${location.pathname === '/pools'  ? 'active-link' : ''}`} to="/pools">POOL</Link> 
+               <Link  className={`${location.pathname === '/pools'  ? 'active-link' : ''}`} to="/pools" onClick={ (event) => event.preventDefault() }>POOLS</Link> 
       </li>
       <li className="nav-item mx-4">
-      <Link  className={`${location.pathname === '/claims'  ? 'active-link' : ''}`} to="/claims">AIRDROP</Link> 
+      <Link  className={`${location.pathname === '/claims'  ? 'active-link' : ''}`} to="/claims" onClick={ (event) => event.preventDefault() }>AIRDROP</Link> 
       </li>
       <li className="nav-item mx-4">
-      <Link  className={`${location.pathname === '/gov'  ? 'active-link' : ''}`} to="/gov">GOVERNANCE</Link> 
+      <Link  className={`${location.pathname === '/gov'  ? 'active-link' : ''}`} to="/gov" onClick={ (event) => event.preventDefault() }>GOVERNANCE</Link> 
       </li>
 
     </ul>
