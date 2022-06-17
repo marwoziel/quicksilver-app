@@ -1,7 +1,7 @@
 
 import React, {useEffect} from 'react';
 import { coins } from "@cosmjs/launchpad"
-import { parseCoins } from "@cosmjs/stargate";
+import './SummaryPane.css';
 
 
 let { bech32 } = require('bech32')
@@ -43,18 +43,15 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
 
     const renderValidators = () => {
-    
-
         const validators = Object.values(props.allocationProp).map((obj : any) => {
           out = out.concat(addValidator(obj.address, obj.value/100));
      
             return (
                 <>
-                  <h5>{obj.name} : {obj.value}</h5> 
+                  <h6>{obj.name} : <span className="font-bold"> {obj.value} % </span></h6> 
                 </> 
             )
         }
-            
         )
         out = Buffer.from(out).toString('base64');
         return validators;
@@ -91,7 +88,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
           out,
         );
         console.log(broadcastResult);
-          props.setIsStaked(true);
+        props.setIsStaked(true);
         
     }
 
@@ -100,16 +97,15 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
     return (
         <>
-        <div>
-            <h2> Summary Validators Pane </h2>
-            <h4> Total Stake: {totalStake} {props.selectedNetwork.base_denom}</h4>
-            <h4>Deposit Address:  {props.selectedNetwork?.deposit_address?.address}</h4>
-            <h4>Redemption Rate:  1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom}</h4>
-            <h4>{props.selectedNetwork?.local_denom} : {totalStake/props.selectedNetwork?.redemption_rate}</h4>
-        </div>
+        <div className="summary-validator-pane d-flex mt-4 justify-content-center align-items-center flex-column">
+            <h2 className="mt-4"> Summary </h2> 
+            <h5 className="mt-4"> Total Stake: <span className="font-bold">{totalStake} {props.selectedNetwork.base_denom} </span></h5>
+            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom} </span></h5>
+            <h5>qTokens Received:  <span className="font-bold">{totalStake/props.selectedNetwork?.redemption_rate}</span></h5>
+            <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
-        <button onClick={onStakeClick}> STAKE  </button>
-
+        <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
+        </div>
         </>
     );
 }

@@ -31,3 +31,8 @@ font-weight: 600;
 background: white;
 color: #D35100;
   }
+
+  .connect-wallet-modal .heading {
+    color: black;
+    font-weight: 400;
+  }

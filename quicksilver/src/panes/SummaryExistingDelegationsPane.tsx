@@ -123,18 +123,17 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
 
     return (
         <>
-        <div>
-            <h2> Summary Existing Delegations </h2>
-            <h4> Total Stake: {totalStake} {props.selectedNetwork.base_denom}</h4>
-            <h4>Deposit Address:  {props.selectedNetwork?.deposit_address?.address}</h4>
-            <h4>Redemption Rate:  1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom}</h4>
-            <h4>{props.selectedNetwork?.local_denom} : {totalStake/props.selectedNetwork?.redemption_rate}</h4>
-            <h4> Delegations: </h4>
+        <div className="summary-existing-delegations-pane d-flex mt-4 justify-content-center align-items-center flex-column">
+            <h2 className="mt-4"> Summary</h2>
+            <h5 className="mt-4"> Total Stake: <span className="font-bold">{totalStake} {props.selectedNetwork.base_denom} </span></h5>
+            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom} </span></h5>
+            <h5>qTokens Received:  <span className="font-bold">{totalStake/props.selectedNetwork?.redemption_rate}</span></h5>
+            <h6 className="mt-4"> Existing Delegations: </h6>
             {props.selectedExistingDelegations.map((x: any) => <>
-                 <h6> {x['name']} : {x.coins[0].amount} {x.coins[0].denom}</h6></> )}
-               
+                 <h6> {x['name']} :  <span className="font-bold">{x.coins[0].amount} {x.coins[0].denom} </span></h6></> )}
+                 <button className="stake-button mt-3" onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
         </div>
-        <button onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
+ 
         </>
     );
 }

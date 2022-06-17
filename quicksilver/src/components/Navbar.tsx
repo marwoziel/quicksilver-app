@@ -59,7 +59,6 @@ export default function Navbar(props: PropComponent) {
         <ConnectWalletModal handleClickOpen={props.handleClickOpen}/>
       )}
       {props.modalIsOpen && <Backdrop onCancel={props.closeModalHandler} />}
- 
   </div>
 </nav>
         )

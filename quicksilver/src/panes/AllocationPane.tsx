@@ -134,7 +134,7 @@ export default function AllocationPane(props: PropComponent) {
 props.next();
 props.setShowSummaryValidators(true);
     }
-    
+
     const renderValidators = () => {
         return ( props.selectedValidators.map((val: any) => <>
         <div className="d-flex mt-3">
@@ -176,7 +176,8 @@ props.setShowSummaryValidators(true);
                 {renderValidators()}
             </div>
 
-            {sum}
+            { sum > 100 && <p> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
+            { sum < 99.5 && <p> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
         <div className="button-containers">
             <button className="prev-button mx-3" onClick={onPrev}> PREV </button>
         <button disabled={sum < 99.9  || sum  > 100 ?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
