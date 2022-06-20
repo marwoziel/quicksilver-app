@@ -113,7 +113,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 }
 
 const manipulateData = (zones: any) => {
-  return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.chain_id, value: zone}})
+   return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.account_prefix, value: zone}})
 }
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
@@ -124,7 +124,7 @@ const manipulateData = (zones: any) => {
 
      useEffect(() => {
 
-      if(selectedNetwork !== "Select a network") {
+      if(selectedNetwork !== "Select a network" && selectedNetwork.liquidity_module === true) {
        _loadExistingValsAsync(networkAddress);
       }
     }, [selectedNetwork]);

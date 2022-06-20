@@ -60,6 +60,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
     const onStakeClick = async (e: any) => {
 
+        
         const msgSend = {
           fromAddress: props.networkAddress,
           toAddress: props.selectedNetwork.deposit_address.address,
