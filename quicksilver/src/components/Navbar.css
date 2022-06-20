@@ -16,7 +16,7 @@ text-decoration: none;
 color: #FFFFFF;
 }
 
-.navbar .connect-wallet {
+.navbar .connect-wallet, .navbar .connect-wallet-button {
 background: #D35100;
 border-radius: 20px;
 font-family: 'Mulish';
@@ -27,7 +27,7 @@ color: #FFFFFF;
 }
 
 
-.navbar .connect-wallet:hover{
+.navbar .connect-wallet-button:hover{
     color: #D35100;
     background: #FFFFFF;
     }
