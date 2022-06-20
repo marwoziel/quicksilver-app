@@ -112,8 +112,8 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 
 }
 
-const manipulateData = (zones: []) => {
-  return zones.map((zone: any) => { return { label: zone.chain_id, value: zone}})
+const manipulateData = (zones: any) => {
+  return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.chain_id, value: zone}})
 }
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
@@ -375,7 +375,7 @@ const _loadValsAsync = () => {
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane  setShowSummaryValidators={setShowSummaryValidators} networkAddress={networkAddress} setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
                 {activeStep === 4 && showSummaryExistingDelegations &&  <SummaryExistingDelegationsPane setShowSummaryExistingDelegations={setShowSummaryExistingDelegations}  isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} />}
                 {activeStep === 4 && showSummaryValidators &&  <SummaryValidatorsPane stakingAmountValidators={stakingAmountValidators} setShowSummaryValidators={setShowSummaryValidators}  isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} allocationProp={allocationProp} />}
-                {isStaked && <CongratulationsPane/>}
+                {isStaked && <CongratulationsPane setSelectedNetwork={setSelectedNetwork} setIsStaked={setIsStaked} setActiveStep={setActiveStep}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
         </div>

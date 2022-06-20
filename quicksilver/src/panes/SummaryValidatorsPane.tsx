@@ -59,8 +59,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
     }
 
     const onStakeClick = async (e: any) => {
-        props.setShowSummaryValidators(false);
-        props.setIsStaked(true);
+
         
         const msgSend = {
           fromAddress: props.networkAddress,
@@ -89,7 +88,11 @@ export default function SummaryValidatorsPane(props: PropComponent) {
           out,
         );
         console.log(broadcastResult);
-        props.setIsStaked(true);
+        if(broadcastResult.code === 0 ) {
+            props.setShowSummaryValidators(false);
+            props.setIsStaked(true);
+        }
+  
         
     }
 
