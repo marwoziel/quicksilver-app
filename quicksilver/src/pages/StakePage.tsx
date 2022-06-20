@@ -114,8 +114,8 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 }
 
 const manipulateData = (zones: any) => {
-  return zones.map((zone: any) => { return { label: zone.account_prefix, value: zone}})
-   // return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.account_prefix, value: zone}})
+  // return zones.map((zone: any) => { return { label: zone.account_prefix, value: zone}})
+   return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.account_prefix, value: zone}})
 }
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
