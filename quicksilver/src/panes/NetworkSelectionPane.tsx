@@ -31,7 +31,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
     const [wallets, setWallets] = React.useState<Map<string, SigningStargateClient>>(new Map<string, SigningStargateClient>());
 
     const [isWalletConnected, setWalletConnected] = React.useState(false);
-  
+   const [networkBalance, setNetworkBalance] = React.useState(0);
+   const [networkQBalance, setNetworkQBalance] = React.useState(0);
 
  
      useEffect(() => {
@@ -72,7 +73,10 @@ export default function NetworkSelectionPane(props: PropComponent) {
               props.setBalances(new Map<string, Map<string, number>>(props.balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
     
             })
-    
+                         // @ts-expect-error
+            setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
+                  // @ts-expect-error
+            setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
             console.log("balances", props.balances, chainId);
          
           }
@@ -106,11 +110,11 @@ export default function NetworkSelectionPane(props: PropComponent) {
                 <h6>{props.networkAddress}</h6>
                 <div className="row wallet-content mt-4">
                     <div className="col-3 text-center">
-                       <h5 className="font-bold">{props?.balances.get(props?.selectedNetwork.chain_id)?.get(props?.selectedNetwork.base_denom)}</h5>
+                       <h5 className="font-bold">{networkBalance/1000000}</h5>
                        <p> {props.selectedNetwork.base_denom.substring(1)} </p>
                     </div>
                     <div className="col-3 text-center">
-                    <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</h5>
+                    <h5 className="font-bold">{networkQBalance/1000000}</h5>
                        <p> {props.selectedNetwork.local_denom.substring(1)} </p> 
                         </div>
                   

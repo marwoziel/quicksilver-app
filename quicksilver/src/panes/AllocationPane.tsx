@@ -20,6 +20,8 @@ export default function AllocationPane(props: PropComponent) {
     const [sum, setSum] = useState(0);
     const isMax = useRef(false);
     const [isMaxClicked, setisMaxClicked] = useState(false);
+    const [networkBalance, setNetworkBalance] = React.useState(0);
+    const [networkQBalance, setNetworkQBalance] = React.useState(0);
 
     
 
@@ -31,6 +33,10 @@ export default function AllocationPane(props: PropComponent) {
             }, allocationProp);
             setAllocationProp(temp);
         }
+                                 // @ts-expect-error
+                                 setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
+                                 // @ts-expect-error
+                           setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
     }, [])
 
     useEffect(() => {
@@ -90,7 +96,7 @@ export default function AllocationPane(props: PropComponent) {
     const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
         debugger;
         //    @ts-expect-error
-        let maxBal = +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom));
+        let maxBal = +((props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)/1000000) - 0.3);
         if(props.stakingAmountValidators !== maxBal) {
       //    @ts-expect-error
       props.setStakingAmountValidators(maxBal);
@@ -154,12 +160,12 @@ props.setShowSummaryValidators(true);
                 <h4> My Wallet</h4>
                 <h6>{props.networkAddress}</h6>
                 <div className="row wallet-content mt-4">
-                    <div className="col-3 text-center">
-                       <h5 className="font-bold">{props?.balances.get(props?.selectedNetwork.chain_id)?.get(props?.selectedNetwork.base_denom)}</h5>
+                <div className="col-3 text-center">
+                       <h5 className="font-bold">{networkBalance/1000000}</h5>
                        <p> {props.selectedNetwork.base_denom.substring(1)} </p>
                     </div>
                     <div className="col-3 text-center">
-                    <h5 className="font-bold">{props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom): '0'}</h5>
+                    <h5 className="font-bold">{networkQBalance/1000000}</h5>
                        <p> {props.selectedNetwork.local_denom.substring(1)} </p> 
                         </div>
                   

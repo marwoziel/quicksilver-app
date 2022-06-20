@@ -60,11 +60,10 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
     const onStakeClick = async (e: any) => {
 
-        
         const msgSend = {
           fromAddress: props.networkAddress,
           toAddress: props.selectedNetwork.deposit_address.address,
-          amount: coins(props.stakingAmountValidators, props.selectedNetwork.base_denom),
+          amount: coins((props.stakingAmountValidators * 1000000), props.selectedNetwork.base_denom),
         };
         
         const msgAny = {

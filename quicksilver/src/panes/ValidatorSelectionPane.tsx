@@ -98,11 +98,11 @@ export default function ValidatorSelectionPane(props: PropComponent) {
   
 )}
               </div>
-              {selectedValidators.length > 2 && <p>Max 2 validators can be selected</p>}
+              {selectedValidators.length > 2 && <p> A maximum of 8 validators can be selected</p>}
 
         <div className="mt-5 button-container">
                 <button className="prev-button mx-3" onClick={onPrev}> Previous</button>
-                <button disabled={selectedValidators.length > 2 || selectedValidators.length === 0 } className="next-button mx-3" onClick={onNext} >Next</button>
+                <button disabled={selectedValidators.length > 8 || selectedValidators.length === 0 } className="next-button mx-3" onClick={onNext} >Next</button>
             </div>
         </div>
     );
