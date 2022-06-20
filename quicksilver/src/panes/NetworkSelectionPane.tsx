@@ -137,7 +137,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
 <div className="mt-5 button-container">
                
-                               {balanceFetched && <button className={`stake-liquid-atoms-button mx-3 ${props?.selectedNetwork === "Select a network"   ? 'd-none' : ''}`} onClick={stakeNewAllocations}> Stake {props?.selectedNetwork?.base_denom?.substring(1).charAt(0).toUpperCase() + props?.selectedNetwork?.base_denom?.slice(2)}s </button>}
+                               {balanceFetched && <button className={`stake-liquid-atoms-button mx-3 ${props?.selectedNetwork === "Select a network"   ? 'd-none' : ''}`} onClick={stakeNewAllocations}> Stake {props?.selectedNetwork?.base_denom?.substring(1).charAt(0).toUpperCase() + props?.selectedNetwork?.base_denom?.slice(2)} </button>}
                                {props.selectedNetwork.liquidity_module  && balanceFetched && <button className={`stake-existing-delegations-button mx-3 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`} onClick={stakeLiquidAtoms}> Stake Existing Delegations </button>}
                          
             </div>
