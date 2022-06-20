@@ -1,5 +1,5 @@
 
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import { coins } from "@cosmjs/launchpad"
 import './SummaryPane.css';
 
@@ -25,6 +25,7 @@ interface PropComponent {
 export default function SummaryValidatorsPane(props: PropComponent) {
 
     let out : string | Array<any> = [];
+    const [error, setError] = React.useState('');
 
 
 
@@ -72,7 +73,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
           value: msgSend,
         };
         
-
+        try {
        const broadcastResult = await props.client.signAndBroadcast(
           props.networkAddress,
           [msgAny],
@@ -92,7 +93,10 @@ export default function SummaryValidatorsPane(props: PropComponent) {
             props.setShowSummaryValidators(false);
             props.setIsStaked(true);
         }
-  
+    } catch(err: any) {
+        console.log(err);
+        setError('The transaction failed! Please try again.');
+    }
     }
 
     
@@ -108,6 +112,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
         <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
+        {error !== '' && <p className="mt-3"> {error}</p>}
         </div>
         </>
     );
