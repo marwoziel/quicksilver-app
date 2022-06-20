@@ -156,7 +156,7 @@ props.setShowSummaryValidators(true);
         <div className="d-flex mt-3">
             <h5 className=" mx-2">{val.name}</h5>
             <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 0 } name={val.name} min="0" max="100"   />
-            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number" step=".01"></input>
+            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number" min="0" step=".01"></input>
            </div>
             </>
                 
