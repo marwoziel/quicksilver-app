@@ -36,7 +36,9 @@ export default function ValidatorSelectionPane(props: PropComponent) {
     React.useEffect(() => {
         if(searchTerm) {
         filterData();
-        } 
+        } else {
+            setValidators(props.rows)
+        }
     },[searchTerm])
 
     const onNext = () => {
