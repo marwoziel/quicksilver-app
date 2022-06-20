@@ -42,8 +42,7 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
 
 
     const stakeExistingDelegations = async (e: any) => {
-      props.setShowSummaryExistingDelegations(false);
-      props.setIsStaked(true);
+ 
       console.log('Stake existing');
       let msg = [];
       msg = props.selectedExistingDelegations.map((x: any) => { return {
@@ -115,6 +114,10 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
           );
 
           console.log(broadcastResult2);
+          if(broadcastResult2.code === 0 ) {
+            props.setShowSummaryExistingDelegations(false);
+            props.setIsStaked(true);
+        }
 
       }
 
