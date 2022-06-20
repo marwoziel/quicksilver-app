@@ -128,8 +128,8 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
         <>
         <div className="summary-existing-delegations-pane d-flex mt-4 justify-content-center align-items-center flex-column">
             <h2 className="mt-4"> Summary</h2>
-            <h5 className="mt-4"> Total Stake: <span className="font-bold">{totalStake} {props.selectedNetwork.base_denom} </span></h5>
-            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom} =  {props.selectedNetwork?.redemption_rate} {props.selectedNetwork.base_denom} </span></h5>
+            <h5 className="mt-4"> Total Stake: <span className="font-bold">{totalStake} {props.selectedNetwork.base_denom.substring(1)} </span></h5>
+            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom.substring(1)} =  {parseFloat(props.selectedNetwork?.redemption_rate).toFixed(4)} {props.selectedNetwork.base_denom.substring(1)} </span></h5>
             <h5>qTokens Received:  <span className="font-bold">{totalStake/props.selectedNetwork?.redemption_rate}</span></h5>
             <h6 className="mt-4"> Existing Delegations: </h6>
             {props.selectedExistingDelegations.map((x: any) => <>

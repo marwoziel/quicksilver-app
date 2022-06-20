@@ -6,7 +6,7 @@ interface PropComponent {
     balances: Map<string, Map<string, number>>;
     selectedNetwork? : any;
     prev: Function;
-    stakingAmountValidators? : number;
+    stakingAmountValidators? : any;
     setStakingAmountValidators?: Function;
     next?: { (): void};
     setAllocationProp?: Function;
@@ -33,6 +33,8 @@ export default function AllocationPane(props: PropComponent) {
             }, allocationProp);
             setAllocationProp(temp);
         }
+         // @ts-expect-error
+        props.setStakingAmountValidators(0);
                                  // @ts-expect-error
                                  setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
                                  // @ts-expect-error
@@ -80,26 +82,25 @@ export default function AllocationPane(props: PropComponent) {
     }
 
     const calculateMax = () => {
-       //    @ts-expect-error
+
        let value = +(props.stakingAmountValidators/props.selectedValidators.length);
        console.log('Amount' , props.stakingAmountValidators);
        console.log('Length' , props.selectedValidators.length);
        console.log('Value', value);
        props.selectedValidators.forEach((x: any) => {      
            let newAllocationProp : any = {...allocationProp};
-                   //    @ts-expect-error
+
        newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
        setAllocationProp(newAllocationProp) }) ;
        onNext();
     }
 
     const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
-        debugger;
-        //    @ts-expect-error
-        let maxBal = +((props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)/1000000) - 0.3);
+
+        let maxBal = +(networkBalance/1000000) - 0.3;
         if(props.stakingAmountValidators !== maxBal) {
       //    @ts-expect-error
-      props.setStakingAmountValidators(maxBal);
+      props.setStakingAmountValidators('0'+maxBal.toFixed(6));
       isMax.current = true;
         } else {
             setisMaxClicked(true);
@@ -118,18 +119,27 @@ export default function AllocationPane(props: PropComponent) {
     const handleAllocationChange = (e: any) => {
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
            let newAllocationProp : any = {...allocationProp};
-           newAllocationProp[e.target.name]['value'] = +(e.target.value);
-           setAllocationProp(newAllocationProp);
-           onNext();
 
-    }
+            newAllocationProp[e.target.name]['value'] = +(e.target.value);
+            setAllocationProp(newAllocationProp);
+            onNext();
+ 
+          }
+          
+        
+    
 
 
     const changeAmount = (e: any) => {
+        if ( e.target.value.match(/^\d{1,}(\.\d{0,6})?$/) ){
+        console.log(e.target.value);
                     //    @ts-expect-error
-        props.setStakingAmountValidators(parseInt(e.target.value));
+         props.setStakingAmountValidators(e.target.value);
+        // props.setStakingAmountValidators(e.target.value);
         isMax.current = false;
         setisMaxClicked(false);
+        }
+    
 
     }
 
@@ -146,7 +156,7 @@ props.setShowSummaryValidators(true);
         <div className="d-flex mt-3">
             <h5 className=" mx-2">{val.name}</h5>
             <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 0 } name={val.name} min="0" max="100"   />
-            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number"></input>
+            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number" step=".01"></input>
            </div>
             </>
                 
@@ -176,17 +186,21 @@ props.setShowSummaryValidators(true);
 
                 <div className="d-flex mt-3 align-items-center">
                     <p className="m-0 mx-3"> Number of atoms you want to stake</p>
-                    <input className="mx-3" type="number" value={props.stakingAmountValidators} onChange={ changeAmount}/>
+                    <input className="mx-3" type="text" value={props.stakingAmountValidators?.toString()} onChange={ changeAmount}/>
                     <button className="mx-3 p-1 max-button" onClick={onMaxClick}> MAX </button> 
+
                 </div>
+
                 {renderValidators()}
             </div>
-
-            { sum > 100 && <p> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
-            { sum < 99.5 && <p> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
-        <div className="button-containers">
+            <div className="mt-4 text-center">
+            {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
+            { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
+            { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
+       </div>
+        <div className="button-containers mt-4">
             <button className="prev-button mx-3" onClick={onPrev}> PREV </button>
-        <button disabled={sum < 99.9  || sum  > 100 ?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
+        <button disabled={sum < 99.9  || sum  > 100 || props.stakingAmountValidators > ((networkBalance/1000000) - 0.3)?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
 </div>
         </div> 
     );

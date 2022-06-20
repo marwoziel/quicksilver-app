@@ -27,3 +27,8 @@
     color: #fff;
 }
 
+
+.next-button:disabled {
+    background: #D87D44;
+    border: #D87D44;
+}

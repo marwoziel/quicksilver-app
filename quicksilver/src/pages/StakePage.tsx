@@ -10,6 +10,7 @@ import SummaryExistingDelegationsPane from '../panes/SummaryExistingDelegationsP
 import AllocationPane from '../panes/AllocationPane';
 import CongratulationsPane from '../panes/CongratulationsPane';
 import SummaryValidatorsPane from '../panes/SummaryValidatorsPane';
+import { AnyRecord } from 'dns';
 
 interface PropComponent {
   handleBack? : { () : void  };
@@ -83,7 +84,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [networkAddress, setNetworkAddress] = React.useState('');
     const [rows, setRows] = React.useState<Array<Data>>([]);
     const [selectedExistingDelegations, setStateExistingDelegations]= React.useState<Array<any>>([]);
-    const [stakingAmountValidators, setStakingAmountValidators] = React.useState<number>(0);
+    const [stakingAmountValidators, setStakingAmountValidators] = React.useState<any>(0);
     const [allocationProp, setAllocationProp] = React.useState<any>({});
     const [client, setClient] = React.useState<any>();
     const [networks, setNetworks] = React.useState<Array<any>>();
@@ -113,7 +114,8 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 }
 
 const manipulateData = (zones: any) => {
-   return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.account_prefix, value: zone}})
+  return zones.map((zone: any) => { return { label: zone.account_prefix, value: zone}})
+   // return zones.filter((zone: any) => zone.deposit_address !== null).map((zone: any) => { return { label: zone.account_prefix, value: zone}})
 }
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {

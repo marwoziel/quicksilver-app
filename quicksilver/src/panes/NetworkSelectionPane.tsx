@@ -33,6 +33,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
     const [isWalletConnected, setWalletConnected] = React.useState(false);
    const [networkBalance, setNetworkBalance] = React.useState(0);
    const [networkQBalance, setNetworkQBalance] = React.useState(0);
+   const [balanceFetched, setBalanceFetched] = React.useState(false);
 
  
      useEffect(() => {
@@ -77,6 +78,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
             setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
                   // @ts-expect-error
             setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
+            setBalanceFetched(true);
             console.log("balances", props.balances, chainId);
          
           }
@@ -105,7 +107,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
-            {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && <div className="wallet-details d-flex flex-column mt-5">
+            {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && balanceFetched && <div className="wallet-details d-flex flex-column mt-5">
                 <h4> My Wallet</h4>
                 <h6>{props.networkAddress}</h6>
                 <div className="row wallet-content mt-4">
@@ -135,13 +137,11 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
 <div className="mt-5 button-container">
                
-            
-                {/* <button disabled={props.selectedNetwork === "Select a network" || !props.selectedNetwork.liquidity_module ?  true: false} className="stake-existing-delegations-button mx-3" onClick={stakeLiquidAtoms}> Stake existing delegations </button>
-                <button disabled={props.selectedNetwork === "Select a network" ?  true: false} className="stake-liquid-atoms-button mx-3" onClick={stakeNewAllocations}> Stake Liquid ATOMS</button> */}
-                                <button className={`stake-liquid-atoms-button mx-3 ${props?.selectedNetwork === "Select a network"   ? 'd-none' : ''}`} onClick={stakeNewAllocations}> Stake Liquid {props?.selectedNetwork?.base_denom?.substring(1)}s </button>
-                               {props.selectedNetwork.liquidity_module && <button className={`stake-existing-delegations-button mx-3 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`} onClick={stakeLiquidAtoms}> Stake Existing Delegations </button>}
-                                {!props.selectedNetwork.liquidity_module && <button className={`stake-existing-delegations-button mx-3 ${props?.selectedNetwork === "Select a network" ? 'd-none' : ''} disabled`} > Transfer of delegation isn't enabled on this network </button>}
+                               {balanceFetched && <button className={`stake-liquid-atoms-button mx-3 ${props?.selectedNetwork === "Select a network"   ? 'd-none' : ''}`} onClick={stakeNewAllocations}> Stake {props?.selectedNetwork?.base_denom?.substring(1).charAt(0).toUpperCase() + props?.selectedNetwork?.base_denom?.slice(2)}s </button>}
+                               {props.selectedNetwork.liquidity_module  && balanceFetched && <button className={`stake-existing-delegations-button mx-3 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`} onClick={stakeLiquidAtoms}> Stake Existing Delegations </button>}
+                         
             </div>
+            {!props.selectedNetwork.liquidity_module && <p className={`mt-4 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`}> Transfer of delegation isn't enabled on this network </p>}
             </div>
 
     );
