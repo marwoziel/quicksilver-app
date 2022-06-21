@@ -41,6 +41,13 @@ export default function ValidatorSelectionPane(props: PropComponent) {
         }
     },[searchTerm])
 
+    React.useEffect(() => {
+        if(props.selectedValidators.length === 0 ) {
+            // validators = validators.map((x: any) => x.active = false);
+          validators.filter((x: any) => x.active === true)
+        }
+    }, [])
+
     const onNext = () => {
         if(selectedValidators) {
             //    @ts-expect-error

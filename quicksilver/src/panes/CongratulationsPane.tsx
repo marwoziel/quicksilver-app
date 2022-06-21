@@ -7,6 +7,9 @@ interface PropComponent {
 setActiveStep: Function;
 setIsStaked: Function;
 setSelectedNetwork: Function;
+setShowAllocationsPane: Function;
+setStateExistingDelegations: Function;
+setSelectedValidators: Function;
   }
 
 export default function CongratulationsPane(props: PropComponent) {
@@ -15,7 +18,11 @@ export default function CongratulationsPane(props: PropComponent) {
       const stakeAnotherNetwork = () => {
           props.setActiveStep(2);
          props.setIsStaked(false);
-         props.setSelectedNetwork("Select a network")
+         props.setSelectedNetwork("Select a network");
+         props.setShowAllocationsPane(false);
+         props.setStateExistingDelegations([]);
+         props.setSelectedValidators([]);
+
       }
     return (
         <>
