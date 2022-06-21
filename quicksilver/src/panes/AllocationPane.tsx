@@ -38,7 +38,7 @@ export default function AllocationPane(props: PropComponent) {
          // @ts-expect-error
         props.setStakingAmountValidators(0);
                                  // @ts-expect-error
-                                 setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
+                                 setNetworkBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)): 0)
                                  // @ts-expect-error
                            setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
     }, [])

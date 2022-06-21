@@ -120,7 +120,7 @@ const manipulateData = (zones: any) => {
      useEffect(() => {
        if(selectedNetwork !== "Select a network") {
       _loadValsAsync();
-      
+        setSelectedValidators([]);
        }
      }, [selectedNetwork]);
 
