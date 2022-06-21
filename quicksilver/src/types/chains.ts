@@ -33,6 +33,12 @@ const QuickSilverChainInfo : ChainInfo = {
             coinDecimals: 6,
             coinGeckoId: "quicksilver",
         },
+        {
+            coinDenom: "qOSMO",
+            coinMinimalDenom: "uqosmo",
+            coinDecimals: 6,
+            coinGeckoId: "osmosis",
+        },
     ],
     feeCurrencies: [
         {
@@ -95,6 +101,50 @@ const ChainInfos: ChainInfo[] = [
         coinMinimalDenom: "uatom",
         coinDecimals: 6,
         coinGeckoId: "cosmos",
+    },
+    coinType: 118,
+    gasPriceStep: {
+        low: 0.00,
+        average: 0.015,
+        high: 0.03,
+    },
+  },{
+    chainId: "qsosmo-2",
+    chainName: "Osmosis Test",
+    rpc: "https://rpc.qsosmo-2.quicksilver.zone",
+    rest: "https://lcd.qsosmo-2.quicksilver.zone",
+    bip44: {
+        coinType: 118,
+    },
+    bech32Config: {
+        bech32PrefixAccAddr: "osmo",
+        bech32PrefixAccPub: "osmopub",
+        bech32PrefixValAddr: "osmovaloper",
+        bech32PrefixValPub: "osmovaloperpub",
+        bech32PrefixConsAddr: "osmovalcons",
+        bech32PrefixConsPub: "osmovalconspub",
+    },
+    currencies: [
+        {
+            coinDenom: "OSMO",
+            coinMinimalDenom: "uosmo",
+            coinDecimals: 6,
+            coinGeckoId: "osmosis",
+        },
+    ],
+    feeCurrencies: [
+        {
+            coinDenom: "OSMO",
+            coinMinimalDenom: "uosmo",
+            coinDecimals: 6,
+            coinGeckoId: "osmosis",
+        },
+    ],
+    stakeCurrency: {
+        coinDenom: "OSMO",
+        coinMinimalDenom: "uosmo",
+        coinDecimals: 6,
+        coinGeckoId: "osmosis",
     },
     coinType: 118,
     gasPriceStep: {
