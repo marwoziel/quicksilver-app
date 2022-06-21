@@ -2,6 +2,8 @@
 import React, {useState} from 'react';
 import { coins } from "@cosmjs/launchpad"
 import './SummaryPane.css';
+import { css } from "@emotion/react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 let { bech32 } = require('bech32')
@@ -27,7 +29,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
     let out : string | Array<any> = [];
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-
+    let [color, setColor] = useState("#ffffff");
 
 
 
@@ -105,7 +107,12 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
     
 
-
+    const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: white;
+  `;
+  
     return (
         <>
         <div className="summary-validator-pane d-flex mt-4 justify-content-center align-items-center flex-column">
@@ -116,6 +123,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
         <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
+        {loading && <ClipLoader color={color} loading={loading} css={override} size={150} />}
         {loading && <p> Transaction in progress... </p>}
         {error !== '' && !loading && <p className="mt-3"> {error}</p>}
         </div>
