@@ -26,6 +26,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
 
     let out : string | Array<any> = [];
     const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
 
 
@@ -74,6 +75,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
         };
         
         try {
+            setLoading(true);
        const broadcastResult = await props.client.signAndBroadcast(
           props.networkAddress,
           [msgAny],
@@ -92,8 +94,10 @@ export default function SummaryValidatorsPane(props: PropComponent) {
         if(broadcastResult.code === 0 ) {
             props.setShowSummaryValidators(false);
             props.setIsStaked(true);
+            setLoading(false);
         }
     } catch(err: any) {
+        setLoading(false);
         console.log(err);
         setError('The transaction failed! Please try again.');
     }
@@ -112,7 +116,8 @@ export default function SummaryValidatorsPane(props: PropComponent) {
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
         <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
-        {error !== '' && <p className="mt-3"> {error}</p>}
+        {loading && <p> Transaction in progress... </p>}
+        {error !== '' && !loading && <p className="mt-3"> {error}</p>}
         </div>
         </>
     );

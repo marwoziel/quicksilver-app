@@ -114,11 +114,13 @@ export default function NetworkSelectionPane(props: PropComponent) {
                 <div className="row wallet-content mt-4">
                     <div className="col-3 text-center">
                        <h5 className="font-bold">{networkBalance/1000000}</h5>
-                       <p> {props.selectedNetwork.base_denom.substring(1)} </p>
+                       {/* <p> {props.selectedNetwork.base_denom.substring(1)} </p> */}
+                       <p> {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)}</p>
                     </div>
                     <div className="col-3 text-center">
                     <h5 className="font-bold">{networkQBalance/1000000}</h5>
-                       <p> {props.selectedNetwork.local_denom.substring(1)} </p> 
+                    <p> {props.selectedNetwork.local_denom[1] + props.selectedNetwork.local_denom.charAt(2).toUpperCase() + props.selectedNetwork.local_denom.slice(3)}</p>
+                       {/* <p> {props.selectedNetwork.local_denom.substring(1)} </p>  */}
                         </div>
                   
                 </div>

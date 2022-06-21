@@ -43,8 +43,10 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 
     React.useEffect(() => {
         if(props.selectedValidators.length === 0 ) {
-            // validators = validators.map((x: any) => x.active = false);
-          validators.filter((x: any) => x.active === true)
+            let newArray = [];
+            newArray = validators.map((val: any) => { val.active = false; return val});
+            console.log(newArray);
+            setValidators(newArray);
         }
     }, [])
 
@@ -86,7 +88,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
     return (
         <div className="validator-selection-pane d-flex flex-column align-items-center">
         <h2 className="mt-3"> Choose validators </h2>
-        <input className="mt-2 px-2" type="text"  value={searchTerm} onChange={handleChange} placeholder="Search validator"/>
+        <input className="mt-2 px-2" type="text"  value={searchTerm} onChange={handleChange} placeholder="Search validators"/>
           <div className="mt-3 validators row w-100 justify-content-center">
           {validators.map((row: any) =>
           <>
