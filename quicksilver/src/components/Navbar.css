@@ -10,7 +10,7 @@
 .navbar-nav .nav-item a {
 font-family: 'Mulish';
 font-style: normal;
-font-weight: 600;
+font-weight: 400;
 font-size: 16px;
 text-decoration: none;
 color: #FFFFFF;
@@ -38,7 +38,7 @@ color: #FFFFFF;
 
 .active-link {
    color: #D35100 !important;
-   font-weight: 600;
+   font-weight: 700 !important;
 }
 
 .navbar .navbar-logo {

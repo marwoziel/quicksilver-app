@@ -66,7 +66,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
                 
                <div className="card-details">
                 <h5> {props.selectedValidators.find((x: any) => x.address === row.validator_address )?.name }</h5>
-                <h4 className="font-bold"> {row.coins[0].amount} {row.coins[0].denom} </h4>
+                <h4 className="font-bold"> {row.coins[0].amount/1000000} {row.coins[0].denom.charAt(1).toUpperCase() + row.coins[0].denom.slice(2)} </h4>
                 </div>
               </div>
                 </div>
