@@ -283,7 +283,6 @@ type Validator = {
 }
 
 const _loadValsAsync = () => {
-    if (rows.length === 0) {
         loadValData().then(
             externalData => {
                let vals: Array<Data> = externalData.data.validator_status
@@ -309,7 +308,7 @@ const _loadValsAsync = () => {
                 setRows(vals);
             }
         );
-    }
+    
 }
 
 
