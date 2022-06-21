@@ -24,12 +24,13 @@ export default function AllocationPane(props: PropComponent) {
     const [networkQBalance, setNetworkQBalance] = React.useState(0);
     const [showMaxMsg, setShowMaxMsg] = React.useState(false);
 
+
     
 
     useEffect(() => {
         if(props.selectedValidators.length > 0) {
           let temp =  props.selectedValidators.reduce((acc: any, curr: any) => {
-                    acc[curr.name] = {...curr, value: 0}
+                    acc[curr.name] = {...curr, value: 1}
                     return acc;
             }, allocationProp);
             setAllocationProp(temp);
@@ -69,6 +70,7 @@ export default function AllocationPane(props: PropComponent) {
        
         let sum = 0;
         props.selectedValidators.forEach((x: any) => {      
+          
         sum = sum + allocationProp[x.name]['value'] ;  console.log(allocationProp[x.name]['value'])})
         console.log(sum);
         if(sum < 100) {
@@ -119,6 +121,7 @@ export default function AllocationPane(props: PropComponent) {
     }
 
     const handleAllocationChange = (e: any) => {
+
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
            let newAllocationProp : any = {...allocationProp};
 
@@ -133,6 +136,7 @@ export default function AllocationPane(props: PropComponent) {
 
 
     const changeAmount = (e: any) => {
+        
         if ( e.target.value.match(/^\d{1,}(\.\d{0,6})?$/) ){
         console.log(e.target.value);
                     //    @ts-expect-error
@@ -159,8 +163,8 @@ props.setShowSummaryValidators(true);
         return ( props.selectedValidators.map((val: any) => <>
         <div className="d-flex mt-3">
             <h5 className=" mx-2">{val.name}</h5>
-            <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 0 } name={val.name} min="0" max="100"   />
-            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '' } name={val.name}  type="number" min="0" step=".01"></input>
+            <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 1 } name={val.name} min="1" max="100"   />
+            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '1' } name={val.name}  type="number" min="1" step=".5"></input>
            </div>
             </>
                 
@@ -200,6 +204,7 @@ props.setShowSummaryValidators(true);
                 {showMaxMsg && <p className="mb-0 mt-3">We held back 0.3 {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} to cover future transaction fees</p> }
             </div>
             <div className="mt-4 text-center">
+                {show0Msg && <p> Please allocate some amount to each validator</p>}
             {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
             { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
