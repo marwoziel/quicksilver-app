@@ -204,7 +204,6 @@ props.setShowSummaryValidators(true);
                 {showMaxMsg && <p className="mb-0 mt-3">We held back 0.3 {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} to cover future transaction fees</p> }
             </div>
             <div className="mt-4 text-center">
-                {show0Msg && <p> Please allocate some amount to each validator</p>}
             {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
             { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
