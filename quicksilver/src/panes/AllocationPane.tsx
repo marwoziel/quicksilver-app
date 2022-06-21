@@ -22,6 +22,7 @@ export default function AllocationPane(props: PropComponent) {
     const [isMaxClicked, setisMaxClicked] = useState(false);
     const [networkBalance, setNetworkBalance] = React.useState(0);
     const [networkQBalance, setNetworkQBalance] = React.useState(0);
+    const [showMaxMsg, setShowMaxMsg] = React.useState(false);
 
     
 
@@ -102,6 +103,7 @@ export default function AllocationPane(props: PropComponent) {
       //    @ts-expect-error
       props.setStakingAmountValidators('0'+maxBal.toFixed(6));
       isMax.current = true;
+      setShowMaxMsg(true);
         } else {
             setisMaxClicked(true);
         }
@@ -138,9 +140,11 @@ export default function AllocationPane(props: PropComponent) {
         // props.setStakingAmountValidators(e.target.value);
         isMax.current = false;
         setisMaxClicked(false);
+        if(e.target.value !=  +((networkBalance/1000000) - 0.3).toFixed(6)) {
+        setShowMaxMsg(false);
         }
     
-
+    }
     }
 
     const onClickNext = (e: any) => {
@@ -188,10 +192,12 @@ props.setShowSummaryValidators(true);
                     <p className="m-0 mx-3"> Number of atoms you want to stake</p>
                     <input className="mx-3" type="text" value={props.stakingAmountValidators?.toString()} onChange={ changeAmount}/>
                     <button className="mx-3 p-1 max-button" onClick={onMaxClick}> MAX </button> 
+                
 
                 </div>
 
                 {renderValidators()}
+                {showMaxMsg && <p className="mb-0 mt-3">We held back 0.3 atoms to cover future transaction fees</p> }
             </div>
             <div className="mt-4 text-center">
             {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
@@ -206,6 +212,4 @@ props.setShowSummaryValidators(true);
     );
 }
 
-function total(total: any) {
-    throw new Error('Function not implemented.');
-}
+
