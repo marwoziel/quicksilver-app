@@ -51,7 +51,7 @@ export default function SummaryValidatorsPane(props: PropComponent) {
      
             return (
                 <>
-                  <h6>{obj.name} : <span className="font-bold"> {obj.value} % </span></h6> 
+                  <h6>{obj.name} : <span className="font-bold"> {obj.value.toFixed(2)} % </span></h6> 
                 </> 
             )
         }
@@ -110,8 +110,8 @@ export default function SummaryValidatorsPane(props: PropComponent) {
         <>
         <div className="summary-validator-pane d-flex mt-4 justify-content-center align-items-center flex-column">
             <h2 className="mt-4"> Summary </h2> 
-            <h5 className="mt-4"> Total Stake: <span className="font-bold">{props.stakingAmountValidators} {props.selectedNetwork.base_denom.substring(1)} </span></h5>
-            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork?.local_denom.substring(1)} =  {parseFloat(props.selectedNetwork?.redemption_rate).toFixed(4)} {props.selectedNetwork.base_denom.substring(1)} </span></h5>
+            <h5 className="mt-4"> Total Stake: <span className="font-bold">{props.stakingAmountValidators} {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)}</span></h5>
+            <h5>Redemption Rate:  <span className="font-bold">1 {props.selectedNetwork.local_denom[1] + props.selectedNetwork.local_denom.charAt(2).toUpperCase() + props.selectedNetwork.local_denom.slice(3)} =  {parseFloat(props.selectedNetwork?.redemption_rate).toFixed(4)} {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} </span></h5>
             <h5>qTokens Received:  <span className="font-bold">{props.stakingAmountValidators/props.selectedNetwork?.redemption_rate}</span></h5>
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
