@@ -28,12 +28,13 @@ export default function Navbar(props: PropComponent) {
   }
   
         return (
-        <nav className="navbar navbar-expand-lg">
-               <Link to="/">    <img className="logo" alt="Quicksilver Logo" src={Logo}/></Link> 
+        <nav className="navbar navbar-expand-lg d-flex py-0">
+          <div className="col-2 navbar-logo">
+               <Link to="/">    <img className="logo mt-2" alt="Quicksilver Logo" src={Logo}/></Link> 
+  </div>
 
 
-
-  <div className="collapse navbar-collapse justify-content-around" id="navbarSupportedContent">
+  <div className="collapse navbar-collapse justify-content-around col-10" id="navbarSupportedContent">
     <ul className="navbar-nav mr-auto">
     
       <li className="nav-item mx-4">

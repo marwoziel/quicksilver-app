@@ -40,3 +40,7 @@ color: #FFFFFF;
    color: #D35100 !important;
    font-weight: 600;
 }
+
+.navbar .navbar-logo {
+    background: #333333;
+}

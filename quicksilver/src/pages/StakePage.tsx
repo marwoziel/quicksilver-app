@@ -313,7 +313,7 @@ const _loadValsAsync = () => {
 
 
     return (
-        <div className="staking-interface row">
+        <div className="staking-interface row mx-0">
             <div className="stepper col-2 d-flex flex-column ">
             <div className="step d-flex mt-5 ml-4 mb-1">
       <div className="d-flex flex-column pr-4 align-items-center">
