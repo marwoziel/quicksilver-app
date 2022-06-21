@@ -101,7 +101,8 @@ export default function AllocationPane(props: PropComponent) {
     const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
 
         let maxBal = +(networkBalance/1000000) - 0.3;
-        if(props.stakingAmountValidators !== maxBal) {
+        let temp = '0'+maxBal.toFixed(6).toString();
+        if(props.stakingAmountValidators != temp) {
       //    @ts-expect-error
       props.setStakingAmountValidators('0'+maxBal.toFixed(6));
       isMax.current = true;
@@ -164,7 +165,7 @@ props.setShowSummaryValidators(true);
         <div className="d-flex mt-3">
             <h5 className=" mx-2">{val.name}</h5>
             <input style={{accentColor: '#D35100'}} className="mx-2" onChange={handleAllocationChange} type="range" value={Object.keys(allocationProp).length ? allocationProp[val.name]['value'] : 1 } name={val.name} min="1" max="100"   />
-            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '1' } name={val.name}  type="number" min="1" step=".5"></input>
+            <input className="mx-2" onChange={handleAllocationChange} value={Object.keys(allocationProp).length ? allocationProp[val.name]['value']: '1' } name={val.name}  type="number" min="1" step=".5"></input>%
            </div>
             </>
                 
