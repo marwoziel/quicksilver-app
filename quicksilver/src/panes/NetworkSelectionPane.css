@@ -51,6 +51,6 @@ border: 2px solid #D35100;
   }
 
   .network-selection-pane .custom-class {
-
+    z-index: 5;
       color: rgba(0,0,0,0.7);
   }

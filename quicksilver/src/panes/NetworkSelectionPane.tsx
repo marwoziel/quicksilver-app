@@ -131,7 +131,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
         
 
 <Select className="custom-class mb-3"
-            defaultValue={{label:props.selectedNetwork.account_prefix}}
+            defaultValue={{label: props.selectedNetwork.account_prefix ? props.selectedNetwork.account_prefix?.charAt(0).toUpperCase() + props.selectedNetwork.account_prefix?.slice(1) : ''}}
             options={props.networks}
             onChange={handleNetworkChange}
             
