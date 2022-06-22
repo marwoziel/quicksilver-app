@@ -122,14 +122,21 @@ export default function AllocationPane(props: PropComponent) {
     }
 
     const handleAllocationChange = (e: any) => {
-
+      if(e.target.value !== "") {
            // setAllocationProp({...allocationProp, [e.target.name] :{ , value: e.target.value}})
            let newAllocationProp : any = {...allocationProp};
 
             newAllocationProp[e.target.name]['value'] = +(e.target.value);
             setAllocationProp(newAllocationProp);
             onNext();
- 
+      }
+      else {
+        let newAllocationProp : any = {...allocationProp};
+
+        newAllocationProp[e.target.name]['value'] = 1;
+        setAllocationProp(newAllocationProp);
+        onNext();
+      }
           }
           
         
