@@ -197,7 +197,10 @@ props.setShowSummaryValidators(true);
                   
                 </div>
             </div> }
-            <div className="staking-pane d-flex flex-column mt-4">
+           {(networkBalance/1000000) <= 0.5 &&  <div className="mt-3">
+                You don't have enough   {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} to stake! 
+            </div>}
+           {(networkBalance/1000000) > 0.5 &&  <div className="staking-pane d-flex flex-column mt-4">
                 <h4>Stake</h4> 
 
                 <div className="d-flex mt-3 align-items-center">
@@ -210,12 +213,12 @@ props.setShowSummaryValidators(true);
 
                 {renderValidators()}
                 {showMaxMsg && <p className="mb-0 mt-3">We held back 0.3 {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} to cover future transaction fees</p> }
-            </div>
-            <div className="mt-4 text-center">
+            </div>}
+            {(networkBalance/1000000) > 0.5 &&  <div className="mt-4 text-center">
             {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
             { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
-       </div>
+       </div>}
         <div className="button-containers mt-4">
             <button className="prev-button mx-3" onClick={onPrev}> PREV </button>
         <button disabled={sum < 99.9  || sum  > 100 || props.stakingAmountValidators > ((networkBalance/1000000) - 0.3)?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
