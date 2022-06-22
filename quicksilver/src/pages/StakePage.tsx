@@ -92,6 +92,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
     const [isStaked, setIsStaked] = React.useState(false);
     const [showSummaryExistingDelegations, setShowSummaryExistingDelegations] = React.useState(false);
     const [showSummaryValidators, setShowSummaryValidators] = React.useState(false);
+    const [loading, setLoading ]= React.useState(false);
 
     React.useEffect(() => {
       if(isWalletConnected) {
@@ -107,7 +108,7 @@ export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler
 
 
    const loadData = async () => {
-    const response = await fetch("https://lcd.rhapsody-5.quicksilver.zone/quicksilver/interchainstaking/v1/zones");
+    const response = await fetch(`${process.env.REACT_APP_ZONES_URL}/quicksilver/interchainstaking/v1/zones`);
     const data = await response.json();
     setNetworks(manipulateData(data.zones));
 
@@ -283,6 +284,7 @@ type Validator = {
 }
 
 const _loadValsAsync = () => {
+    setLoading(true);
         loadValData().then(
             externalData => {
                let vals: Array<Data> = externalData.data.validator_status
@@ -306,7 +308,10 @@ const _loadValsAsync = () => {
                     logo: "",
                   }});
                 setRows(vals);
+                setLoading(false);
             }
+        ).catch(
+          (err) => {setLoading(false); console.log(err)}
         );
     
 }
@@ -369,7 +374,7 @@ const _loadValsAsync = () => {
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
-                {activeStep === 2 &&  <NetworkSelectionPane _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane loading={loading} _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 &&  stakeExistingDelegations && <ExistingDelegationsPage setShowSummaryExistingDelegations={setShowSummaryExistingDelegations} selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
@@ -379,6 +384,7 @@ const _loadValsAsync = () => {
                 {isStaked && <CongratulationsPane setShowAllocationsPane={setShowAllocationsPane} setStateExistingDelegations={setStateExistingDelegations} setSelectedValidators={setSelectedValidators} setSelectedNetwork={setSelectedNetwork} setIsStaked={setIsStaked} setActiveStep={setActiveStep}/>}
                 {/* {activeStep === 3 && stakeNewAllocations && <ValidatorSelectionPane allValidators={allValidators} setSelectedValidators={setSelectedValidator} next={handleNext} prev={handleBack}/>} */}
                 </div>
+              
         </div>
     )
 }

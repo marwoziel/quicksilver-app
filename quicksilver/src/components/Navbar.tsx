@@ -8,6 +8,8 @@ import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
 import { useLocation} from "react-router-dom";
 
+
+
 interface PropComponent {
   handleClickOpen? : { (): void};
   balances?: any;
@@ -51,7 +53,7 @@ export default function Navbar(props: PropComponent) {
       </li>
 
     </ul>
-            {props.isWalletConnected && <p className="btn connect-wallet px-3 my-2 my-sm-0"> <img alt="Wallet icon" src={Wallet}/> {(props.balances.get('rhapsody-5')?.get('uqck')) ? `${props.balances.get('rhapsody-5')?.get('uqck')/1000000} QCK`  : '0'
+            {props.isWalletConnected && <p className="btn connect-wallet px-3 my-2 my-sm-0"> <img alt="Wallet icon" src={Wallet}/> {(props.balances.get(process.env.REACT_APP_QSCHAINID)?.get('uqck')) ? `${props.balances.get(process.env.REACT_APP_QSCHAINID)?.get('uqck')/1000000} QCK`  : '0'
       }</p>}
       {!props.isWalletConnected && <button onClick={openModalHandler} className="btn connect-wallet-button px-3 my-2 my-sm-0"> Connect Wallet
       </button>}

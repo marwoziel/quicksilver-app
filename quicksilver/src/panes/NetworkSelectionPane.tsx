@@ -21,6 +21,7 @@ interface PropComponent {
     delegateToken: Function;
     networks: any;
     _loadExistingValsAsync: Function;
+    loading: boolean;
   }
 
 
@@ -49,6 +50,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
 
     const connectNetwork = async (network: string) => {
+      props.balances.clear();
         initKeplrWithNetwork(async(key: string, val: SigningStargateClient) => {
           setWallets(new Map<string, SigningStargateClient>(wallets.set(key, val)));
           setWalletConnected(true);
@@ -72,10 +74,9 @@ export default function NetworkSelectionPane(props: PropComponent) {
               }
                         // @ts-expect-error
               props.setBalances(new Map<string, Map<string, number>>(props.balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
-    
+              
             })
                          // @ts-expect-error
-            // setNetworkBalance(+(props.balances.get(props.selectedNetwork.chain_id).get(props?.selectedNetwork.base_denom)));
             setNetworkBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)): 0)
                   // @ts-expect-error
             setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
@@ -92,7 +93,6 @@ export default function NetworkSelectionPane(props: PropComponent) {
           // @ts-expect-error
           
         props.setSelectedNetwork(selected?.value);
-        connectNetwork(props.selectedNetwork.chain_id);
       }
 
     const stakeLiquidAtoms = () => {
@@ -108,6 +108,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
     return (
         <div className="network-selection-pane d-flex flex-column align-items-center ">
+
             {props.networkAddress && props.selectedNetwork !== "Select a network" && props.balances && balanceFetched && <div className="wallet-details d-flex flex-column mt-5">
                 <h4> My Wallet</h4>
                 <h6>{props.networkAddress}</h6>
@@ -137,7 +138,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
             
         />
     </div>
-
+      
 <div className="mt-5 button-container">
                
                                {balanceFetched && <button className={`stake-liquid-atoms-button mx-3 ${props?.selectedNetwork === "Select a network"   ? 'd-none' : ''}`} onClick={stakeNewAllocations}> Stake {props?.selectedNetwork?.base_denom?.substring(1).charAt(0).toUpperCase() + props?.selectedNetwork?.base_denom?.slice(2)} </button>}
@@ -145,6 +146,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
                          
             </div>
             {!props.selectedNetwork.liquidity_module && <p className={`mt-4 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`}> Transfer of delegation isn't enabled on this network </p>}
+            {props.loading && <p>Loading Validators!</p> }
             </div>
 
     );
