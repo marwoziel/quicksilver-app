@@ -46,3 +46,19 @@ color: #FFFFFF;
 .navbar .navbar-logo {
     background: #333333;
 }
+
+
+.navbar .nav-icon-stake {
+    height: 30px;
+    margin-right:1px;
+}
+
+.navbar .nav-icon-pools {
+    height: 17px;
+    margin-right:2px;
+}
+
+.navbar .nav-icon-airdrop {
+    height: 17px;
+    margin-right:5px;
+}

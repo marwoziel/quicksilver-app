@@ -7,6 +7,10 @@ import ConnectWalletModal from './ConnectWalletModal';
 import Backdrop from './Backdrop';
 import { Link } from "react-router-dom";
 import { useLocation} from "react-router-dom";
+import Pools from '../assets/icons/pools.svg';
+import Parachute from '../assets/icons/parachute.svg';
+import Stakes from '../assets/icons/stakes.svg';
+
 
 
 
@@ -40,17 +44,23 @@ export default function Navbar(props: PropComponent) {
     <ul className="navbar-nav mr-auto">
     
       <li className="nav-item mx-4">
+      <img className="nav-icon-stake" alt="Stakes" src={Stakes}/>
       <Link className={`${location.pathname === '/stake'  ? 'active-link' : ''}`} to="/stake">STAKE</Link> 
       </li>
-      <li className="nav-item mx-4">
+   
+      <li className="nav-item mx-4 d-flex align-items-center">
+      <img className="nav-icon-pools" alt="Pools" src={Pools}/>
                <Link  className={`${location.pathname === '/pools'  ? 'active-link' : ''}`} to="/pools" onClick={ (event) => event.preventDefault() }>POOLS</Link> 
       </li>
-      <li className="nav-item mx-4">
-      <Link  className={`${location.pathname === '/claims'  ? 'active-link' : ''}`} to="/claims" onClick={ (event) => event.preventDefault() }>AIRDROP</Link> 
+  
+      <li className="nav-item mx-4 d-flex align-items-center">
+      <img className="nav-icon-airdrop" alt="Parachute" src={Parachute}/>
+      <Link  className={`pl-2 ${location.pathname === '/claims'  ? 'active-link' : ''}`} to="/claims" onClick={ (event) => event.preventDefault() }>AIRDROP</Link> 
+      
       </li>
-      <li className="nav-item mx-4">
+      {/* <li className="nav-item mx-4">
       <Link  className={`${location.pathname === '/gov'  ? 'active-link' : ''}`} to="/gov" onClick={ (event) => event.preventDefault() }>GOVERNANCE</Link> 
-      </li>
+      </li> */}
 
     </ul>
             {props.isWalletConnected && <p className="btn connect-wallet px-3 my-2 my-sm-0"> <img alt="Wallet icon" src={Wallet}/> {(props.balances.get(process.env.REACT_APP_QSCHAINID)?.get('uqck')) ? `${props.balances.get(process.env.REACT_APP_QSCHAINID)?.get('uqck')/1000000} QCK`  : '0'
