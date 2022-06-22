@@ -1,12 +1,13 @@
 .content {
     background: #1A1A1A;
-    height: calc(100vh - 76px);
     color: #fff;
+    margin-top:58px !important;
 }
 
 .stepper {
     background: #333333;
-    height: calc(100vh-76px);
+    margin-top: 58px !important;
+
 }
 
 .stepper .line {
@@ -39,4 +40,9 @@
     left: 2rem;
     position: fixed;
     bottom: 10%;
+  }
+  
+  .staking-interface {
+    /* min-height: calc(100vh-76px) !important; */
+    min-height: 100vh !important;
   }

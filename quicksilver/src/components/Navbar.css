@@ -5,6 +5,8 @@
 
 .navbar {
     background: #1A1A1A;
+    position: fixed !important;
+    width:100vw !important;
 }
 
 .navbar-nav .nav-item a {

@@ -219,7 +219,7 @@ props.setShowSummaryValidators(true);
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
             { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
        </div>}
-        <div className="button-containers mt-4">
+        <div className="button-containers mt-4 mb-4">
             <button className="prev-button mx-3" onClick={onPrev}> PREV </button>
         <button disabled={sum < 99.9  || sum  > 100 || props.stakingAmountValidators > ((networkBalance/1000000) - 0.3)?  true: false}  className="next-button mx-3" onClick={onClickNext}>NEXT</button> 
 </div>
