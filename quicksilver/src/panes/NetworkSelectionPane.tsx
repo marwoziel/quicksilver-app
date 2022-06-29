@@ -4,6 +4,8 @@ import Select from "react-select";
 import { initKeplrWithNetwork } from "../types/chains";
 import { SigningStargateClient} from "@cosmjs/stargate"
 import { getKeplrFromWindow } from '@keplr-wallet/stores';
+import { SpinnerCircular } from 'spinners-react';
+
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void};
@@ -63,7 +65,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
           let bech32 = pubkey?.bech32Address;
          props.setNetworkAddress(bech32);
          props._loadExistingValsAsync(bech32);        
-           //  props.delegateToken(bech32, val);
+            //props.delegateToken(bech32, val);
           if (bech32) {
             let roBalance = await val.getAllBalances(bech32)
             roBalance.forEach((bal: any) => {
@@ -146,7 +148,9 @@ export default function NetworkSelectionPane(props: PropComponent) {
                          
             </div>
             {!props.selectedNetwork.liquidity_module && <p className={`mt-4 ${props?.selectedNetwork === "Select a network"  ? 'd-none' : ''}`}> Transfer of delegation isn't enabled on this network </p>}
-            {props.loading && <p>Loading Validators!</p> }
+            <div className="spinner">
+        {props.loading && <SpinnerCircular />}
+        </div>
             </div>
 
     );

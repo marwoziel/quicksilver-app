@@ -1,12 +1,10 @@
 
 import React, {useEffect} from 'react';
-import { coins } from "@cosmjs/launchpad"
+
 import { parseCoins } from "@cosmjs/stargate";
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader";
+import { SpinnerCircular } from 'spinners-react';
 
 
-let { bech32 } = require('bech32')
 interface PropComponent {
     prev? : { () : void  };
     next?: { (): void}; 
@@ -27,14 +25,7 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
     const [totalStake, setTotalStake] = React.useState(0);
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    let [color, setColor] = React.useState("#ffffff");
 
-    const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: white;
-  `;
-  
 
     useEffect(() => {
         let sum = 0;
@@ -159,8 +150,10 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
             <h6 className="mt-4"> Existing Delegations: </h6>
             {props.selectedExistingDelegations.map((x: any) => <>
                  <h6> {x['name']} :  <span className="font-bold">{x.coins[0].amount/1000000} {x.coins[0].denom.charAt(1).toUpperCase() + x.coins[0].denom.slice(2)} </span></h6></> )}
-                 <button className="stake-button mt-3" onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
-                 {loading && <ClipLoader color={color} loading={loading} css={override} size={150} />}
+                 <button  disabled={loading} className="stake-button mt-3 mb-2" onClick={stakeExistingDelegations} > STAKE EXISTING DELEGATIONS </button>
+                 <div className="spinner">
+        {loading && <SpinnerCircular />}
+        </div>
         {loading && <p> Transaction in progress... </p>}
         {error !== '' && !loading && <p className="mt-3"> {error}</p>}
         </div>

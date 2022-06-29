@@ -5,10 +5,10 @@ import {options} from './options';
 
 
 const QuickSilverChainInfo : ChainInfo = {
-    chainId: "rhapsody-5",
+    chainId: "killerqueen-1",
     chainName: "Quicksilver Test",
-    rpc: "https://rpc.rhapsody-5.quicksilver.zone",
-    rest: "https://lcd.rhapsody-5.quicksilver.zone",
+    rpc: "https://rpc.killerqueen-1.quicksilver.zone",
+    rest: "https://lcd.killerqueen-1.quicksilver.zone",
     bip44: {
         coinType: 118,
     },
@@ -65,10 +65,10 @@ const QuickSilverChainInfo : ChainInfo = {
 const ChainInfos: ChainInfo[] = [
     QuickSilverChainInfo,
 {
-    chainId: "qscosmos-2",
+    chainId: "kqcosmos-1",
     chainName: "Cosmos Test",
-    rpc: "https://rpc.qscosmos-2.quicksilver.zone",
-    rest: "https://lcd.qscosmos-2.quicksilver.zone",
+    rpc: "https://rpc.kqcosmos-1.quicksilver.zone",
+    rest: "https://lcd.kqcosmos-1.quicksilver.zone",
     bip44: {
         coinType: 118,
     },
@@ -108,51 +108,52 @@ const ChainInfos: ChainInfo[] = [
         average: 0.015,
         high: 0.03,
     },
-  },{
-    chainId: "qsosmo-2",
-    chainName: "Osmosis Test",
-    rpc: "https://rpc.qsosmo-2.quicksilver.zone",
-    rest: "https://lcd.qsosmo-2.quicksilver.zone",
-    bip44: {
-        coinType: 118,
-    },
-    bech32Config: {
-        bech32PrefixAccAddr: "osmo",
-        bech32PrefixAccPub: "osmopub",
-        bech32PrefixValAddr: "osmovaloper",
-        bech32PrefixValPub: "osmovaloperpub",
-        bech32PrefixConsAddr: "osmovalcons",
-        bech32PrefixConsPub: "osmovalconspub",
-    },
-    currencies: [
-        {
-            coinDenom: "OSMO",
-            coinMinimalDenom: "uosmo",
-            coinDecimals: 6,
-            coinGeckoId: "osmosis",
-        },
-    ],
-    feeCurrencies: [
-        {
-            coinDenom: "OSMO",
-            coinMinimalDenom: "uosmo",
-            coinDecimals: 6,
-            coinGeckoId: "osmosis",
-        },
-    ],
-    stakeCurrency: {
-        coinDenom: "OSMO",
-        coinMinimalDenom: "uosmo",
-        coinDecimals: 6,
-        coinGeckoId: "osmosis",
-    },
-    coinType: 118,
-    gasPriceStep: {
-        low: 0.00,
-        average: 0.015,
-        high: 0.03,
-    },
   }
+//   ,{
+//     chainId: "qsosmo-2",
+//     chainName: "Osmosis Test",
+//     rpc: "https://rpc.qsosmo-2.quicksilver.zone",
+//     rest: "https://lcd.qsosmo-2.quicksilver.zone",
+//     bip44: {
+//         coinType: 118,
+//     },
+//     bech32Config: {
+//         bech32PrefixAccAddr: "osmo",
+//         bech32PrefixAccPub: "osmopub",
+//         bech32PrefixValAddr: "osmovaloper",
+//         bech32PrefixValPub: "osmovaloperpub",
+//         bech32PrefixConsAddr: "osmovalcons",
+//         bech32PrefixConsPub: "osmovalconspub",
+//     },
+//     currencies: [
+//         {
+//             coinDenom: "OSMO",
+//             coinMinimalDenom: "uosmo",
+//             coinDecimals: 6,
+//             coinGeckoId: "osmosis",
+//         },
+//     ],
+//     feeCurrencies: [
+//         {
+//             coinDenom: "OSMO",
+//             coinMinimalDenom: "uosmo",
+//             coinDecimals: 6,
+//             coinGeckoId: "osmosis",
+//         },
+//     ],
+//     stakeCurrency: {
+//         coinDenom: "OSMO",
+//         coinMinimalDenom: "uosmo",
+//         coinDecimals: 6,
+//         coinGeckoId: "osmosis",
+//     },
+//     coinType: 118,
+//     gasPriceStep: {
+//         low: 0.00,
+//         average: 0.015,
+//         high: 0.03,
+//     },
+//   }
 ]
 
 export const initKeplr = async (fn: Function):Promise<void> => { 

@@ -9,3 +9,12 @@ padding: 5px 20px;
 border: 2px solid #D35100;
 z-index: 2;
 }
+
+.stake-button:disabled {
+    background: #D87D44;
+    border: #D87D44;
+}
+
+.spinner svg {
+    color: #D35100 !important;
+}

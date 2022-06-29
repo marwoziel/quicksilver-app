@@ -10,7 +10,7 @@ import SummaryExistingDelegationsPane from '../panes/SummaryExistingDelegationsP
 import AllocationPane from '../panes/AllocationPane';
 import CongratulationsPane from '../panes/CongratulationsPane';
 import SummaryValidatorsPane from '../panes/SummaryValidatorsPane';
-import { AnyRecord } from 'dns';
+
 
 interface PropComponent {
   handleBack? : { () : void  };
@@ -168,7 +168,7 @@ const manipulateData = (zones: any) => {
    
       const broadcastResult = await val.delegateTokens(
         add,
-        "cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2",
+        "cosmosvaloper1pfpq6mp28lfz3r9wkk30myn9emsfzjur5l346z",
           {
             "denom": "uatom",
             "amount": "5000"
@@ -322,7 +322,7 @@ const _loadValsAsync = () => {
             <div className="stepper col-2 d-flex flex-column ">
             <div className="step d-flex mt-5 ml-4 mb-1">
       <div className="d-flex flex-column pr-4 align-items-center">
-     <img className="logo" src={LogoWhite}/>
+     <img className="logo" alt="Quicksilver logo" src={LogoWhite}/>
         <div className="line h-100"></div>
       </div>
       <div>
@@ -331,7 +331,7 @@ const _loadValsAsync = () => {
     </div>
     <div className="step d-flex ml-4 mb-1">
       <div className="d-flex flex-column pr-4 align-items-center">
-     <img className="logo" src={activeStep >=2 ? LogoWhite : LogoGray}/>
+     <img alt="Quicksilver logo"  className="logo" src={activeStep >=2 ? LogoWhite : LogoGray}/>
         <div className="line h-100"></div>
       </div>
       <div>
@@ -340,7 +340,7 @@ const _loadValsAsync = () => {
     </div>
     <div className="step d-flex ml-4 mb-1">
       <div className="d-flex flex-column pr-4 align-items-center">
-      <img className="logo" src={activeStep >=3 ? LogoWhite : LogoGray}/>
+      <img alt="Quicksilver logo"  className="logo" src={activeStep >=3 ? LogoWhite : LogoGray}/>
         <div className="line h-100"></div>
       </div>
       <div>
@@ -349,7 +349,7 @@ const _loadValsAsync = () => {
     </div>
     <div className="step d-flex ml-4 mb-1">
       <div className="d-flex flex-column pr-4 align-items-center">
-      <img className="logo" src={activeStep >=4 ? LogoWhite : LogoGray}/>
+      <img  alt="Quicksilver logo" className="logo" src={activeStep >=4 ? LogoWhite : LogoGray}/>
       </div>
       <div>
         <h6 className={( activeStep >= 4 ? " step-text-bold" : "step-text-gray")}>Stake</h6>

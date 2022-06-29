@@ -1,9 +1,10 @@
 
-import React, {useState} from 'react';
+import React from 'react';
 import { coins } from "@cosmjs/launchpad"
 import './SummaryPane.css';
-import { css } from "@emotion/react";
-import ClipLoader from "react-spinners/ClipLoader";
+
+import { SpinnerCircular } from 'spinners-react';
+
 
 
 let { bech32 } = require('bech32')
@@ -29,7 +30,6 @@ export default function SummaryValidatorsPane(props: PropComponent) {
     let out : string | Array<any> = [];
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
-    let [color, setColor] = useState("#ffffff");
 
 
 
@@ -106,12 +106,6 @@ export default function SummaryValidatorsPane(props: PropComponent) {
     }
 
     
-
-    const override = css`
-    display: block;
-    margin: 0 auto;
-    border-color: white;
-  `;
   
     return (
         <>
@@ -122,8 +116,12 @@ export default function SummaryValidatorsPane(props: PropComponent) {
             <h5>qTokens Received:  <span className="font-bold">{props.stakingAmountValidators/props.selectedNetwork?.redemption_rate}</span></h5>
             <h6 className="mt-4"> Validator List: </h6>
         {renderValidators()}
-        <button className="stake-button mt-3" onClick={onStakeClick}> STAKE  </button>
-        {loading && <ClipLoader color={color} loading={loading} css={override} size={150} />}
+        
+        <button  disabled={loading} className="stake-button mt-3 mb-2" onClick={onStakeClick}> STAKE  </button>
+        {/* {loading && <ClipLoader color={color} loading={loading} css={override} size={150} />} */}
+        <div className="spinner">
+        {loading && <SpinnerCircular />}
+        </div>
         {loading && <p> Transaction in progress... </p>}
         {error !== '' && !loading && <p className="mt-3"> {error}</p>}
         </div>

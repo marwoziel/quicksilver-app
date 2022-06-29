@@ -22,12 +22,15 @@
 
 .prev-button {
     background: hwb(0 100% 0%);
-border: 2px solid #D35100;
 border-radius: 10px;
 font-weight: 400;
 font-size: 18px;
 color: #D35100;
 padding: 5px 20px;
+}
+
+.prev-button:hover {
+    border: 2px solid #D35100;
 }
 
 .stake-liquid-atoms-button, .stake-existing-delegations-button, .next-button {

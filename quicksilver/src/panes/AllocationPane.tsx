@@ -15,9 +15,8 @@ interface PropComponent {
 }
 
 export default function AllocationPane(props: PropComponent) {
-    const [rangeval, setRangeval] = useState('');
     const [allocationProp, setAllocationProp] = useState<any>({});
-    const [sum, setSum] = useState(0);
+    const [sum, setSum] = useState(props.selectedValidators.length);
     const isMax = useRef(false);
     const [isMaxClicked, setisMaxClicked] = useState(false);
     const [networkBalance, setNetworkBalance] = React.useState(0);
@@ -85,8 +84,9 @@ export default function AllocationPane(props: PropComponent) {
     }
 
     const calculateMax = () => {
+        let value = +(props.stakingAmountValidators/props.selectedValidators.length);
+        if(props.selectedValidators.length !== 6) {
 
-       let value = +(props.stakingAmountValidators/props.selectedValidators.length);
        console.log('Amount' , props.stakingAmountValidators);
        console.log('Length' , props.selectedValidators.length);
        console.log('Value', value);
@@ -96,8 +96,17 @@ export default function AllocationPane(props: PropComponent) {
        newAllocationProp[x.name]['value'] = +(value/props.stakingAmountValidators) * 100;
        setAllocationProp(newAllocationProp) }) ;
        onNext();
+        } else {
+            props.selectedValidators.forEach((x: any) => {      
+                let newAllocationProp : any = {...allocationProp};
+     
+            newAllocationProp[x.name]['value'] = +(16.66);
+            setAllocationProp(newAllocationProp) }) ;
+            onNext();
+        }
     }
-
+    
+    
     const onMaxClick =  (event: React.MouseEvent<HTMLElement>) => {
 
         let maxBal = +(networkBalance/1000000) - 0.3;
@@ -132,7 +141,6 @@ export default function AllocationPane(props: PropComponent) {
       }
       else {
         let newAllocationProp : any = {...allocationProp};
-
         newAllocationProp[e.target.name]['value'] = 1;
         setAllocationProp(newAllocationProp);
         onNext();
@@ -217,7 +225,7 @@ props.setShowSummaryValidators(true);
             {(networkBalance/1000000) > 0.5 &&  <div className="mt-4 text-center">
             {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
-            { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100 - sum} % of atoms to continue </p>}
+            { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100.00 - sum} % of atoms to continue </p>}
        </div>}
         <div className="button-containers mt-4 mb-4">
             <button className="prev-button mx-3" onClick={onPrev}> Previous </button>
