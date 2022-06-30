@@ -18,8 +18,21 @@ font-weight: 400;
 font-size: 28px;
 color: #FFFFFF;
 border:none;
+z-index:3;
 }
 
 .connect-wallet-pane .connect-wallet-button img {
     height: 30px;
+}
+
+.connect-wallet-pane .connect-wallet-button:hover {
+
+    color: #D35100;
+
+background: #FFFFFF;
+
+}
+
+.connect-wallet-pane .connect-wallet-button img:hover {
+    color: #D35100;
 }
