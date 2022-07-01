@@ -23,6 +23,7 @@ interface PropComponent {
   setModalIsOpen?: Function;
   openModalHandler? : Function;
   closeModalHandler?: Function;
+  quicksilverBalances: Map<string, Map<string, number>>;
 }
 
 
@@ -70,7 +71,7 @@ query ValidatorList {
 }
 `;
 
-export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler, closeModalHandler, isWalletConnected, handleNext, handleBack, handleClickOpen, setActiveStep, activeStep}: PropComponent) {
+export default function StakePage({modalIsOpen, setModalIsOpen, openModalHandler, closeModalHandler, isWalletConnected, handleNext, handleBack, handleClickOpen, setActiveStep, activeStep, quicksilverBalances}: PropComponent) {
 
     const [stakeExistingDelegations, setStakeExistingDelegations] = React.useState(false);
     const [stakeNewAllocations, setStakeNewAllocations] = React.useState(false);
@@ -241,6 +242,7 @@ const manipulateData = (zones: any) => {
           })
         }
       );
+      console.log(result.json);
       return await result.json();
 
 }
@@ -374,7 +376,7 @@ const _loadValsAsync = () => {
             </div>
             <div className="content col-10">
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
-                {activeStep === 2 &&  <NetworkSelectionPane loading={loading} _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
+                {activeStep === 2 &&  <NetworkSelectionPane quicksilverBalances={quicksilverBalances}loading={loading} _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
                 {activeStep === 3 &&  stakeExistingDelegations && <ExistingDelegationsPage setShowSummaryExistingDelegations={setShowSummaryExistingDelegations} selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 

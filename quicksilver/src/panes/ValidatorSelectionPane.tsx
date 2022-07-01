@@ -71,15 +71,36 @@ export default function ValidatorSelectionPane(props: PropComponent) {
     const addValidator = (e: React.MouseEvent<HTMLElement>, validator: Data) => {
         let position = selectedValidators.findIndex((val) => validator.name === val.name);
         if(position === -1) {
-            validator.active = true;
+         setValidators(validators.map((val: any) => {
+             if(val.name === validator.name) {
+                 val.active = true;
+             }
+             return val;
+         }))
         setSelectedValidators([...selectedValidators, validator]);
         } else {
+            let validatorArray = JSON.parse(JSON.stringify(selectedValidators));
+            setValidators(validators.map((val: any) => {
+                if(val.name === validator.name) {
+                    val.active = false;
+                }
+                return val;
+            }))
+            validatorArray.splice(position,1)
+            setSelectedValidators(validatorArray);
+
+        }
+    }
+
+    const removeValidator = (e: React.MouseEvent<HTMLElement>, validator: Data) => {
+        let position = selectedValidators.findIndex((val) => validator.name === val.name);
             let validatorArray = JSON.parse(JSON.stringify(selectedValidators));
             validatorArray.splice(position,1)
             setSelectedValidators(validatorArray);
             validator.active = false;
-        }
-    }
+        
+    
+}
 
     const handleChange = (e: any) => {
       setSearchTerm(e.target.value);
@@ -106,7 +127,30 @@ export default function ValidatorSelectionPane(props: PropComponent) {
           </>
   
 )}
+
               </div>
+              <>
+<p> Selected Validators: </p>
+<div className="validators row w-100">
+{selectedValidators.map((row: any) =>
+          <>
+                <div onClick={ (e) => addValidator(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
+                <div className="d-flex align-items-start"> 
+                     {/* <img alt="Validator Icon" src={row.logo ? row.logo : Icon}/> */}
+               <div className="card-details">
+                <h6> {row.name} </h6>
+                {/* <h4 className="font-bold">  Reward </h4> */}
+                </div>
+                </div>
+
+            </div>
+         
+          </>
+  
+)}
+</div>
+</>
+
               {selectedValidators.length > 8 && <p className="mt-3"> A maximum of 8 validators can be selected</p>}
 
         <div className="mt-5 button-container">
