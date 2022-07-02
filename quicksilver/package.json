@@ -13,6 +13,7 @@
     "@types/node": "^16.11.36",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
+    "activity-detector": "^3.0.0",
     "axios": "^0.27.2",
     "bech32": "^2.0.0",
     "bootstrap": "^5.1.3",
