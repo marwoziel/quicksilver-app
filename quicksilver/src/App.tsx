@@ -14,7 +14,6 @@ import LandingPage from './pages/LandingPage';
 // @ts-ignore
 import createActivityDetector from 'activity-detector';
 
- //const createActivityDetector = require('activity-detector');
 
 function useIdle(options: any) {
   const [isIdle, setIsIdle] = React.useState(false)
@@ -36,7 +35,7 @@ function App() {
   const [isWalletConnected, setWalletConnection] = React.useState(false);
   const [activeStep, setActiveStep] = React.useState(1);
   const [modalIsOpen, setModalIsOpen] = React.useState(false);
-  const isIdle = useIdle({timeToIdle: 10000});
+  const isIdle = useIdle({timeToIdle: 1800000});
   const [keplrDetails, setKeplrDetails] = React.useState({});
   const [val, setVal] = React.useState<SigningStargateClient>();
 
@@ -45,11 +44,11 @@ function App() {
     if(!isIdle) {
       timer = setInterval( () => {
         if(isWalletConnected) {
-          //connectKeplr();
+
           fetchKeplrDetails(val);
-         // setBalances(new Map<string, Map<string, number>>(balances.set(chainId, new Map<string, number>(networkBalances.set(bal.denom, parseInt(bal.amount))))));
+        
         }
-    }, 2000)
+    }, 60000)
     } 
     return () => clearInterval(timer);
   }, [isIdle])
@@ -122,10 +121,8 @@ connectKeplr();
   return (
     <>
     <div className="img-logo text-center">
-    {/* <img className="logo-stroke" src={LogoStroke} alt="Quicksilver Logo"/> */}
+    <img className="logo-stroke" src={LogoStroke} alt="Quicksilver Logo"/>
     </div>
-
-    <div>{isIdle ? 'Are you still there?' : 'Hello there!'}</div>
   {location.pathname !== '/' && <Navbar isWalletConnected={isWalletConnected} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler} balances={balances} handleClickOpen={handleClickOpen}/>}
 
    <Routes>

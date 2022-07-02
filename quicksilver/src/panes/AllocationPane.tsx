@@ -12,6 +12,7 @@ interface PropComponent {
     setAllocationProp?: Function;
     networkAddress: string;
     setShowSummaryValidators: Function;
+    quicksilverBalances: Map<string, Map<string, number>>;
 }
 
 export default function AllocationPane(props: PropComponent) {
@@ -24,7 +25,10 @@ export default function AllocationPane(props: PropComponent) {
     const [showMaxMsg, setShowMaxMsg] = React.useState(false);
 
 
-    
+    useEffect(() => {
+        // @ts-expect-error
+        setNetworkQBalance(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom) ? +(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom)): 0)
+}, [props.quicksilverBalances])
 
     useEffect(() => {
         if(props.selectedValidators.length > 0) {
@@ -39,7 +43,7 @@ export default function AllocationPane(props: PropComponent) {
                                  // @ts-expect-error
                                  setNetworkBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)): 0)
                                  // @ts-expect-error
-                           setNetworkQBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.local_denom)): 0)
+                                 setNetworkQBalance(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom) ? +(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom)): 0)
     }, [])
 
     useEffect(() => {

@@ -37,11 +37,15 @@ export default function NetworkSelectionPane(props: PropComponent) {
 
     const [isWalletConnected, setWalletConnected] = React.useState(false);
    const [networkBalance, setNetworkBalance] = React.useState(0);
-  const [networkQBalance, setNetworkQBalance] = React.useState(0);
+   const [networkQBalance, setNetworkQBalance] = React.useState(0);
    const [balanceFetched, setBalanceFetched] = React.useState(false);
    
 
- 
+    useEffect(() => {
+                 // @ts-expect-error
+                 setNetworkQBalance(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom) ? +(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom)): 0)
+    }, [props.quicksilverBalances])
+    
      useEffect(() => {
         if(props.selectedNetwork !== "Select a network") {
             connectNetwork(props.selectedNetwork.chain_id);
@@ -83,8 +87,8 @@ export default function NetworkSelectionPane(props: PropComponent) {
             })
                          // @ts-expect-error
             setNetworkBalance(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom) ? +(props.balances.get(props.selectedNetwork.chain_id)?.get(props.selectedNetwork.base_denom)): 0)
-                  // @ts-expect-error
-            setNetworkQBalance(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom) ? +(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom)): 0)
+         // @ts-expect-error
+           setNetworkQBalance(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom) ? +(props.quicksilverBalances.get(process.env.REACT_APP_QSCHAINID)?.get(props.selectedNetwork.local_denom)): 0)
             setBalanceFetched(true);
             console.log("balances", props.balances, chainId);
          
@@ -124,7 +128,7 @@ export default function NetworkSelectionPane(props: PropComponent) {
                        <p> {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)}</p>
                     </div>
                     <div className="col-3 text-center">
-                     <h5 className="font-bold">{networkQBalance/1000000}</h5> 
+                     <h5 className="font-bold">{networkQBalance/1000000}</h5>  
                     <p> {props.selectedNetwork.local_denom[1] + props.selectedNetwork.local_denom.charAt(2).toUpperCase() + props.selectedNetwork.local_denom.slice(3)}</p>
                        {/* <p> {props.selectedNetwork.local_denom.substring(1)} </p>  */}
                         </div>

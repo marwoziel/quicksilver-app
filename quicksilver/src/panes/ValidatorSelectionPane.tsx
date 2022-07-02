@@ -129,27 +129,7 @@ export default function ValidatorSelectionPane(props: PropComponent) {
 )}
 
               </div>
-              <>
-<p> Selected Validators: </p>
-<div className="validators row w-100">
-{selectedValidators.map((row: any) =>
-          <>
-                <div onClick={ (e) => addValidator(e,row)} className={`validator-card col-3 m-3 ${row.active ? 'val-active' : ''}`}>
-                <div className="d-flex align-items-start"> 
-                     {/* <img alt="Validator Icon" src={row.logo ? row.logo : Icon}/> */}
-               <div className="card-details">
-                <h6> {row.name} </h6>
-                {/* <h4 className="font-bold">  Reward </h4> */}
-                </div>
-                </div>
 
-            </div>
-         
-          </>
-  
-)}
-</div>
-</>
 
               {selectedValidators.length > 8 && <p className="mt-3"> A maximum of 8 validators can be selected</p>}
 
