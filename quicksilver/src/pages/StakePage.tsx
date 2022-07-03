@@ -34,6 +34,7 @@ export interface Data {
   name: string;
   address: string;
   logo: string;
+  min_self_delegation: number;
 }
 
 const MyQuery =  `query MyQuery($address: String!) {
@@ -54,6 +55,7 @@ query ValidatorList {
         validator {
           validator_commissions {
             commission
+            min_self_delegation
           }
           validator_descriptions {
             avatar_url
@@ -137,7 +139,9 @@ const manipulateData = (zones: any) => {
       loadExistingDelegations(networkAddress).then(
        (response) => { setExistingDelegations(response?.data?.action_delegation.delegations)},
 
-      );
+      ).catch(
+        (err) => {console.log(err)}
+      );;
 
       
   }
@@ -169,7 +173,7 @@ const manipulateData = (zones: any) => {
    
       const broadcastResult = await val.delegateTokens(
         add,
-        "cosmosvaloper1pfpq6mp28lfz3r9wkk30myn9emsfzjur5l346z",
+        "cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2",
           {
             "denom": "uatom",
             "amount": "5000"
@@ -258,7 +262,8 @@ type VotingPowers = {
 }
 
 type Commissions = {
-    commission: number
+    commission: number,
+    min_self_delegation: number
 }
 
 type Descriptions = {
@@ -290,15 +295,17 @@ const _loadValsAsync = () => {
         loadValData().then(
             externalData => {
                let vals: Array<Data> = externalData.data.validator_status
-               .filter((line: Validator) => { return !line.jailed || line.validator.validator_info.validator.validator_commissions[0].commission > 0.8})     // remove jailed validators
+               .filter((line: Validator) => { return !line.jailed || (line.validator.validator_info.validator.validator_commissions.length > 0 && line.validator.validator_info.validator.validator_commissions[0].commission > 0.8)})
                .map((line: Validator, index: number): Data => {          // map to Data objects
                 let moniker = "Unknown"
                 let commission = "Unknown"
+                let min_self_delegation = 0
                 if (line.validator.validator_info.validator.validator_descriptions.length > 0) {
                     moniker = line.validator.validator_info.validator.validator_descriptions[0].moniker
                 }
                 if (line.validator.validator_info.validator.validator_commissions.length > 0) {
-                    commission = (line.validator.validator_info.validator.validator_commissions[0].commission * 100) + "%"
+                    commission = (line.validator.validator_info.validator.validator_commissions[0].commission * 100) + "%";
+                    min_self_delegation = line.validator.validator_info.validator.validator_commissions[0].min_self_delegation;
                 }
 
                 return {
@@ -308,6 +315,7 @@ const _loadValsAsync = () => {
                     commission: commission,
                     address : line.validator.validator_info.operator_address,
                     logo: "",
+                    min_self_delegation: min_self_delegation
                   }});
                 setRows(vals);
                 setLoading(false);
@@ -378,7 +386,7 @@ const _loadValsAsync = () => {
                 {activeStep === 1 &&  <ConnectWalletPane handleClickOpen={handleClickOpen} modalIsOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} openModalHandler={openModalHandler}  closeModalHandler={closeModalHandler}/> }
                 {activeStep === 2 &&  <NetworkSelectionPane quicksilverBalances={quicksilverBalances}loading={loading} _loadExistingValsAsync={_loadExistingValsAsync} networks={networks} delegateToken={delegateTokens} client={client} setClient={setClient}selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork}  next={handleNext} prev={handleBack} 
                 stakeExistingDelegations={handleExistingDelegations} balances={balances} networkAddress={networkAddress} setNetworkAddress={setNetworkAddress} setBalances={setBalances} stakeAllocations={handleNewAllocations}/>  }
-                {activeStep === 3 &&  stakeExistingDelegations && <ExistingDelegationsPage setShowSummaryExistingDelegations={setShowSummaryExistingDelegations} selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
+                {activeStep === 3 &&  stakeExistingDelegations && <ExistingDelegationsPage setShowSummaryExistingDelegations={setShowSummaryExistingDelegations} selectedExistingDelegations={selectedExistingDelegations} setStateExistingDelegations={setStateExistingDelegations} selectedValidators={rows} existingDelegations={existingDelegations} setExistingDelegations={setExistingDelegations} networkAddress={networkAddress} selectedNetwork={selectedNetwork} next={handleNext} prev={handleBack}/>}
                 {activeStep === 3 && selectedNetwork !== "Select a network" && stakeNewAllocations && <ValidatorSelectionPane rows={rows} selectedNetwork={selectedNetwork} prev={handleBack} selectedValidators={selectedValidators} setSelectedValidators={setSelectedValidators} showAllocationPane={showAllocationPane}/>} 
                 {activeStep === 3 && !stakeNewAllocations && showAllocationsPane && <AllocationPane quicksilverBalances={quicksilverBalances}  setShowSummaryValidators={setShowSummaryValidators} networkAddress={networkAddress} setAllocationProp={setAllocationProp}  stakingAmountValidators={stakingAmountValidators} setStakingAmountValidators={setStakingAmountValidators} selectedNetwork={selectedNetwork} balances={balances} selectedValidators={selectedValidators} prev={hideAllocationPane} next={handleNext} />}
                 {activeStep === 4 && showSummaryExistingDelegations &&  <SummaryExistingDelegationsPane setShowSummaryExistingDelegations={setShowSummaryExistingDelegations}  isStaked={isStaked} setIsStaked={setIsStaked} balances={balances} client={client} networkAddress={networkAddress} selectedNetwork={selectedNetwork} selectedExistingDelegations={selectedExistingDelegations} />}
