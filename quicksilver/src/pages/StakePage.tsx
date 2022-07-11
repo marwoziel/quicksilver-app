@@ -173,10 +173,10 @@ const manipulateData = (zones: any) => {
    
       const broadcastResult = await val.delegateTokens(
         add,
-        "cosmosvaloper1lchu8kyhzcahu0m0cs63wvxnxkp7ks0ym2pmp2",
+        "cosmosvaloper1zzngdvk64stz4ls2cf5skrcr6hlxplsgz0r7ec",
           {
             "denom": "uatom",
-            "amount": "5000"
+            "amount": "1000"
           }
         ,
        {
@@ -295,7 +295,7 @@ const _loadValsAsync = () => {
         loadValData().then(
             externalData => {
                let vals: Array<Data> = externalData.data.validator_status
-               .filter((line: Validator) => { return !line.jailed || (line.validator.validator_info.validator.validator_commissions.length > 0 && line.validator.validator_info.validator.validator_commissions[0].commission > 0.8)})
+              //  .filter((line: Validator) => { return !line.jailed || (line.validator.validator_info.validator.validator_commissions.length > 0 && line.validator.validator_info.validator.validator_commissions[0].commission > 0.8)})
                .map((line: Validator, index: number): Data => {          // map to Data objects
                 let moniker = "Unknown"
                 let commission = "Unknown"

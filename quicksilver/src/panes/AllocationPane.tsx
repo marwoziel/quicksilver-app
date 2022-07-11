@@ -23,6 +23,7 @@ export default function AllocationPane(props: PropComponent) {
     const [networkBalance, setNetworkBalance] = React.useState(0);
     const [networkQBalance, setNetworkQBalance] = React.useState(0);
     const [showMaxMsg, setShowMaxMsg] = React.useState(false);
+    const [amount, setAmount] = React.useState(0);
 
 
     useEffect(() => {
@@ -118,6 +119,7 @@ export default function AllocationPane(props: PropComponent) {
         if(props.stakingAmountValidators != temp) {
       //    @ts-expect-error
       props.setStakingAmountValidators('0'+maxBal.toFixed(6));
+      setAmount((networkBalance/1000000) - 0.3);
       isMax.current = true;
       setShowMaxMsg(true);
         } else {
@@ -156,18 +158,21 @@ export default function AllocationPane(props: PropComponent) {
 
 
     const changeAmount = (e: any) => {
-        
+        if(props.stakingAmountValidators == 0) {
+            //    @ts-expect-error
+            props.setStakingAmountValidators('');
+        }
         if ( e.target.value.match(/^\d{1,}(\.\d{0,6})?$/) ){
         console.log(e.target.value);
                     //    @ts-expect-error
          props.setStakingAmountValidators(e.target.value);
+         setAmount(+e.target.value);
         // props.setStakingAmountValidators(e.target.value);
         isMax.current = false;
         setisMaxClicked(false);
         if(e.target.value !=  +((networkBalance/1000000) - 0.3).toFixed(6)) {
         setShowMaxMsg(false);
-        }
-    
+        }                                                              
     }
     }
 
@@ -227,13 +232,13 @@ props.setShowSummaryValidators(true);
                 {showMaxMsg && <p className="mb-0 mt-3">We held back 0.3 {props.selectedNetwork.base_denom.charAt(1).toUpperCase() + props.selectedNetwork.base_denom.slice(2)} to cover future transaction fees</p> }
             </div>}
             {(networkBalance/1000000) > 0.5 &&  <div className="mt-4 text-center">
-            {props.stakingAmountValidators > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
+            {amount > ((networkBalance/1000000) - 0.3) ? `The max that you can allocate is ${ ((networkBalance/1000000) - 0.3).toFixed(6) } atom ` : ''}
             { props.stakingAmountValidators > 0 && sum > 100 && <p className="mt-2"> You have allocated {sum} % of the available atoms. Please move the sliders around until you hit 100% and then you can proceed ahead. </p>}
             { props.stakingAmountValidators > 0 && sum < 99.5 && <p className="mt-2"> Please allocate the remaining {100.00 - sum} % of atoms to continue </p>}
        </div>}
         <div className="button-containers mt-4 mb-4">
             <button className="prev-button mx-3" onClick={onPrev}> Previous </button>
-        <button disabled={sum < 99.9  || sum  > 100 || props.stakingAmountValidators > ((networkBalance/1000000) - 0.3)?  true: false}  className="next-button mx-3" onClick={onClickNext}>Next</button> 
+        <button disabled={sum < 99.9  || sum  > 100 || amount > ((networkBalance/1000000) - 0.3)?  true: false}  className="next-button mx-3" onClick={onClickNext}>Next</button> 
 </div>
         </div> 
     );

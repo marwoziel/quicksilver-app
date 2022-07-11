@@ -44,17 +44,18 @@ export default function SummaryExistingDelegationsPane(props: PropComponent) {
 
 
     const stakeExistingDelegations = async (e: any) => {
- 
       console.log('Stake existing');
       let msg = [];
-      msg = props.selectedExistingDelegations.map((x: any) => { return {
+      msg = props.selectedExistingDelegations.map((x: any) => { 
+        console.log(x.coins[0].amount);
+          return {
         typeUrl: "/cosmos.staking.v1beta1.MsgTokenizeShares",
         value: {
               
                   delegatorAddress: props.networkAddress,
                   validatorAddress: x.validator_address,
                   amount: {
-                     "amount": x.coins[0].amount,
+                    "amount": x.coins[0].amount,
                      "denom": x.coins[0].denom
                   },
                   tokenizedShareOwner: props.networkAddress,

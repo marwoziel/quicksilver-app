@@ -31,7 +31,7 @@ export default function ExistingDelegationsPage(props: PropComponent) {
            x.name = props.selectedValidators.find((y: any) => y.address === x.validator_address )?.name;
            let addr1 =  bech32.decode(x.validator_address).words;
            let add2 = bech32.decode(x.delegator_address).words;
-          if( addr1.length === add2.length && addr1.every((value: any, index: number) => value === add2[index])) {
+          if( addr1.length === add2.length && addr1.every((value: any, index: number) => value === add2[index]) && x.min_self_delegation) {
             x.coins[0].amount = x.coins[0].amount - Math.ceil(x.min_self_delegation * 1.01);
           }
           })
