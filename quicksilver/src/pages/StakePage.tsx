@@ -290,7 +290,7 @@ const _loadValsAsync = () => {
         loadValData().then(
             externalData => {
                let vals: Array<Data> = externalData.data.validator_status
-               .filter((line: Validator) => { return !line.jailed || line.validator.validator_info.validator.validator_commissions[0].commission > 0.8})     // remove jailed validators
+               .filter((line: Validator) => { return !line.jailed || (line.validator.validator_info.validator.validator_commissions.length > 0 && line.validator.validator_info.validator.validator_commissions[0].commission > 0.8)})    // remove jailed validators
                .map((line: Validator, index: number): Data => {          // map to Data objects
                 let moniker = "Unknown"
                 let commission = "Unknown"
